@@ -1,0 +1,36 @@
+{
+  "spawnCount": [
+    {
+      "min": 2,
+      "max": 5
+    }
+  ],
+  "entities": [
+    "minecraft:zombie",
+    "minecraft:witch",
+    "minecraft:silverfish",
+    "minecraft:spider",
+    "minecraft:creeper",
+    "minecraft:blaze",
+    "minecraft:piglin",
+    "minecraft:phantom"
+  ],
+  "effects": [
+    {
+      "mobEffect": "minecraft:speed",
+      "amplifier": 3,
+      "duration": 6000,
+      "ambient": true,
+      "visible": true
+    },
+    {
+      "mobEffect": "minecraft:haste",
+      "amplifier": 3,
+      "duration": 6000,
+      "ambient": true,
+      "visible": true
+    }
+  ],
+  "equipment": [],
+  "armor": []
+}

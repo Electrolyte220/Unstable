@@ -1,0 +1,30 @@
+{
+	"name": "Activation Ritual",
+	"icon": "minecraft:enchanting_table",
+	"category": "unstable:rituals",
+	"pages": [
+		{
+			"type": "patchouli:text",
+			"text": "bleh"
+		},
+		{
+			"type": "patchouli:multiblock",
+			"name": "Activation Ritual",
+			"multiblock": {
+				"mapping": {
+					"R": "minecraft:redstone_wire",
+					"0": "minecraft:enchanting_table"
+				},
+				"pattern": [
+				[
+					"RRR",
+					"R0R",
+					"RRR"
+				]
+			]
+			},
+			"enable_visualize": true,
+			"text": "Check the next pages specific ritual requirements."
+		}
+	]
+}

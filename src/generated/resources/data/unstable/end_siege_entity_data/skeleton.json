@@ -1,0 +1,35 @@
+{
+  "spawnCount": [
+    {
+      "min": 1,
+      "max": 3
+    }
+  ],
+  "entities": [
+    "minecraft:skeleton"
+  ],
+  "effects": [
+    {
+      "mobEffect": "minecraft:speed",
+      "amplifier": 3,
+      "duration": 6000,
+      "ambient": true,
+      "visible": true
+    },
+    {
+      "mobEffect": "minecraft:haste",
+      "amplifier": 3,
+      "duration": 6000,
+      "ambient": true,
+      "visible": true
+    }
+  ],
+  "equipment": [
+    {
+      "hand": "MAIN_HAND",
+      "item": "minecraft:bow",
+      "nbt": "{Damage:0}"
+    }
+  ],
+  "armor": []
+}

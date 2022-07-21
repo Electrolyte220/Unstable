@@ -1,0 +1,19 @@
+{ 
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "UUU",
+    " O ",
+    " O "
+  ],
+  "key": {
+    "U": {
+        "tag": "unstable:unstable_ingots"
+    },
+    "O": {
+        "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "unstable:destruction_pickaxe"
+  }
+}

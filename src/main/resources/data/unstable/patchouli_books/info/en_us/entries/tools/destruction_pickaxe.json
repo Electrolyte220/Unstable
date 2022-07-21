@@ -1,0 +1,19 @@
+{
+	"name": "Destruction Pickaxe",
+	"icon": "unstable:destruction_pickaxe",
+	"category": "unstable:tools",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "unstable:destruction_pickaxe",
+			"title": "Destruction Pickaxe",
+			"text": "Super Cool Description!"	
+		},
+		{
+			"type": "patchouli:crafting",
+			"recipe": "unstable:destruction_pickaxe",
+			"title": "Destruction Pickaxe",
+			"text": "Using Unstable Ingots will yield a special enchantment."
+		}
+	]
+}

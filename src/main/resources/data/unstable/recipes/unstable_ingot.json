@@ -1,0 +1,23 @@
+{ 
+  "type": "unstable:special_recipe",
+  "pattern": [
+    "I",
+    "S",
+    "D"
+  ],
+  "key": {
+    "S": {
+        "item": "unstable:division_sigil_activated",
+        "data": 32767
+      },
+    "I": {
+        "item": "minecraft:iron_ingot"
+    },
+    "D": {
+        "item": "minecraft:emerald"
+    }
+  },
+  "result": {
+    "item": "unstable:unstable_ingot"
+  }
+}

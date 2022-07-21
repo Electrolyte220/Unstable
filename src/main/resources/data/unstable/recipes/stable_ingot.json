@@ -1,0 +1,22 @@
+{ 
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "I",
+    "S",
+    "D"
+  ],
+  "key": {
+    "S":  {
+        "item": "unstable:division_sigil_stable"
+      },
+    "I": {
+        "item": "minecraft:iron_ingot"
+    },
+    "D": {
+        "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "unstable:stable_ingot"
+  }
+}

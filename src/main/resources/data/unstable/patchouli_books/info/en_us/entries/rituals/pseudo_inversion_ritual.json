@@ -1,0 +1,40 @@
+{
+	"name": "Pseudo Inversion Ritual",
+	"icon": "minecraft:beacon",
+	"category": "unstable:rituals",
+	"pages": [
+		{
+			"type": "patchouli:text",
+			"text": "bleh"
+		},
+		{
+			"type": "patchouli:multiblock",
+			"name": "Pseudo Inversion Ritual",
+			"multiblock": {
+				"mapping": {
+					"C": "minecraft:chest",
+					"R": "minecraft:redstone_wire",
+					"T": "minecraft:tripwire",
+					"0": "minecraft:beacon"
+				},
+				"pattern": [
+				[
+					"     C     ",
+					" RRRRRRRRT ",
+					" TTTTTTTRT ",
+					" TRRRRRTRT ",
+					" TRTTTRTRT ",
+					"CTRTR0RTRTC",
+					" TRTRTTTRT ",
+					" TRTRRRRRT ",
+					" TRTTTTTTT ",
+					" TRRRRRRRR ",
+					"     C     "
+				]
+			]
+			},
+			"enable_visualize": true,
+			"text": "Check the next pages for chest contents."
+		}
+	]
+}

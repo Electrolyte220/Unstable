@@ -1,0 +1,92 @@
+{
+	"components": [
+		{
+			"type": "patchouli:header",
+			"text": "Unstable Ingot",
+			"x": 49,
+			"centered": true
+		},
+		{
+			"type": "patchouli:item",
+			"x": 15,
+			"y": 25,
+			"item": "minecraft:air",
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"x": 40,
+			"y": 25,
+			"item": "minecraft:iron_ingot",
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"x": 65,
+			"y": 25,
+			"item": "minecraft:air",
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"x": 15,
+			"y": 50,
+			"item": "minecraft:air",
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"x": 40,
+			"y": 50,
+			"item": "unstable:division_sigil_activated",
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"x": 65,
+			"y": 50,
+			"item": "minecraft:air",
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"x": 15,
+			"y": 75,
+			"item": "minecraft:air",
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"x": 40,
+			"y": 75,
+			"item": "minecraft:diamond",
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"x": 65,
+			"y": 75,
+			"item": "minecraft:air",
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"x": 95,
+			"y": 50,
+			"item": "unstable:unstable_ingot",
+			"framed": true
+		},
+		{
+			"type": "patchouli:item",
+			"x": 95,
+			"y": 70,
+			"item": "minecraft:crafting_table"
+		},
+		{
+			"type": "patchouli:text",
+			"x": 5,
+			"y": 100,
+			"text": "Must be crafted in a vanilla crafting table."
+		}
+	]
+}
