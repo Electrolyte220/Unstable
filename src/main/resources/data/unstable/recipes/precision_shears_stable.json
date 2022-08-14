@@ -1,0 +1,19 @@
+{ 
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OU",
+    "UO"
+  ],
+  "key": {
+    "U": {
+        "item": "unstable:stable_ingot"
+    },
+    "O": {
+        "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "unstable:precision_shears",
+    "nbt": "{Enchantments:[{id:\"minecraft:efficiency\", lvl: 5}]}"
+  }
+}

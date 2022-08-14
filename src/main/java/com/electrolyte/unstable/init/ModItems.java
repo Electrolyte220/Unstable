@@ -26,7 +26,7 @@ public class ModItems {
     public static final RegistryObject<Item> DIVISION_SIGIL_STABLE = ITEMS.register("division_sigil_stable",
             () -> new DivisionSigilStable(new Item.Properties().stacksTo(1).tab(Unstable.UNSTABLE_TAB)));
     public static final RegistryObject<Item> UNSTABLE_INGOT = ITEMS.register("unstable_ingot",
-            () -> new UnstableIngot(new Item.Properties().stacksTo(1).tab(Unstable.UNSTABLE_TAB)));
+            () -> new UnstableIngot(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> UNSTABLE_STABLE_INGOT = ITEMS.register("unstable_stable_ingot",
             () -> new Item(new Item.Properties().tab(Unstable.UNSTABLE_TAB)));
     public static final RegistryObject<Item> STABLE_INGOT = ITEMS.register("stable_ingot",

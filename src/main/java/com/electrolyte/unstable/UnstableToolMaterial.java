@@ -2,6 +2,7 @@ package com.electrolyte.unstable;
 
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 
 public enum UnstableToolMaterial implements Tier {
 
@@ -44,8 +45,8 @@ public enum UnstableToolMaterial implements Tier {
     }
 
     @Override
-    public Ingredient getRepairIngredient() {
-        return null;
+    public @NotNull Ingredient getRepairIngredient() {
+        return Ingredient.EMPTY;
     }
 
 }

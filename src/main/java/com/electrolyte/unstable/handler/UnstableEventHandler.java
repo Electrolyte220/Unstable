@@ -1,10 +1,13 @@
-package com.electrolyte.unstable;
+package com.electrolyte.unstable.handler;
 
-import com.electrolyte.unstable.saveddata.*;
-import com.electrolyte.unstable.end_siege.UnstableEntityDataStorage;
-import com.electrolyte.unstable.end_siege.UnstableEntityDataStorageManager;
+import com.electrolyte.unstable.*;
+import com.electrolyte.unstable.damagesource.DivideByDiamondDamageSource;
+import com.electrolyte.unstable.listener.EndSiegeChestDataReloadListener;
+import com.electrolyte.unstable.listener.EntityDataReloadListener;
+import com.electrolyte.unstable.savedata.*;
+import com.electrolyte.unstable.endsiege.UnstableEntityDataStorage;
+import com.electrolyte.unstable.endsiege.UnstableEntityDataStorageManager;
 import com.electrolyte.unstable.init.ModItems;
-import com.electrolyte.unstable.init.ModTools;
 import com.google.gson.Gson;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -20,30 +23,27 @@ import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.dimension.DimensionType;
-import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
-import java.awt.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -54,23 +54,7 @@ public class UnstableEventHandler {
     @SubscribeEvent
     public static void onDatapackReload(AddReloadListenerEvent event) {
         event.addListener(new EntityDataReloadListener(new Gson(), "end_siege_entity_data"));
-    }
-
-    @SubscribeEvent
-    public static void onDestructionPickaxeCraft(PlayerEvent.ItemCraftedEvent event) {
-        if (event.getCrafting().is(ModTools.DESTRUCTION_PICKAXE.get())) {
-            //TODO: Check if there is a better way to do this.
-            int ingots = 0;
-            for(int i = 0; i < event.getInventory().getContainerSize(); i++) {
-                ItemStack item = event.getInventory().getItem(i);
-                if (item.is(ModItems.UNSTABLE_STABLE_INGOT.get()) && ingots < 3) {
-                    ingots++;
-                }
-            }
-            if (ingots == 3) {
-                event.getCrafting().enchant(Enchantments.BLOCK_EFFICIENCY, 10);
-            }
-        }
+        event.addListener(new EndSiegeChestDataReloadListener(new Gson(), "end_siege_chest_data"));
     }
 
     @SubscribeEvent
@@ -121,8 +105,9 @@ public class UnstableEventHandler {
                     ItemStack stack = slot.getItem();
                     if (stack.getItem() == ModItems.DIVISION_SIGIL_ACTIVATED.get() || stack.getItem() == ModItems.DIVISION_SIGIL_STABLE.get()) {
                         event.setCanceled(true);
-                        player.sendMessage(new TranslatableComponent(ChatFormatting.RED + "Sigil(s) have already been activated!"), player.getUUID());
-                    } else if (stack.getItem() == ModItems.DIVISION_SIGIL.get() &&
+                        player.sendMessage(new TranslatableComponent("unstable.activation_ritual.active_sigil").withStyle(ChatFormatting.RED), player.getUUID());
+                    } else if (stack.getItem() != ModItems.DIVISION_SIGIL_ACTIVATED.get()
+                            && stack.getItem() != ModItems.DIVISION_SIGIL_STABLE.get() && stack.getItem() == ModItems.DIVISION_SIGIL.get() &&
                             DivisionCheck.checkTime(event.getEntity().getLevel().getDayTime()) &&
                             DivisionCheck.checkNatural(event.getEntity().getLevel(), pos2) &&
                             DivisionCheck.checkRedstone(event.getEntity().getLevel(), pos2) &&
@@ -145,22 +130,22 @@ public class UnstableEventHandler {
                     ItemStack stack = slot.getItem();
                     if (stack.getItem() == ModItems.DIVISION_SIGIL.get()) {
                         event.setCanceled(true);
-                        player.sendMessage(new TranslatableComponent(ChatFormatting.RED + "You must first perform the Activation Ritual before performing the Pseudo-Inversion Ritual"), player.getUUID());
+                        player.sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.not_activated").withStyle(ChatFormatting.RED), player.getUUID());
                     } else if (stack.getItem() == ModItems.DIVISION_SIGIL_STABLE.get()) {
                         event.setCanceled(true);
-                        player.sendMessage(new TranslatableComponent(ChatFormatting.RED + "Sigil is already Stable"), player.getUUID());
+                        player.sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.already_stable").withStyle(ChatFormatting.RED), player.getUUID());
                     } else if (stack.getItem() == ModItems.DIVISION_SIGIL_ACTIVATED.get()) {
                         if (data.isEndSiegeOccurring()) {
                             event.setCanceled(true);
-                            player.sendMessage(new TranslatableComponent(ChatFormatting.RED + "There can only be one Pseudo-Inversion Ritual active at any given time."), player.getUUID());
+                            player.sendMessage(new TranslatableComponent( "unstable.pseudo_inversion_ritual.multiple_sigil").withStyle(ChatFormatting.RED), player.getUUID());
                         } else if (DivisionCheckEnd.checkChests(event.getEntity().getLevel(), pos2.below()) &&
-                                DivisionCheckEnd.checkNorthChestContents(event.getEntity().getLevel(), pos2.below()) &&
-                                DivisionCheckEnd.checkSouthChestContents(event.getEntity().getLevel(), pos2.below()) &&
-                                DivisionCheckEnd.checkEastChestContents(event.getEntity().getLevel(), pos2.below()) &&
-                                DivisionCheckEnd.checkWestChestContents(event.getEntity().getLevel(), pos2.below()) &&
+                                DivisionCheckEnd.checkChestContents(event.getEntity().getLevel(), pos2.below().north(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.NORTH) &&
+                                DivisionCheckEnd.checkChestContents(event.getEntity().getLevel(), pos2.below().south(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.SOUTH) &&
+                                DivisionCheckEnd.checkChestContents(event.getEntity().getLevel(), pos2.below().east(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.EAST) &&
+                                DivisionCheckEnd.checkChestContents(event.getEntity().getLevel(), pos2.below().west(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.WEST) &&
                                 DivisionCheckEnd.checkRedstoneAndString(event.getEntity().getLevel(), pos2.below())) {
                             DivisionCheckEnd.destroyBeaconAndChests(event.getEntity().getLevel(), pos2);
-                            player.sendMessage(new TranslatableComponent(ChatFormatting.WHITE + "The Siege in 'The End' has begun"), player.getUUID());
+                            player.sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_started").withStyle(ChatFormatting.WHITE), player.getUUID());
                             AtomicInteger players = new AtomicInteger();
                             player.level.players().forEach(playerIn -> {
                                 if (playerIn.level.dimension().location().equals(DimensionType.END_LOCATION.getRegistryName())) {
@@ -176,10 +161,10 @@ public class UnstableEventHandler {
             if (playerDim.equals(DimensionType.END_LOCATION.location())) {
                 if (data.isEndSiegeOccurring() && data.getTotalKills() < UnstableConfig.NEEDED_MOBS.get() && event.getEntity().getTags().contains("{spawnedBySiege:1b}")) {
                     data.setTotalKills(data.getTotalKills() + 1);
-                    player.sendMessage(new TranslatableComponent(ChatFormatting.WHITE + "Kills: " + data.getTotalKills()), player.getUUID());
+                    player.sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_kills", new TranslatableComponent(String.valueOf(data.getTotalKills()))).withStyle(ChatFormatting.WHITE), player.getUUID());
                 }
                 if (data.getTotalKills() >= UnstableConfig.NEEDED_MOBS.get()) {
-                    player.sendMessage(new TranslatableComponent(ChatFormatting.WHITE + "The Siege in 'The End' has ended"), player.getUUID());
+                    player.sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_ended").withStyle(ChatFormatting.WHITE), player.getUUID());
                     data.resetData();
                     player.getInventory().add(new ItemStack(ModItems.DIVISION_SIGIL_STABLE.get()));
                     if (UnstableConfig.REMOVE_ACTIVE_SIGIL.get()) {
@@ -201,10 +186,28 @@ public class UnstableEventHandler {
         if(event.getEntity().level.isClientSide) return;
         ServerLevel serverLevel = Objects.requireNonNull(event.getEntity().level.getServer()).getLevel(Level.END);
         UnstableSavedData data = UnstableSavedData.get(serverLevel);
-        if(data.isEndSiegeOccurring() && !event.getTo().location().equals(Level.END)) {
-            event.getPlayer().sendMessage(new TranslatableComponent(ChatFormatting.RED + "You must be in The End whilst performing this ritual!"), event.getPlayer().getUUID());
-            event.getPlayer().sendMessage(new TranslatableComponent(ChatFormatting.WHITE + "The Siege in 'The End' has ended."), event.getPlayer().getUUID());
+        if(data.isEndSiegeOccurring() && !event.getTo().location().equals(Level.END.location())) {
+            event.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.changed_dimension").withStyle(ChatFormatting.RED), event.getPlayer().getUUID());
+            event.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_ended").withStyle(ChatFormatting.WHITE), event.getPlayer().getUUID());
             data.resetData();
+        }
+    }
+
+    @SubscribeEvent
+    public static void onCraftingMenuClose(PlayerContainerEvent.Close event) {
+        if(event.getContainer() instanceof CraftingMenu) {
+            if(event.getEntity() instanceof Player player) {
+                for(ItemStack stack : player.inventoryMenu.getItems()) {
+                    if(stack.is(ModItems.UNSTABLE_INGOT.get()) && stack.getTag() != null) {
+                        if (stack.getTag().contains("explodesIn")) {
+                            player.level.explode(player, player.getX(), player.getY(), player.getZ(), 1, false, Explosion.BlockInteraction.NONE);
+                            player.hurt(DivideByDiamondDamageSource.INSTANCE, Float.MAX_VALUE);
+                            player.getInventory().removeItem(stack);
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -276,18 +279,67 @@ public class UnstableEventHandler {
     }
 
     @SubscribeEvent
+    public static void playerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase == TickEvent.Phase.START && event.player instanceof ServerPlayer) {
+            if (event.player.containerMenu instanceof CraftingMenu menu) {
+                if (menu.getCarried().is(ModItems.UNSTABLE_INGOT.get())) {
+                    ItemStack stack = menu.getCarried();
+                    if (stack.getTag() != null && !stack.getTag().getBoolean("creativeSpawned")) {
+                        if (stack.getTag().getInt("explodesIn") > 0) {
+                            stack.getTag().putInt("explodesIn", stack.getTag().getInt("explodesIn") - 1);
+                        } else {
+                            stack.shrink(1);
+                            event.player.level.explode(null, event.player.getX(), event.player.getY(), event.player.getZ(), 1, false, Explosion.BlockInteraction.NONE);
+                            event.player.hurt(DivideByDiamondDamageSource.INSTANCE, Float.MAX_VALUE);
+                        }
+                    }
+                }
+                for (ItemStack stack : menu.getItems()) {
+                    if(stack.is(ModItems.UNSTABLE_INGOT.get())) {
+                        if(stack.getTag() != null && !stack.getTag().getBoolean("creativeSpawned")) {
+                            if(stack.getTag().getInt("explodesIn") > 0) {
+                                stack.getTag().putInt("explodesIn", stack.getTag().getInt("explodesIn") - 1);
+                            } else {
+                                event.player.level.explode(null, event.player.getX(), event.player.getY(), event.player.getZ(), 1, false, Explosion.BlockInteraction.NONE);
+                                event.player.hurt(DivideByDiamondDamageSource.INSTANCE, Float.MAX_VALUE);
+                                menu.getItems().forEach(item -> {
+                                    if(item.is(ModItems.UNSTABLE_INGOT.get())) item.shrink(1);
+                                });
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void cancelSiege(PlayerEvent.Clone event) {
         Player player = event.getPlayer();
         ServerLevel serverLevel = Objects.requireNonNull(player.level.getServer()).getLevel(Level.END);
         UnstableSavedData data = UnstableSavedData.get(serverLevel);
         if (data.isEndSiegeOccurring()) {
             if(event.isWasDeath()) {
-                player.sendMessage(new TranslatableComponent(ChatFormatting.RED + "You cannot die whilst performing this ritual!"), player.getUUID());
+                player.sendMessage(new TranslatableComponent( "unstable.pseudo_inversion_ritual.death").withStyle(ChatFormatting.RED), player.getUUID());
             } else {
-                player.sendMessage(new TranslatableComponent(ChatFormatting.RED + "You must be in The End whilst performing this ritual!"), player.getUUID());
+                player.sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.changed_dimension").withStyle(ChatFormatting.RED), player.getUUID());
             }
-            player.sendMessage(new TranslatableComponent(ChatFormatting.WHITE + "The Siege in 'The End' has ended."), player.getUUID());
+            player.sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_ended").withStyle(ChatFormatting.WHITE), player.getUUID());
             data.resetData();
+        }
+    }
+
+    @SubscribeEvent
+    public static void tossUnstableIngot(ItemTossEvent event) {
+        ItemStack stack = event.getEntityItem().getItem();
+        if(stack.is(ModItems.UNSTABLE_INGOT.get())) {
+            if(stack.getTag() != null && !stack.getTag().getBoolean("creativeSpawned")) {
+                event.getEntityItem().level.explode(event.getEntityItem(), event.getEntityItem().getX(), event.getEntityItem().getY(), event.getEntityItem().getZ(), 0, false, Explosion.BlockInteraction.NONE);
+                event.getPlayer().hurt(DivideByDiamondDamageSource.INSTANCE, Float.MAX_VALUE);
+                event.getEntityItem().remove(Entity.RemovalReason.DISCARDED);
+                event.setCanceled(true);
+            }
         }
     }
 

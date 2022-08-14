@@ -1,0 +1,18 @@
+{ 
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OU",
+    "UO"
+  ],
+  "key": {
+    "U": {
+        "tag": "unstable:unstable_ingots"
+    },
+    "O": {
+        "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "unstable:precision_shears"
+  }
+}

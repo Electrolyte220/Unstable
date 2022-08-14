@@ -1,23 +1,29 @@
 package com.electrolyte.unstable;
 
+import com.electrolyte.unstable.listener.EndSiegeChestDataReloadListener;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.PotionItem;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.dimension.DimensionType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DivisionCheckEnd {
+
+    public static boolean checkDimension(ResourceLocation dimension) {
+        return dimension.equals(DimensionType.END_LOCATION.location());
+    }
 
     public static boolean checkBeacon(Level level, BlockPos pos) {
         return level.getBlockState(pos).getBlock() == Blocks.BEACON;
@@ -112,113 +118,62 @@ public class DivisionCheckEnd {
     }
 
     public static boolean checkChests(Level level, BlockPos pos) {
-        if(level.getBlockState(new BlockPos(pos.east(5).getX(), pos.getY(), pos.getZ())).getBlock() != Blocks.CHEST) return false;
-        if(level.getBlockState(new BlockPos(pos.west(5).getX(), pos.getY(), pos.getZ())).getBlock() != Blocks.CHEST) return false;
-        if(level.getBlockState(new BlockPos(pos.getX(), pos.getY(), pos.north(5).getZ())).getBlock() != Blocks.CHEST) return false;
-        if(level.getBlockState(new BlockPos(pos.getX(), pos.getY(), pos.south(5).getZ())).getBlock() != Blocks.CHEST) return false;
-        return true;
+        return level.getBlockState(pos.north(5)).getBlock() == Blocks.CHEST && level.getBlockState(pos.south(5)).getBlock() == Blocks.CHEST &&
+                level.getBlockState(pos.east(5)).getBlock() == Blocks.CHEST && level.getBlockState(pos.west(5)).getBlock() == Blocks.CHEST;
     }
 
-    public static boolean checkNorthChestContents(Level level, BlockPos pos) {
-        BlockPos northChest = new BlockPos(pos.getX(), pos.getY(), pos.north(5).getZ());
-        BlockEntity te = level.getBlockEntity(northChest);
-        if(te instanceof ChestBlockEntity) {
-            return ((ChestBlockEntity) te).getItem(0).getItem() == Item.BY_BLOCK.get(Blocks.STONE) &&
-                    ((ChestBlockEntity) te).getItem(1).getItem() == Items.BRICK &&
-                    ((ChestBlockEntity) te).getItem(2).getItem() == Item.BY_BLOCK.get(Blocks.GLASS) &&
-                    ((ChestBlockEntity) te).getItem(3).getItem() == Items.COOKED_COD &&
-                    ((ChestBlockEntity) te).getItem(4).getItem() == Item.BY_BLOCK.get(Blocks.TERRACOTTA) &&
-                    ((ChestBlockEntity) te).getItem(5).getItem() == Items.GREEN_DYE &&
-                    ((ChestBlockEntity) te).getItem(6).getItem() == Items.CHARCOAL &&
-                    ((ChestBlockEntity) te).getItem(7).getItem() == Items.COOKED_BEEF &&
-                    ((ChestBlockEntity) te).getItem(8).getItem() == Items.IRON_INGOT &&
-                    ((ChestBlockEntity) te).getItem(9).getItem() == Items.COOKED_CHICKEN &&
-                    ((ChestBlockEntity) te).getItem(10).getItem() == Items.GOLD_INGOT &&
-                    ((ChestBlockEntity) te).getItem(11).getItem() == Items.BAKED_POTATO &&
-                    ((ChestBlockEntity) te).getItem(12).getItem() == Items.COOKED_PORKCHOP &&
-                    ((ChestBlockEntity) te).getItem(13).getItem() == Items.NETHER_BRICK;
-        } return false;
-    }
-
-    public static boolean checkSouthChestContents(Level level, BlockPos pos) {
-        BlockPos southChest = new BlockPos(pos.getX(), pos.getY(), pos.south(5).getZ());
-        BlockEntity te = level.getBlockEntity(southChest);
-        if(te instanceof ChestBlockEntity) {
-            return ((ChestBlockEntity) te).getItem(0).getItem() == Item.BY_BLOCK.get(Blocks.GRASS_BLOCK) &&
-                    ((ChestBlockEntity) te).getItem(1).getItem() == Item.BY_BLOCK.get(Blocks.LAPIS_ORE) &&
-                    ((ChestBlockEntity) te).getItem(2).getItem() == Item.BY_BLOCK.get(Blocks.DIRT) &&
-                    ((ChestBlockEntity) te).getItem(3).getItem() == Item.BY_BLOCK.get(Blocks.OBSIDIAN) &&
-                    ((ChestBlockEntity) te).getItem(4).getItem() == Item.BY_BLOCK.get(Blocks.SAND) &&
-                    ((ChestBlockEntity) te).getItem(5).getItem() == Item.BY_BLOCK.get(Blocks.DIAMOND_ORE) &&
-                    ((ChestBlockEntity) te).getItem(6).getItem() == Item.BY_BLOCK.get(Blocks.GRAVEL) &&
-                    ((ChestBlockEntity) te).getItem(7).getItem() == Item.BY_BLOCK.get(Blocks.REDSTONE_ORE) &&
-                    ((ChestBlockEntity) te).getItem(8).getItem() == Item.BY_BLOCK.get(Blocks.GOLD_ORE) &&
-                    ((ChestBlockEntity) te).getItem(9).getItem() == Item.BY_BLOCK.get(Blocks.CLAY) &&
-                    ((ChestBlockEntity) te).getItem(10).getItem() == Item.BY_BLOCK.get(Blocks.IRON_ORE) &&
-                    ((ChestBlockEntity) te).getItem(11).getItem() == Item.BY_BLOCK.get(Blocks.EMERALD_ORE) &&
-                    ((ChestBlockEntity) te).getItem(12).getItem() == Item.BY_BLOCK.get(Blocks.COAL_ORE);
-        }
-        return false;
-    }
-
-    public static boolean checkEastChestContents(Level level, BlockPos pos) {
-        BlockPos eastChest = new BlockPos(pos.east(5).getX(), pos.getY(), pos.getZ());
-        BlockEntity te = level.getBlockEntity(eastChest);
-        List<String> potionList = new ArrayList<>();
-        potionList.add("{Potion:\"minecraft:water\"}");
-        potionList.add("{Potion:\"minecraft:thick\"}");
-        potionList.add("{Potion:\"minecraft:awkward\"}");
-        potionList.add("{Potion:\"minecraft:mundane\"}");
-
-        if(te instanceof ChestBlockEntity) {
-            if (((ChestBlockEntity) te).getItem(0).getItem() instanceof PotionItem &&
-                    ((ChestBlockEntity) te).getItem(1).getItem() instanceof PotionItem &&
-                    ((ChestBlockEntity) te).getItem(2).getItem() instanceof PotionItem  &&
-                    ((ChestBlockEntity) te).getItem(3).getItem() instanceof PotionItem &&
-                    ((ChestBlockEntity) te).getItem(4).getItem() instanceof PotionItem &&
-                    ((ChestBlockEntity) te).getItem(5).getItem() instanceof PotionItem &&
-                    ((ChestBlockEntity) te).getItem(6).getItem() instanceof PotionItem &&
-                    ((ChestBlockEntity) te).getItem(7).getItem() instanceof PotionItem &&
-                    ((ChestBlockEntity) te).getItem(8).getItem() instanceof PotionItem &&
-                    ((ChestBlockEntity) te).getItem(9).getItem() instanceof PotionItem &&
-                    ((ChestBlockEntity) te).getItem(10).getItem() instanceof PotionItem &&
-                    ((ChestBlockEntity) te).getItem(11).getItem() instanceof PotionItem) {
-                for (int i = 0; i <= potionList.size(); ++i) {
-                    if (!potionList.contains(((ChestBlockEntity) te).getItem(0).getTag().toString()) &&
-                            !potionList.contains(((ChestBlockEntity) te).getItem(1).getTag().toString()) &&
-                            !potionList.contains(((ChestBlockEntity) te).getItem(2).getTag().toString()) &&
-                            !potionList.contains(((ChestBlockEntity) te).getItem(3).getTag().toString()) &&
-                            !potionList.contains(((ChestBlockEntity) te).getItem(4).getTag().toString()) &&
-                            !potionList.contains(((ChestBlockEntity) te).getItem(5).getTag().toString()) &&
-                            !potionList.contains(((ChestBlockEntity) te).getItem(6).getTag().toString()) &&
-                            !potionList.contains(((ChestBlockEntity) te).getItem(7).getTag().toString()) &&
-                            !potionList.contains(((ChestBlockEntity) te).getItem(8).getTag().toString()) &&
-                            !potionList.contains(((ChestBlockEntity) te).getItem(9).getTag().toString()) &&
-                            !potionList.contains(((ChestBlockEntity) te).getItem(10).getTag().toString()) &&
-                            !potionList.contains(((ChestBlockEntity) te).getItem(11).getTag().toString())) return true;
+    public static boolean checkChestContents(Level level, BlockPos pos, EndSiegeChestDataReloadListener.CHEST_LOCATION location) {
+        BlockEntity te = level.getBlockEntity(pos);
+        if (te instanceof ChestBlockEntity) {
+            ArrayList<ItemStack> chestItems = new ArrayList<>();
+            for (int i = 0; i < 27; i++) {
+                if (((ChestBlockEntity) te).getItem(i) != ItemStack.EMPTY) {
+                    chestItems.add(((ChestBlockEntity) te).getItem(i));
                 }
             }
-        }
-        return false;
-    }
-
-    public static boolean checkWestChestContents(Level level, BlockPos pos) {
-        BlockPos westChest = new BlockPos(pos.west(5).getX(), pos.getY(), pos.getZ());
-        BlockEntity te = level.getBlockEntity(westChest);
-        if(te instanceof ChestBlockEntity) {
-            return ((ChestBlockEntity) te).getItem(0).getItem() == Items.MUSIC_DISC_11 &&
-                    ((ChestBlockEntity) te).getItem(1).getItem() == Items.MUSIC_DISC_13 &&
-                    ((ChestBlockEntity) te).getItem(2).getItem() == Items.MUSIC_DISC_BLOCKS &&
-                    ((ChestBlockEntity) te).getItem(3).getItem() == Items.MUSIC_DISC_CAT &&
-                    ((ChestBlockEntity) te).getItem(4).getItem() == Items.MUSIC_DISC_CHIRP &&
-                    ((ChestBlockEntity) te).getItem(5).getItem() == Items.MUSIC_DISC_FAR &&
-                    ((ChestBlockEntity) te).getItem(6).getItem() == Items.MUSIC_DISC_MALL &&
-                    ((ChestBlockEntity) te).getItem(7).getItem() == Items.MUSIC_DISC_MELLOHI &&
-                    ((ChestBlockEntity) te).getItem(8).getItem() == Items.MUSIC_DISC_STAL &&
-                    ((ChestBlockEntity) te).getItem(9).getItem() == Items.MUSIC_DISC_STRAD &&
-                    ((ChestBlockEntity) te).getItem(10).getItem() == Items.MUSIC_DISC_WAIT &&
-                    ((ChestBlockEntity) te).getItem(11).getItem() == Items.MUSIC_DISC_WARD &&
-                    ((ChestBlockEntity) te).getItem(12).getItem() == Items.MUSIC_DISC_PIGSTEP;
+            //Check if two stacks and their tags equal each other (for items like potions)
+            for (int i = 0; i < chestItems.size(); i++) {
+                ItemStack currentItem = chestItems.get(i);
+                if (currentItem.getTag() != null) {
+                    CompoundTag stackTag = currentItem.getTag();
+                    for (int j = 0; j < chestItems.size(); j++) {
+                        if (i != j) {
+                            CompoundTag stackTag1 = chestItems.get(j).getTag();
+                            if (currentItem.is(chestItems.get(j).getItem()) && stackTag.equals(stackTag1)) {
+                                return false;
+                            }
+                        }
+                    }
+                } else {
+                    for (int j = 0; j < chestItems.size(); j++) {
+                        if (i != j) {
+                            if (currentItem.is(chestItems.get(j).getItem())) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            List<Ingredient> validItems = EndSiegeChestDataReloadListener.CHEST_CONTENTS.get(location);
+            if (validItems.size() != chestItems.size())
+                return false;
+            boolean prevItemFound = false;
+            for (int i = 0; i < chestItems.size(); i++) {
+                ItemStack chestStack = chestItems.get(i);
+                if (!prevItemFound && i != 0)
+                    return false;
+                prevItemFound = false;
+                for (Ingredient validItem : validItems) {
+                    for (int k = 0; k < validItem.getItems().length; k++) {
+                        ItemStack ingredientItem = validItem.getItems()[k];
+                        if (chestStack.is(ingredientItem.getItem())) {
+                            prevItemFound = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            return prevItemFound;
         }
         return false;
     }

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "UU",
+    " O",
+    " O"
+  ],
+  "key": {
+    "U": {
+        "item": "unstable:stable_ingot"
+    },
+    "O": {
+        "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "unstable:reversing_hoe",
+    "nbt": "{Enchantments:[{id:\"minecraft:efficiency\", lvl: 5}]}"
+  }
+}

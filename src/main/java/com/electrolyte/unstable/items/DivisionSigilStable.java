@@ -1,5 +1,6 @@
 package com.electrolyte.unstable.items;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.Item;
@@ -37,6 +38,6 @@ public class DivisionSigilStable extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, List<Component> tooltip, @NotNull TooltipFlag flagIn) {
-        tooltip.add(new TranslatableComponent("unstable.chat.stable"));
+        tooltip.add(new TranslatableComponent("unstable.division_sigil.stable").withStyle(ChatFormatting.GRAY));
     }
 }

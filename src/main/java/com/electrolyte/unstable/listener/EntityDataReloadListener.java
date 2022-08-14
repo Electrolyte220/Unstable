@@ -1,7 +1,8 @@
-package com.electrolyte.unstable;
+package com.electrolyte.unstable.listener;
 
-import com.electrolyte.unstable.end_siege.UnstableEntityDataStorage;
-import com.electrolyte.unstable.end_siege.UnstableEntityDataStorageManager;
+import com.electrolyte.unstable.Unstable;
+import com.electrolyte.unstable.endsiege.UnstableEntityDataStorage;
+import com.electrolyte.unstable.endsiege.UnstableEntityDataStorageManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -106,7 +107,7 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
                     try {
                         CompoundTag tag = NbtUtils.snbtToStructure(jsonObject.get("nbt").getAsString());
                         stack.setTag(tag);
-                    } catch (CommandSyntaxException e) {Unstable.LOGGER.error("Unable to get nbt for item {}.", jsonObject.get("item").getAsString(), e);}
+                    } catch (CommandSyntaxException e) { Unstable.LOGGER.error("Unable to get nbt for item {}.", jsonObject.get("item").getAsString(), e); }
                 }
                 equipment.add(Map.of(hand, stack));
             }

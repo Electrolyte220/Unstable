@@ -1,4 +1,4 @@
-package com.electrolyte.unstable.saveddata;
+package com.electrolyte.unstable.savedata;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;

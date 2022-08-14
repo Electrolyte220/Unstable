@@ -11,9 +11,10 @@ public class HealingAxeDamageSource extends DamageSource {
     public static final HealingAxeDamageSource INSTANCE = new HealingAxeDamageSource();
 
     public HealingAxeDamageSource() {
-        super("com/electrolyte/unstable/damagesource/healing_axe");
-
-        setScalesWithDifficulty();
+        super("unstable:healing_axe");
+        this.bypassArmor();
+        this.bypassMagic();
+        this.setScalesWithDifficulty();
     }
 
     @Override

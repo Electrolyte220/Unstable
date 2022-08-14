@@ -163,11 +163,11 @@ dependencies {
     //implementation fg.deobf("slimeknights.mantle:Mantle:1.18.2-1.9.28")
     //implementation fg.deobf("slimeknights.tconstruct:TConstruct:1.18.2-3.5.1.32")
 
-    compileOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.0.196:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.0.196")
+    compileOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.1.232:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.1.232")
 
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-71.1:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-71.1")
+    //compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-71.1:api")
+    //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-71.1")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

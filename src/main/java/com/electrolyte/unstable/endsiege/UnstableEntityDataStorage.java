@@ -1,6 +1,5 @@
-package com.electrolyte.unstable.end_siege;
+package com.electrolyte.unstable.endsiege;
 
-import com.google.common.collect.ImmutableSet;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;

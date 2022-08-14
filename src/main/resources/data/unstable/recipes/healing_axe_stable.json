@@ -1,0 +1,20 @@
+{ 
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "UU",
+    "UO",
+    " O"
+  ],
+  "key": {
+    "U": {
+        "item": "unstable:stable_ingot"
+    },
+    "O": {
+        "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "unstable:healing_axe",
+    "nbt": "{Enchantments:[{id:\"minecraft:efficiency\", lvl: 5}]}"
+  }
+}

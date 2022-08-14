@@ -19,6 +19,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class DivisionSigil extends Item {
+
     public DivisionSigil(Item.Properties properties) {
         super(properties);
     }
@@ -27,30 +28,30 @@ public class DivisionSigil extends Item {
     public @NotNull InteractionResult useOn(UseOnContext context) {
         if(context.getLevel().isClientSide) return InteractionResult.FAIL;
         if(DivisionCheck.checkEnchantTable(context.getLevel(), context.getClickedPos())) {
-            context.getPlayer().sendMessage(new TranslatableComponent(ChatFormatting.WHITE + "Activation Ritual"), context.getPlayer().getUUID());
+            context.getPlayer().sendMessage(new TranslatableComponent("unstable.activation_ritual.title").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
             if(DivisionCheck.checkNatural(context.getLevel(), context.getClickedPos())) {
-                context.getPlayer().sendMessage(new TranslatableComponent(ChatFormatting.WHITE + "- Altar has sufficient natural earth"), context.getPlayer().getUUID());
+                context.getPlayer().sendMessage(new TranslatableComponent("unstable.activation_ritual.natural_earth").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
             } else if(!DivisionCheck.checkNatural(context.getLevel(), context.getClickedPos())) {
-                context.getPlayer().sendMessage(new TranslatableComponent(ChatFormatting.RED + "! Altar lacks sufficient natural earth"), context.getPlayer().getUUID());
+                context.getPlayer().sendMessage(new TranslatableComponent("unstable.activation_ritual.natural_earth_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
             } if(DivisionCheck.checkLight(context.getLevel(), context.getClickedPos())) {
-                context.getPlayer().sendMessage(new TranslatableComponent(ChatFormatting.WHITE + "- Altar is in darkness"), context.getPlayer().getUUID());
+                context.getPlayer().sendMessage(new TranslatableComponent("unstable.activation_ritual.darkness").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
             } else if(!DivisionCheck.checkLight(context.getLevel(), context.getClickedPos())) {
-                context.getPlayer().sendMessage(new TranslatableComponent(ChatFormatting.RED + "! Altar must not be lit by outside sources"), context.getPlayer().getUUID());
+                context.getPlayer().sendMessage(new TranslatableComponent( "unstable.activation_ritual.darkness_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
             } if(DivisionCheck.checkSky(context.getLevel(), context.getClickedPos())) {
-                context.getPlayer().sendMessage(new TranslatableComponent(ChatFormatting.WHITE + "- Altar can see the moon"), context.getPlayer().getUUID());
+                context.getPlayer().sendMessage(new TranslatableComponent( "unstable.activation_ritual.sky").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
             } else if (!DivisionCheck.checkSky(context.getLevel(), context.getClickedPos())) {
-                context.getPlayer().sendMessage(new TranslatableComponent(ChatFormatting.RED + "! Altar cannot see the moon"), context.getPlayer().getUUID());
+                context.getPlayer().sendMessage(new TranslatableComponent( "unstable.activation_ritual.sky_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
             }if(DivisionCheck.checkRedstone(context.getLevel(), context.getClickedPos())) {
-                context.getPlayer().sendMessage(new TranslatableComponent(ChatFormatting.WHITE + "- Altar has a redstone circle"), context.getPlayer().getUUID());
+                context.getPlayer().sendMessage(new TranslatableComponent( "unstable.activation_ritual.redstone").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
             } else if(!DivisionCheck.checkRedstone(context.getLevel(), context.getClickedPos())) {
-                context.getPlayer().sendMessage(new TranslatableComponent(ChatFormatting.RED + "! Altar does not have a redstone circle"), context.getPlayer().getUUID());
+                context.getPlayer().sendMessage(new TranslatableComponent("unstable.activation_ritual.redstone_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
             } if(DivisionCheck.checkTime(context.getLevel().getDayTime())) {
-                context.getPlayer().sendMessage(new TranslatableComponent(ChatFormatting.WHITE + "- Time is right"), context.getPlayer().getUUID());
+                context.getPlayer().sendMessage(new TranslatableComponent("unstable.activation_ritual.time").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
             } if(!DivisionCheck.checkTime(context.getLevel().getDayTime())) {
                 if(context.getLevel().getDayTime() <= 15000) {
-                    context.getPlayer().sendMessage(new TranslatableComponent(ChatFormatting.RED + "! Too early, sacrifice must be made at midnight"), context.getPlayer().getUUID());
+                    context.getPlayer().sendMessage(new TranslatableComponent("unstable.activation_ritual.time_early").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
                 } else if (context.getLevel().getDayTime() >= 20000) {
-                    context.getPlayer().sendMessage(new TranslatableComponent(ChatFormatting.RED + "! Too late, sacrifice must be made at midnight"), context.getPlayer().getUUID());
+                    context.getPlayer().sendMessage(new TranslatableComponent("unstable.activation_ritual.time_late").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
                 }
             }
         }
@@ -65,8 +66,8 @@ public class DivisionSigil extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag isAdvanced) {
-            tooltip.add(new TranslatableComponent("unstable.chat.inactive_1"));
-            tooltip.add(new TranslatableComponent("unstable.chat.inactive_2"));
-            tooltip.add(new TranslatableComponent("unstable.chat.inactive_3"));
+        tooltip.add(new TranslatableComponent("unstable.division_sigil.tooltip_inactive_1").withStyle(ChatFormatting.GRAY));
+        tooltip.add(new TranslatableComponent("unstable.division_sigil.tooltip_inactive_2").withStyle(ChatFormatting.GRAY));
+        tooltip.add(new TranslatableComponent("unstable.division_sigil.tooltip_inactive_3").withStyle(ChatFormatting.GRAY));
     }
 }

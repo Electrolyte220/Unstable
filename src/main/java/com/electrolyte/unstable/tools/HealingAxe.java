@@ -52,17 +52,17 @@ public class HealingAxe extends AxeItem {
     public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
         if(player instanceof FakePlayer) return false;
         if(entity instanceof Mob mob) {
-                if(mob.getMobType() != MobType.UNDEAD && mob.getHealth() != mob.getMaxHealth()) {
+                if(mob.getMobType() != MobType.UNDEAD && mob.getHealth() < mob.getMaxHealth()) {
                     mob.setHealth(mob.getHealth() + 0.75F);
                     //TODO: Find a better particle for this.
                     mob.getLevel().addParticle(ParticleTypes.HEART, (mob.getX() - 0.5) + new Random().nextDouble(1), (mob.getY() + 0.25) + new Random().nextDouble(1), (mob.getZ() - 0.5) + new Random().nextDouble(1), 0, 0.5, 0);
-                    player.hurt(HealingAxeDamageSource.INSTANCE, 1.0F);
+                    player.hurt(HealingAxeDamageSource.INSTANCE, 1.5F);
                     //mob.addEffect(new MobEffectInstance(MobEffects.HEAL, 1, 0, false, true));
-                } else {
+                } else if (mob.getMobType() == MobType.UNDEAD) {
                     mob.setHealth(mob.getHealth() - 3);
                     //TODO: Find a better particle for this.
                     mob.getLevel().addParticle(ParticleTypes.HEART, (mob.getX() - 0.5) + new Random().nextDouble(1), (mob.getY() + 0.25) + new Random().nextDouble(1), (mob.getZ() - 0.5) + new Random().nextDouble(1), 0, 0.5, 0);
-                    player.hurt(HealingAxeDamageSource.INSTANCE, 1.0F);
+                    player.hurt(HealingAxeDamageSource.INSTANCE, 1.5F);
                     //mob.addEffect(new MobEffectInstance(MobEffects.HEAL, 1, 1, false, true));
                 }
         }
@@ -76,7 +76,7 @@ public class HealingAxe extends AxeItem {
             CompoundTag tag = new CompoundTag();
             tag.putBoolean("Unbreakable", true);
             stack.setTag(tag);
-            stack.enchant(Enchantments.BLOCK_EFFICIENCY, 10);
+            stack.enchant(Enchantments.BLOCK_EFFICIENCY, 5);
             list.add(stack);
         }
     }

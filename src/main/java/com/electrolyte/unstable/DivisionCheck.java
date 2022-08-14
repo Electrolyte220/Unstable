@@ -1,10 +1,15 @@
 package com.electrolyte.unstable;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RedStoneWireBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.Objects;
 
 public class DivisionCheck {
 
@@ -21,11 +26,15 @@ public class DivisionCheck {
     }
 
     public static void updateBlocks(Level level, BlockPos pos) {
-        for (int x = -2; x <= 2; x++) {
-            for (int z = -2; z <= 2; z++) {
-                BlockPos pos1 = new BlockPos(pos.below().getX() + x, pos.below().getY(), pos.below().getZ() + z);
-                level.setBlock(pos1, Blocks.DIAMOND_BLOCK.defaultBlockState(), 2);
+        if(ForgeRegistries.BLOCKS.containsKey(new ResourceLocation(UnstableConfig.ACTIVATION_BLOCK.get()))) {
+            for (int x = -2; x <= 2; x++) {
+                for (int z = -2; z <= 2; z++) {
+                    BlockPos pos1 = new BlockPos(pos.below().getX() + x, pos.below().getY(), pos.below().getZ() + z);
+                    level.setBlock(pos1, Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(UnstableConfig.ACTIVATION_BLOCK.get()))).defaultBlockState(), 2);
+                }
             }
+        } else {
+            Unstable.LOGGER.error("Unable to update natural earth to block: {}, as it does not exist in the block registry.", UnstableConfig.ACTIVATION_BLOCK.get());
         }
     }
 
@@ -35,8 +44,7 @@ public class DivisionCheck {
                 if (x == 0 && z == 0)
                     continue;
                 BlockPos pos1 = new BlockPos(pos.getX() + x, pos.getY(), pos.getZ() + z);
-                if (level.getBlockState(pos1).getBlock() != Blocks.REDSTONE_WIRE)
-                    return false;
+                if (level.getBlockState(pos1).getBlock() != Blocks.REDSTONE_WIRE) return false;
             }
         }
         return true;
@@ -62,7 +70,7 @@ public class DivisionCheck {
         for(int x = -2; x <= 2; x++) {
             for(int z = -2; z <= 2; z++) {
                 BlockPos pos1 = new BlockPos(pos.below().getX() + x, pos.below().getY(), pos.below().getZ() + z);
-                if(level.getBlockState(pos1).getBlock() != Blocks.DIRT && level.getBlockState(pos1).getBlock() != Blocks.GRASS_BLOCK) return false;
+                if(level.getBlockState(pos1).getTags().noneMatch(tag -> tag.equals(BlockTags.DIRT))) return false;
             }
         }
         return true;

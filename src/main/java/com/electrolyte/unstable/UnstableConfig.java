@@ -24,23 +24,45 @@ public class UnstableConfig {
     public static ForgeConfigSpec.IntValue MOB_SPAWN_RANGE;
     public static ForgeConfigSpec.IntValue MAX_MOBS;
 
+    public static ForgeConfigSpec.ConfigValue<String> ACTIVATION_BLOCK;
+
     static {
-        ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
         ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
+        ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
 
         COMMON_BUILDER.comment("Misc Settings").push("main");
 
             COMMON_BUILDER.comment("test").push("misc");
-            REMOVE_ACTIVE_SIGIL = COMMON_BUILDER.comment("Should the active sigil be removed from the player's inventory after recieving the stable sigil?").define("removeActiveSigil", true);
-            ACTIVATED_DURABILITY = COMMON_BUILDER.comment("Durability of the Activated Division Sigil").defineInRange("activatedDurability", 256, 1, Integer.MAX_VALUE);
-            NEEDED_MOBS = COMMON_BUILDER.comment("During the Psudeo Inversion Ritual, how many mob kills are needed to obtain a stable sigil?").defineInRange("neededMobs", 100, 1, Integer.MAX_VALUE);
-            MOB_SPAWN_RANGE = COMMON_BUILDER.comment("During the Psudeo Inversion Ritual, how far away from the player should mobs be allowed to spawn?").defineInRange("mobSpawnRange", 25, 1, Integer.MAX_VALUE);
-            MAX_MOBS = COMMON_BUILDER.comment("Maximum number of mobs allowed during the Psudeo Inversion Ritual").defineInRange("maximumMobs", 250, 1, Integer.MAX_VALUE);
+            REMOVE_ACTIVE_SIGIL = COMMON_BUILDER
+                    .comment("Should the active sigil be removed from the player's inventory after receiving the stable sigil?")
+                    .define("removeActiveSigil", true);
+            ACTIVATED_DURABILITY = COMMON_BUILDER
+                    .comment("Durability of the Activated Division Sigil")
+                    .defineInRange("activatedDurability", 256, 1, Integer.MAX_VALUE);
+            NEEDED_MOBS = COMMON_BUILDER
+                    .comment("During the Psudeo Inversion Ritual, how many mob kills are needed to obtain a stable sigil?")
+                    .defineInRange("neededMobs", 100, 1, Integer.MAX_VALUE);
+            MOB_SPAWN_RANGE = COMMON_BUILDER
+                    .comment("During the Psudeo Inversion Ritual, how far away from the player should mobs be allowed to spawn?")
+                    .defineInRange("mobSpawnRange", 25, 1, Integer.MAX_VALUE);
+            MAX_MOBS = COMMON_BUILDER
+                    .comment("Maximum number of mobs allowed during the Psudeo Inversion Ritual")
+                    .defineInRange("maximumMobs", 250, 1, Integer.MAX_VALUE);
             COMMON_BUILDER.pop();
 
         COMMON_BUILDER.pop();
-
-        SERVER_CONFIG = SERVER_BUILDER.build();
         COMMON_CONFIG = COMMON_BUILDER.build();
+
+        SERVER_BUILDER.comment("Server-side Settings").push("serverSideSettings");
+
+            SERVER_BUILDER.comment("test").push("test");
+            ACTIVATION_BLOCK = SERVER_BUILDER
+                .comment("Block that natural earth is changed to when the activation ritual is successful")
+                .define("activationBlock", "minecraft:diamond_block");
+            SERVER_BUILDER.pop();
+
+        SERVER_BUILDER.pop();
+        SERVER_CONFIG = SERVER_BUILDER.build();
+
     }
 }

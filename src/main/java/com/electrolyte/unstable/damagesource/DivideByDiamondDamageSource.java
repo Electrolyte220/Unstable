@@ -8,12 +8,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class DivideByDiamondDamageSource extends DamageSource {
 
+    //TODO: Figure out why magic is not being bypassed.
     public static final DivideByDiamondDamageSource INSTANCE = new DivideByDiamondDamageSource();
 
     public DivideByDiamondDamageSource() {
-        super("com/electrolyte/unstable/damagesource/divide_by_diamond");
+        super("unstable:divide_by_diamond");
         this.bypassArmor();
-        this.bypassMagic();
     }
 
     @Override

@@ -1,0 +1,19 @@
+{ 
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "U",
+    "O",
+    "O"
+  ],
+  "key": {
+    "U": {
+        "tag": "unstable:unstable_ingots"
+    },
+    "O": {
+        "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "unstable:erosion_shovel"
+  }
+}

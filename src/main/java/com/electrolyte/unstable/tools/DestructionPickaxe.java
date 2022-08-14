@@ -37,7 +37,7 @@ public class DestructionPickaxe extends PickaxeItem {
             CompoundTag tag = new CompoundTag();
             tag.putBoolean("Unbreakable", true);
             stack.setTag(tag);
-            stack.enchant(Enchantments.BLOCK_EFFICIENCY, 10);
+            stack.enchant(Enchantments.BLOCK_EFFICIENCY, 5);
             list.add(stack);
         }
     }
