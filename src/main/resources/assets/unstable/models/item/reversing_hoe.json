@@ -1,6 +1,7 @@
 {    
     "parent": "item/handheld",
     "textures": {
-        "layer0": "unstable:items/reversing_hoe"
+        "layer0": "unstable:items/reversing_hoe_0",
+        "layer1": "unstable:items/reversing_hoe_1"
      }
 }

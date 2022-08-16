@@ -1,0 +1,47 @@
+{
+  "location": "SOUTH",
+  "contents": [
+    {
+      "item": "minecraft:grass_block"
+    },
+    {
+      "tag": "forge:ores/lapis"
+    },
+    {
+      "item": "minecraft:dirt"
+    },
+    {
+      "item": "minecraft:obsidian"
+    },
+    {
+      "tag": "forge:sand"
+    },
+    {
+      "tag": "forge:ores/diamond"
+    },
+    {
+      "tag": "forge:gravel"
+    },
+    {
+      "tag": "forge:ores/redstone"
+    },
+    {
+      "tag": "forge:ores/gold"
+    },
+    {
+      "item": "minecraft:clay"
+    },
+    {
+      "tag": "forge:ores/iron"
+    },
+    {
+      "tag": "forge:ores/emerald"
+    },
+    {
+      "tag": "forge:ores/coal"
+    },
+    {
+      "tag": "forge:ores/copper"
+    }
+  ]
+}

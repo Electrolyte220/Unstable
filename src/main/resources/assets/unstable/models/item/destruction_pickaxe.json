@@ -1,6 +1,7 @@
 {    
     "parent": "item/handheld",
     "textures": {
-        "layer0": "unstable:items/destruction_pickaxe"
+        "layer0": "unstable:items/destruction_pickaxe_0",
+        "layer1": "unstable:items/destruction_pickaxe_1"
      }
 }

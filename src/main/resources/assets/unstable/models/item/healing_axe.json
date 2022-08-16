@@ -1,6 +1,7 @@
 {    
     "parent": "item/handheld",
     "textures": {
-        "layer0": "unstable:items/healing_axe"
+        "layer0": "unstable:items/healing_axe_0",
+        "layer1": "unstable:items/healing_axe_1"
      }
 }

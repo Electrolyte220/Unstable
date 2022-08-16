@@ -1,5 +1,6 @@
 package com.electrolyte.unstable;
 
+import com.electrolyte.unstable.init.ModBlocks;
 import com.electrolyte.unstable.init.ModItems;
 import com.electrolyte.unstable.init.ModRecipes;
 import com.mojang.logging.LogUtils;
@@ -19,9 +20,11 @@ public class Unstable {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public Unstable() {
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, UnstableConfig.CLIENT_CONFIG);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, UnstableConfig.COMMON_CONFIG);
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, UnstableConfig.SERVER_CONFIG);
 
+        ModBlocks.init();
         ModItems.init();
         ModTools.init();
         ModRecipes.init();

@@ -15,20 +15,31 @@ import java.util.List;
 @Mod.EventBusSubscriber
 public class UnstableConfig {
 
-    public static ForgeConfigSpec SERVER_CONFIG;
+    public static ForgeConfigSpec CLIENT_CONFIG;
     public static ForgeConfigSpec COMMON_CONFIG;
+    public static ForgeConfigSpec SERVER_CONFIG;
 
+    public static ForgeConfigSpec.BooleanValue CURSED_EARTH_PARTICLES;
     public static ForgeConfigSpec.BooleanValue REMOVE_ACTIVE_SIGIL;
     public static ForgeConfigSpec.IntValue ACTIVATED_DURABILITY;
     public static ForgeConfigSpec.IntValue NEEDED_MOBS;
     public static ForgeConfigSpec.IntValue MOB_SPAWN_RANGE;
     public static ForgeConfigSpec.IntValue MAX_MOBS;
-
     public static ForgeConfigSpec.ConfigValue<String> ACTIVATION_BLOCK;
+    public static ForgeConfigSpec.IntValue MIN_SPAWN_DELAY;
+    public static ForgeConfigSpec.IntValue MAX_SPAWN_DELAY;
 
     static {
+        ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
         ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
         ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
+
+        CLIENT_BUILDER.comment("Client Settings").push("client");
+        CURSED_EARTH_PARTICLES = CLIENT_BUILDER
+                .comment("Should Cursed Earth emit particles?")
+                .define("cursedEarthParticles", true);
+        CLIENT_BUILDER.pop();
+        CLIENT_CONFIG = CLIENT_BUILDER.build();
 
         COMMON_BUILDER.comment("Misc Settings").push("main");
 
@@ -55,10 +66,19 @@ public class UnstableConfig {
 
         SERVER_BUILDER.comment("Server-side Settings").push("serverSideSettings");
 
-            SERVER_BUILDER.comment("test").push("test");
+            SERVER_BUILDER.comment("Activation Ritual").push("Settings for the Activation Ritual");
             ACTIVATION_BLOCK = SERVER_BUILDER
                 .comment("Block that natural earth is changed to when the activation ritual is successful")
                 .define("activationBlock", "minecraft:diamond_block");
+            SERVER_BUILDER.pop();
+
+            SERVER_BUILDER.comment("Cursed Earth").push("Settings for Cursed Earth");
+            MIN_SPAWN_DELAY = SERVER_BUILDER
+                    .comment("Minimum amount of time to wait before cursed earth attempts to spawn a mob")
+                    .defineInRange("minSpawnDelay", 600, 0, Integer.MAX_VALUE);
+            MAX_SPAWN_DELAY = SERVER_BUILDER
+                .comment("Minimum amount of time to wait before cursed earth attempts to spawn a mob")
+                .defineInRange("maxSpawnDelay", 1200, 0, Integer.MAX_VALUE);
             SERVER_BUILDER.pop();
 
         SERVER_BUILDER.pop();

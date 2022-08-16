@@ -1,0 +1,44 @@
+{
+  "location": "NORTH",
+  "contents": [
+    {
+      "tag": "forge:stone"
+    },
+    {
+      "item": "minecraft:brick"
+    },
+    {
+      "tag": "forge:glass"
+    },
+    {
+      "tag": "unstable:cooked_fish"
+    },
+    {
+      "item": "minecraft:terracotta"
+    },
+    {
+      "tag": "forge:dyes/green"
+    },
+    {
+      "tag": "minecraft:coals"
+    },
+    {
+      "tag": "unstable:cooked_meat"
+    },
+    {
+      "tag": "forge:ingots"
+    },
+    {
+      "item": "minecraft:honey_bottle"
+    },
+    {
+      "item": "minecraft:quartz"
+    },
+    {
+      "tag": "minecraft:fox_food"
+    },
+    {
+      "item": "minecraft:nether_brick"
+    }
+  ]
+}

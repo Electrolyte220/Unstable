@@ -1,6 +1,7 @@
 {    
     "parent": "item/handheld",
     "textures": {
-        "layer0": "unstable:items/erosion_shovel"
+        "layer0": "unstable:items/erosion_shovel_0",
+        "layer1": "unstable:items/erosion_shovel_1"
      }
 }
