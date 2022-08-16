@@ -259,16 +259,11 @@ public class UnstableEventHandler {
                                     entityData.equipment().forEach(equipmentList -> equipmentList.forEach((interactionHand, stack) ->
                                             //Apparently we have to copy the stack because totems are dumb
                                             mob.setItemInHand(interactionHand, stack.copy())));
-                                    mob.setDropChance(EquipmentSlot.MAINHAND, 0);
-                                    mob.setDropChance(EquipmentSlot.OFFHAND, 0);
                                 }
                                 if (!entityData.armor().isEmpty()) {
                                     entityData.armor().forEach(armorList -> armorList.forEach(mob::setItemSlot));
-                                    mob.setDropChance(EquipmentSlot.HEAD, 0);
-                                    mob.setDropChance(EquipmentSlot.CHEST, 0);
-                                    mob.setDropChance(EquipmentSlot.LEGS, 0);
-                                    mob.setDropChance(EquipmentSlot.FEET, 0);
                                 }
+                                mob.finalizeSpawn(level, level.getCurrentDifficultyAt(new BlockPos(posX, posY, posZ)), MobSpawnType.NATURAL, null, null);
                                 level.addFreshEntity(mob);
                             }
                         }

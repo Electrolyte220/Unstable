@@ -10,6 +10,8 @@
     "minecraft:witch",
     "minecraft:silverfish",
     "minecraft:spider",
+    "minecraft:skeleton",
+    "minecraft:wither_skeleton",
     "minecraft:creeper",
     "minecraft:blaze",
     "minecraft:piglin",
@@ -24,11 +26,11 @@
       "visible": true
     },
     {
-      "mobEffect": "minecraft:haste",
-      "amplifier": 3,
+      "mobEffect": "minecraft:strength",
+      "amplifier": 0,
       "duration": 6000,
       "ambient": true,
-      "visible": true
+      "visible": false
     }
   ],
   "equipment": [],

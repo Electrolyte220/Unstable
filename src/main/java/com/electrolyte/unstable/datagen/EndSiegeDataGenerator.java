@@ -34,15 +34,9 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
 
     @Override
     public void run(@NotNull HashCache cache) {
-        buildEntityData(cache, "default", 2, 5, List.of(EntityType.ZOMBIE, EntityType.WITCH, EntityType.SILVERFISH, EntityType.SPIDER, EntityType.CREEPER, EntityType.BLAZE, EntityType.PIGLIN, EntityType.PHANTOM),
-                Optional.of(List.of(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 6000, 3, true, true), new MobEffectInstance(MobEffects.DIG_SPEED, 6000, 3, true, true))),
+        buildEntityData(cache, "default", 2, 5, List.of(EntityType.ZOMBIE, EntityType.WITCH, EntityType.SILVERFISH, EntityType.SPIDER, EntityType.SKELETON, EntityType.WITHER_SKELETON, EntityType.CREEPER, EntityType.BLAZE, EntityType.PIGLIN, EntityType.PHANTOM),
+                Optional.of(List.of(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 6000, 3, true, true), new MobEffectInstance(MobEffects.DAMAGE_BOOST, 6000, 0, true, false))),
                 Optional.empty(), Optional.empty());
-        buildEntityData(cache, "skeleton", 1, 3, List.of(EntityType.SKELETON),
-                Optional.of(List.of(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 6000, 3, true, true), new MobEffectInstance(MobEffects.DIG_SPEED, 6000, 3, true, true))),
-                Optional.of(List.of(Map.of(InteractionHand.MAIN_HAND, new ItemStack(Items.BOW)))), Optional.empty());
-        buildEntityData(cache, "wither_skeleton", 1, 3, List.of(EntityType.WITHER_SKELETON),
-                Optional.of(List.of(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 6000, 3, true, true), new MobEffectInstance(MobEffects.DIG_SPEED, 6000, 3, true, true))),
-                Optional.of(List.of(Map.of(InteractionHand.MAIN_HAND, new ItemStack(Items.STONE_SWORD)))), Optional.empty());
 
         buildChestData(cache, "north", List.of(Ingredient.of(Tags.Items.STONE), Ingredient.of(Items.BRICK), Ingredient.of(Tags.Items.GLASS), Ingredient.of(ModTags.COOKED_FISH), Ingredient.of(Items.TERRACOTTA),
                 Ingredient.of(Tags.Items.DYES_GREEN), Ingredient.of(ItemTags.COALS), Ingredient.of(ModTags.COOKED_MEAT), Ingredient.of(Tags.Items.INGOTS), Ingredient.of(Items.HONEY_BOTTLE), Ingredient.of(Items.QUARTZ), Ingredient.of(ItemTags.FOX_FOOD), Ingredient.of(Items.NETHER_BRICK)));
