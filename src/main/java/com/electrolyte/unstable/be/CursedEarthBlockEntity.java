@@ -29,18 +29,6 @@ public class CursedEarthBlockEntity extends BlockEntity {
         super(ModBlocks.CURSED_EARTH_BE.get(), pWorldPosition, pBlockState);
     }
 
-    @Override
-    public void load(@NotNull CompoundTag pTag) {
-        super.load(pTag);
-        pTag.putInt("spawnTimer", spawnTimer);
-    }
-
-    @Override
-    protected void saveAdditional(@NotNull CompoundTag pTag) {
-        super.saveAdditional(pTag);
-        spawnTimer = pTag.getInt("spawnTimer");
-    }
-
     public static void clientTick(Level level, BlockPos pos, BlockState state, CursedEarthBlockEntity blockEntity) {}
 
     private void serverTickInternal(Level level, BlockPos pos, BlockState state, CursedEarthBlockEntity blockEntity) {
@@ -54,7 +42,7 @@ public class CursedEarthBlockEntity extends BlockEntity {
                     if (SpawnPlacements.checkSpawnRules(type, (ServerLevelAccessor) level, MobSpawnType.NATURAL, pos.above(), new Random())) {
                         Mob mob = (Mob) type.create(level);
                         mob.setPos(pos.getX() + 0.5, pos.above().getY(), pos.getZ() + 0.5);
-                        mob.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, 10, true, false));
+                        mob.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, 3, true, true));
                         if (!level.collidesWithSuffocatingBlock(mob, mob.getBoundingBox())) {
                             mob.finalizeSpawn((ServerLevelAccessor) level, level.getCurrentDifficultyAt(pos), MobSpawnType.NATURAL, null, null);
                             level.addFreshEntity(mob);

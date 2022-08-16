@@ -10,9 +10,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -35,7 +38,7 @@ public class CursedEarth extends BaseEntityBlock {
     public void randomTick(@NotNull BlockState pState, @NotNull ServerLevel pLevel, @NotNull BlockPos pPos, @NotNull Random pRandom) {
         if(!canBeCursedEarth(pState, pLevel, pPos)) {
             if(!pLevel.isAreaLoaded(pPos, 1)) return;
-            pLevel.setBlockAndUpdate(pPos, ModBlocks.CURSED_EARTH.get().defaultBlockState());
+            pLevel.setBlockAndUpdate(pPos, Blocks.DIRT.defaultBlockState());
         } else {
             if(!pLevel.isAreaLoaded(pPos, 3)) return;
             if(pLevel.getMaxLocalRawBrightness(pPos.above()) < 7) {
@@ -48,6 +51,28 @@ public class CursedEarth extends BaseEntityBlock {
             }
         }
 
+        BlockPos pos = pPos.above();
+        BlockState state = pLevel.getBlockState(pos);
+        if(state.isAir() && pLevel.getGameRules().getBoolean(GameRules.RULE_DOFIRETICK)) {
+            if (pLevel.getLightEngine().getRawBrightness(pos, 15) > 7) {
+                pLevel.setBlockAndUpdate(pos, Blocks.FIRE.defaultBlockState());
+            } else if (pLevel.isDay() && pLevel.canSeeSky(pos)) {
+                pLevel.setBlockAndUpdate(pos, Blocks.FIRE.defaultBlockState());
+            }
+        }
+        if (state.is(BlockTags.FIRE)) {
+            pLevel.setBlockAndUpdate(pPos, Blocks.DIRT.defaultBlockState());
+        }
+    }
+
+    @Override
+    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return direction == Direction.UP;
+    }
+
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 150;
     }
 
     //Modified from SpreadingSnowyDirtBlock#canBeGrass
@@ -64,12 +89,12 @@ public class CursedEarth extends BaseEntityBlock {
     public void animateTick(@NotNull BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull Random pRand) {
         if(UnstableConfig.CURSED_EARTH_PARTICLES.get()) {
             for (int i = 0; i < pRand.nextInt(1) + 1; ++i) {
-                this.trySpawnDripParticles(pLevel, pPos, pState);
+                this.spawnParticle(pLevel, pPos, pState);
             }
         }
     }
 
-    private void trySpawnDripParticles(Level pLevel, BlockPos pPos, BlockState pState) {
+    private void spawnParticle(Level pLevel, BlockPos pPos, BlockState pState) {
         if (pState.getFluidState().isEmpty() && !(pLevel.random.nextFloat() < 0.3F)) {
             VoxelShape voxelshape = pState.getCollisionShape(pLevel, pPos);
             double d0 = voxelshape.max(Direction.Axis.Y);
