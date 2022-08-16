@@ -64,6 +64,7 @@ public class CursedEarthBlockEntity extends BlockEntity {
                 spawnTimer = Mth.nextInt(new Random(), spawnTimerMin, spawnTimerMax);
             }
         }
+
     }
     public static void serverTick(Level level, BlockPos pos, BlockState state, CursedEarthBlockEntity blockEntity) {
         blockEntity.serverTickInternal(level, pos, state, blockEntity);

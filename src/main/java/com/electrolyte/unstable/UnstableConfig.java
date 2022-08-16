@@ -69,7 +69,7 @@ public class UnstableConfig {
             SERVER_BUILDER.comment("Activation Ritual").push("Settings for the Activation Ritual");
             ACTIVATION_BLOCK = SERVER_BUILDER
                 .comment("Block that natural earth is changed to when the activation ritual is successful")
-                .define("activationBlock", "minecraft:diamond_block");
+                .define("activationBlock", "unstable:cursed_earth");
             SERVER_BUILDER.pop();
 
             SERVER_BUILDER.comment("Cursed Earth").push("Settings for Cursed Earth");
