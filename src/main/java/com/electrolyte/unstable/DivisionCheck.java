@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RedStoneWireBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -59,7 +60,7 @@ public class DivisionCheck {
     }
 
     public static boolean checkLight(Level level, BlockPos pos) {
-        return level.getLightEngine().getRawBrightness(pos, 15) == 7;
+        return level.getBrightness(LightLayer.BLOCK, pos) < 8;
     }
 
     public static boolean checkSky(Level level, BlockPos pos) {

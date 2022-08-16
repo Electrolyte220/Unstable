@@ -10,10 +10,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.GameRules;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
@@ -44,7 +41,7 @@ public class CursedEarth extends BaseEntityBlock {
             if(pLevel.getMaxLocalRawBrightness(pPos.above()) < 7) {
                 for(int i = 0; i < 4; ++i) {
                     BlockPos pos = pPos.offset(pRandom.nextInt(3) - 1, pRandom.nextInt(5) - 3, pRandom.nextInt(3) - 1);
-                    if(pLevel.getBlockState(pos).is(BlockTags.DIRT) && (canBeCursedEarth(this.defaultBlockState(), pLevel, pos) && !pLevel.getFluidState(pos).is(FluidTags.WATER))) {
+                    if(pLevel.getBlockState(pos).is(BlockTags.DIRT) && (canBeCursedEarth(this.defaultBlockState(), pLevel, pos))) {
                         pLevel.setBlockAndUpdate(pos, this.defaultBlockState());
                     }
                 }
@@ -54,7 +51,7 @@ public class CursedEarth extends BaseEntityBlock {
         BlockPos pos = pPos.above();
         BlockState state = pLevel.getBlockState(pos);
         if(state.isAir() && pLevel.getGameRules().getBoolean(GameRules.RULE_DOFIRETICK)) {
-            if (pLevel.getLightEngine().getRawBrightness(pos, 15) > 7) {
+            if (pLevel.getBrightness(LightLayer.BLOCK, pos) > 7) {
                 pLevel.setBlockAndUpdate(pos, Blocks.FIRE.defaultBlockState());
             } else if (pLevel.isDay() && pLevel.canSeeSky(pos)) {
                 pLevel.setBlockAndUpdate(pos, Blocks.FIRE.defaultBlockState());
@@ -79,11 +76,7 @@ public class CursedEarth extends BaseEntityBlock {
     private static boolean canBeCursedEarth(BlockState pState, LevelReader pLevelReader, BlockPos pPos) {
         BlockPos blockpos = pPos.above();
         BlockState blockstate = pLevelReader.getBlockState(blockpos);
-        if (blockstate.getFluidState().getAmount() == 8) {
-            return false;
-        } else {
-            return LayerLightEngine.getLightBlockInto(pLevelReader, pState, pPos, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(pLevelReader, blockpos)) < 7;
-        }
+        return LayerLightEngine.getLightBlockInto(pLevelReader, pState, pPos, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(pLevelReader, blockpos)) < 7;
     }
 
     public void animateTick(@NotNull BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull Random pRand) {
