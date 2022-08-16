@@ -10,14 +10,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -109,7 +105,6 @@ public class CursedEarth extends BaseEntityBlock {
         return createTickerHelper(pBlockEntityType, ModBlocks.CURSED_EARTH_BE.get(), pLevel.isClientSide ? CursedEarthBlockEntity::clientTick : CursedEarthBlockEntity::serverTick);
     }
 
-    //TODO: Figure out why the sides do not work with the lightmap.
     @Override
     public @NotNull RenderShape getRenderShape(@NotNull BlockState pState) {
         return RenderShape.MODEL;

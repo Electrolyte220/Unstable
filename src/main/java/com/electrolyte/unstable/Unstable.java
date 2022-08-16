@@ -5,11 +5,15 @@ import com.electrolyte.unstable.init.ModItems;
 import com.electrolyte.unstable.init.ModRecipes;
 import com.mojang.logging.LogUtils;
 import com.electrolyte.unstable.init.ModTools;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -24,6 +28,8 @@ public class Unstable {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, UnstableConfig.COMMON_CONFIG);
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, UnstableConfig.SERVER_CONFIG);
 
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
+
         ModBlocks.init();
         ModItems.init();
         ModTools.init();
@@ -37,4 +43,8 @@ public class Unstable {
             return new ItemStack(ModItems.DIVISION_SIGIL.get());
         }
     };
+
+    private void clientSetup(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> ItemBlockRenderTypes.setRenderLayer(ModBlocks.CURSED_EARTH.get(), RenderType.cutoutMipped()));
+    }
 }
