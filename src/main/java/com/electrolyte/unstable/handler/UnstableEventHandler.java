@@ -2,6 +2,7 @@ package com.electrolyte.unstable.handler;
 
 import com.electrolyte.unstable.*;
 import com.electrolyte.unstable.damagesource.DivideByDiamondDamageSource;
+import com.electrolyte.unstable.init.ModSounds;
 import com.electrolyte.unstable.listener.EndSiegeChestDataReloadListener;
 import com.electrolyte.unstable.listener.EntityDataReloadListener;
 import com.electrolyte.unstable.savedata.*;
@@ -16,6 +17,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
@@ -115,6 +117,7 @@ public class UnstableEventHandler {
                             DivisionCheck.checkSky(event.getEntity().getLevel(), pos2)) {
                         LightningBolt lightningBoltEntity = new LightningBolt(EntityType.LIGHTNING_BOLT, event.getEntity().getLevel());
                         ServerLevel world = (ServerLevel) event.getEntity().getLevel();
+                        world.playSound(null, pos1.getX(), pos1.getY(), pos1.getZ(), ModSounds.ACTIVATION_RITUAL_SUCCESS.get(), SoundSource.AMBIENT, 1.0f, 1.0f);
                         lightningBoltEntity.setPos(pos1.getX(), pos1.getY(), pos1.getZ());
                         world.addFreshEntity(lightningBoltEntity);
                         player.getInventory().removeItem(stack);

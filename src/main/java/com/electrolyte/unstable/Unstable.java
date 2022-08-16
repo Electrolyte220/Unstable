@@ -1,10 +1,7 @@
 package com.electrolyte.unstable;
 
-import com.electrolyte.unstable.init.ModBlocks;
-import com.electrolyte.unstable.init.ModItems;
-import com.electrolyte.unstable.init.ModRecipes;
+import com.electrolyte.unstable.init.*;
 import com.mojang.logging.LogUtils;
-import com.electrolyte.unstable.init.ModTools;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.CreativeModeTab;
@@ -34,6 +31,7 @@ public class Unstable {
         ModItems.init();
         ModTools.init();
         ModRecipes.init();
+        ModSounds.init();
     }
 
     public static final CreativeModeTab UNSTABLE_TAB = new CreativeModeTab("unstable") {
