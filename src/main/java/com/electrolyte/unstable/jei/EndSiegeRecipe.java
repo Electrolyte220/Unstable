@@ -1,7 +1,6 @@
 package com.electrolyte.unstable.jei;
 
 import com.electrolyte.unstable.listener.EndSiegeChestDataReloadListener;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;

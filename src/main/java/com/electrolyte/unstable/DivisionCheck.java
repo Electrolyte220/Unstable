@@ -1,10 +1,14 @@
 package com.electrolyte.unstable;
 
+import com.electrolyte.unstable.be.CursedEarthBlockEntity;
+import com.electrolyte.unstable.init.ModBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RedStoneWireBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -31,7 +35,13 @@ public class DivisionCheck {
             for (int x = -2; x <= 2; x++) {
                 for (int z = -2; z <= 2; z++) {
                     BlockPos pos1 = new BlockPos(pos.below().getX() + x, pos.below().getY(), pos.below().getZ() + z);
-                    level.setBlock(pos1, Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(UnstableConfig.ACTIVATION_BLOCK.get()))).defaultBlockState(), 2);
+                    if (ForgeRegistries.BLOCKS.getValue(new ResourceLocation(UnstableConfig.ACTIVATION_BLOCK.get())) == ModBlocks.CURSED_EARTH.get()) {
+                        level.setBlock(pos1, ModBlocks.CURSED_EARTH.get().defaultBlockState(), 2);
+                        CursedEarthBlockEntity be = ModBlocks.CURSED_EARTH_BE.get().getBlockEntity(level, pos1);
+                        be.getTileData().putBoolean("createdByRitual", true);
+                    } else {
+                        level.setBlock(pos1, ForgeRegistries.BLOCKS.getValue(new ResourceLocation(UnstableConfig.ACTIVATION_BLOCK.get())).defaultBlockState(), 2);
+                    }
                 }
             }
         } else {

@@ -1,7 +1,7 @@
 package com.electrolyte.unstable.tools;
 
-import com.electrolyte.unstable.damagesource.HealingAxeDamageSource;
 import com.electrolyte.unstable.Unstable;
+import com.electrolyte.unstable.damagesource.HealingAxeDamageSource;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;

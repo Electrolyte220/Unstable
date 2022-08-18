@@ -2,7 +2,6 @@ package com.electrolyte.unstable.items;
 
 import com.electrolyte.unstable.DivisionCheckEnd;
 import com.electrolyte.unstable.UnstableConfig;
-import com.electrolyte.unstable.Unstable;
 import com.electrolyte.unstable.listener.EndSiegeChestDataReloadListener;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;

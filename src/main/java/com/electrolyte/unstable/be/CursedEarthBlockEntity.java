@@ -3,12 +3,14 @@ package com.electrolyte.unstable.be;
 import com.electrolyte.unstable.UnstableConfig;
 import com.electrolyte.unstable.init.ModBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.level.BlockCollisions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.MobSpawnSettings;
@@ -41,7 +43,8 @@ public class CursedEarthBlockEntity extends BlockEntity {
                         Mob mob = (Mob) type.create(level);
                         mob.setPos(pos.getX() + 0.5, pos.above().getY(), pos.getZ() + 0.5);
                         mob.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, 3, true, true));
-                        if (!level.collidesWithSuffocatingBlock(mob, mob.getBoundingBox())) {
+                        BlockCollisions collisions = new BlockCollisions(level, mob, mob.getBoundingBox(), false);
+                        if (!collisions.hasNext()) {
                             mob.finalizeSpawn((ServerLevelAccessor) level, level.getCurrentDifficultyAt(pos), MobSpawnType.NATURAL, null, null);
                             level.addFreshEntity(mob);
                         }
@@ -50,8 +53,8 @@ public class CursedEarthBlockEntity extends BlockEntity {
                 spawnTimer = Mth.nextInt(new Random(), spawnTimerMin, spawnTimerMax);
             }
         }
-
     }
+
     public static void serverTick(Level level, BlockPos pos, BlockState state, CursedEarthBlockEntity blockEntity) {
         blockEntity.serverTickInternal(level, pos, state, blockEntity);
     }

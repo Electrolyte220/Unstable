@@ -1,14 +1,17 @@
 package com.electrolyte.unstable.handler;
 
-import com.electrolyte.unstable.*;
+import com.electrolyte.unstable.DivisionCheck;
+import com.electrolyte.unstable.DivisionCheckEnd;
+import com.electrolyte.unstable.Unstable;
+import com.electrolyte.unstable.UnstableConfig;
 import com.electrolyte.unstable.damagesource.DivideByDiamondDamageSource;
-import com.electrolyte.unstable.init.ModSounds;
-import com.electrolyte.unstable.listener.EndSiegeChestDataReloadListener;
-import com.electrolyte.unstable.listener.EntityDataReloadListener;
-import com.electrolyte.unstable.savedata.*;
 import com.electrolyte.unstable.endsiege.UnstableEntityDataStorage;
 import com.electrolyte.unstable.endsiege.UnstableEntityDataStorageManager;
 import com.electrolyte.unstable.init.ModItems;
+import com.electrolyte.unstable.init.ModSounds;
+import com.electrolyte.unstable.listener.EndSiegeChestDataReloadListener;
+import com.electrolyte.unstable.listener.EntityDataReloadListener;
+import com.electrolyte.unstable.savedata.UnstableSavedData;
 import com.google.gson.Gson;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -46,7 +49,10 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
