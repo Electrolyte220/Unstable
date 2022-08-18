@@ -10,12 +10,14 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.level.BlockCollisions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
 import java.util.Random;
 
@@ -44,7 +46,7 @@ public class CursedEarthBlockEntity extends BlockEntity {
                         mob.setPos(pos.getX() + 0.5, pos.above().getY(), pos.getZ() + 0.5);
                         mob.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, 3, true, true));
                         BlockCollisions collisions = new BlockCollisions(level, mob, mob.getBoundingBox(), false);
-                        if (!collisions.hasNext()) {
+                        if (!collisions.hasNext() && level.getNearbyEntities(Mob.class, TargetingConditions.DEFAULT, mob, (new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 0.5, (double) pos.above().getY(), pos.getZ() + 0.5).inflate(5))).size() < 25) {
                             mob.finalizeSpawn((ServerLevelAccessor) level, level.getCurrentDifficultyAt(pos), MobSpawnType.NATURAL, null, null);
                             level.addFreshEntity(mob);
                         }
