@@ -5,7 +5,7 @@
 	"pages": [
 		{
 			"type": "patchouli:text",
-			"text": "bleh"
+			"text": "This ritual will allow the player to transform their useless inactive division sigil into something more useful. $(br2)To see the requirements for the ritual, you can either shift right click and enchantment table, or read them on the next page."
 		},
 		{
 			"type": "patchouli:multiblock",
@@ -13,18 +13,35 @@
 			"multiblock": {
 				"mapping": {
 					"R": "minecraft:redstone_wire",
-					"0": "minecraft:enchanting_table"
+					"0": "minecraft:enchanting_table",
+					"D": "#minecraft:dirt"
 				},
 				"pattern": [
 				[
-					"RRR",
-					"R0R",
-					"RRR"
+					"     ",
+					" RRR ",
+					" R0R ",
+					" RRR ",
+					"     "
+				],
+				[
+					"DDDDD",
+					"DDDDD",
+					"DDDDD",
+					"DDDDD",
+					"DDDDD"
 				]
-			]
+				]
 			},
-			"enable_visualize": true,
-			"text": "Check the next pages specific ritual requirements."
+			"enable_visualize": true
+		},
+		{
+			"type": "patchouli:text",
+			"text": "$(l)Requirements: $() $(br) $(li) The enchantment table needs a redstone circle around it. $(li) There needs to be natural earth under the enchantment table and redstone circle. $(li) The altar needs to be in darkness (aside from the light given off by the enchantment table)."
+		},
+		{
+			"type": "patchouli:text",
+			"text": "$(l)Requirements (cont.) $() $(br) $(li) The altar needs to see the sky. $(li) The ritual needs to be performed sometime around midnight. $(br2)Once all of these requirements are met, a sacrifice will be needed to complete the ritual."
 		}
 	]
 }

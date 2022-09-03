@@ -1,0 +1,19 @@
+{
+  "components": [
+    {
+      "type": "patchouli:header",
+      "text": "#chest_location# Chest Contents",
+      "centered": false,
+      "x": 6,
+      "y": -5
+    },
+    {
+      "type": "patchouli:separator",
+      "y": 5
+    },
+    {
+      "type": "patchouli:custom",
+      "class": "com.electrolyte.unstable.patchouli.ChestComponent"
+    }
+  ]
+}

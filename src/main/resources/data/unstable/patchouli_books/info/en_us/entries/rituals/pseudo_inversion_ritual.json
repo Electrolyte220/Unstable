@@ -5,7 +5,7 @@
 	"pages": [
 		{
 			"type": "patchouli:text",
-			"text": "bleh"
+			"text": "This ritual will allow the player to transform their activated division sigil into a more stable version. $(br2)This ritual also requires a sacrifice, from the protector of villagers. $(br2)The order of items in chests does not matter, as long as all items are in their respective chests."
 		},
 		{
 			"type": "patchouli:multiblock",
@@ -34,7 +34,23 @@
 			]
 			},
 			"enable_visualize": true,
-			"text": "Check the next pages for chest contents."
+			"text": "Chest contents can either be viewed in JEI, or on the next few pages."
+		},
+		{
+			"type": "unstable:chest_component",
+			"chest_location": "North"
+		},
+		{
+			"type": "unstable:chest_component",
+			"chest_location": "South"
+		},
+		{
+			"type": "unstable:chest_component",
+			"chest_location": "East"
+		},
+		{
+			"type": "unstable:chest_component",
+			"chest_location": "West"
 		}
 	]
 }
