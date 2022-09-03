@@ -18,6 +18,7 @@ import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.crafting.IShapedRecipe;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.jetbrains.annotations.NotNull;
@@ -174,25 +175,19 @@ public class UnstableIngotRecipe implements CraftingRecipe, IShapedRecipe<Crafti
 
     public boolean isIncomplete() {
         NonNullList<Ingredient> nonnulllist = this.getIngredients();
-        return nonnulllist.isEmpty() || nonnulllist.stream().filter((p_151277_) -> {
-            return !p_151277_.isEmpty();
-        }).anyMatch((p_151273_) -> {
-            return net.minecraftforge.common.ForgeHooks.hasNoElements(p_151273_);
-        });
+        return nonnulllist.isEmpty() || nonnulllist.stream().filter((p_151277_) -> !p_151277_.isEmpty()).anyMatch(ForgeHooks::hasNoElements);
     }
 
     private static int firstNonSpace(String pEntry) {
         int i;
-        for(i = 0; i < pEntry.length() && pEntry.charAt(i) == ' '; ++i) {
-        }
+        for(i = 0; i < pEntry.length() && pEntry.charAt(i) == ' '; ++i) {}
 
         return i;
     }
 
     private static int lastNonSpace(String pEntry) {
         int i;
-        for(i = pEntry.length() - 1; i >= 0 && pEntry.charAt(i) == ' '; --i) {
-        }
+        for(i = pEntry.length() - 1; i >= 0 && pEntry.charAt(i) == ' '; --i) {}
 
         return i;
     }
@@ -273,9 +268,7 @@ public class UnstableIngotRecipe implements CraftingRecipe, IShapedRecipe<Crafti
             int j = pBuffer.readVarInt();
             NonNullList<Ingredient> nonnulllist = NonNullList.withSize(i * j, Ingredient.EMPTY);
 
-            for(int k = 0; k < nonnulllist.size(); ++k) {
-                nonnulllist.set(k, Ingredient.fromNetwork(pBuffer));
-            }
+            nonnulllist.replaceAll(ignored -> Ingredient.fromNetwork(pBuffer));
 
             ItemStack itemstack = pBuffer.readItem();
             return new UnstableIngotRecipe(pRecipeId, i, j, nonnulllist, itemstack);

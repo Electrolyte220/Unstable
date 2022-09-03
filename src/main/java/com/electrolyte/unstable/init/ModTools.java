@@ -3,10 +3,7 @@ package com.electrolyte.unstable.init;
 import com.electrolyte.unstable.Unstable;
 import com.electrolyte.unstable.UnstableToolMaterial;
 import com.electrolyte.unstable.tools.*;
-import net.minecraft.world.item.AxeItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.PickaxeItem;
-import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.item.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -20,6 +17,8 @@ public class ModTools {
         TOOLS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
+    public static final RegistryObject<SwordItem> ETHERIC_SWORD = TOOLS.register("etheric_sword",
+            () -> new EthericSword(UnstableToolMaterial.UNSTABLE, 3, 1, new Item.Properties()));
     public static final RegistryObject<PickaxeItem> DESTRUCTION_PICKAXE = TOOLS.register("destruction_pickaxe",
             () -> new DestructionPickaxe(UnstableToolMaterial.UNSTABLE, 3, 1, new Item.Properties()));
     public static final RegistryObject<TieredItem> EROSION_SHOVEL = TOOLS.register("erosion_shovel",

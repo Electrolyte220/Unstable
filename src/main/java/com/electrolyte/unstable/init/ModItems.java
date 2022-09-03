@@ -1,10 +1,7 @@
 package com.electrolyte.unstable.init;
 
 import com.electrolyte.unstable.Unstable;
-import com.electrolyte.unstable.items.DivisionSigil;
-import com.electrolyte.unstable.items.DivisionSigilActivated;
-import com.electrolyte.unstable.items.DivisionSigilStable;
-import com.electrolyte.unstable.items.UnstableIngot;
+import com.electrolyte.unstable.items.*;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -33,5 +30,7 @@ public class ModItems {
             () -> new Item(new Item.Properties().tab(Unstable.UNSTABLE_TAB)));
     public static final RegistryObject<Item> UNSTABLE_STABLE_NUGGET = ITEMS.register("unstable_stable_nugget",
             () -> new Item(new Item.Properties().tab(Unstable.UNSTABLE_TAB)));
+    public static final RegistryObject<Item> SOUL_FRAGMENT = ITEMS.register("soul_fragment",
+            () -> new SoulFragment(new Item.Properties().tab(Unstable.UNSTABLE_TAB).stacksTo(1)));
 
 }

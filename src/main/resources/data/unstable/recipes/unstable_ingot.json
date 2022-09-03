@@ -1,5 +1,5 @@
 { 
-  "type": "unstable:special_recipe",
+  "type": "unstable:unstable_ingot",
   "pattern": [
     "I",
     "S",

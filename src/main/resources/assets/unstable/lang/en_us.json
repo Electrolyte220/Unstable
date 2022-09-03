@@ -9,6 +9,8 @@
 	"item.unstable.unstable_stable_ingot": "Unstable/Stable Ingot",
 	"item.unstable.unstable_stable_nugget": "Unstable/Stable Nugget",
 	"item.unstable.stable_ingot": "Stable Ingot",
+	"item.unstable.soul_fragment": "Soul Fragment",
+	"item.unstable.etheric_sword": "Etheric Sword",
 	"item.unstable.healing_axe": "Healing Axe",
 	"item.unstable.reversing_hoe": "Reversing Hoe",
 	"item.unstable.erosion_shovel": "Erosion Shovel",
@@ -27,6 +29,10 @@
 	"unstable.unstable_ingot.tooltip.creative": "Creative Spawned - Will not Explode",
 	"unstable.unstable_ingot.tooltip.crafting": "Mystical forces block this ingot from being crafted in anything other than the most basic of tables.",
 	"unstable.unstable_ingot.tooltip.explode_timer": "Explodes In: %d",
+
+	"unstable.soul_fragment.tooltip_empty": "Requires 1 Heart of Health (2HP) to Craft.",
+	"unstable.soul_fragment.tooltip_owner": "Soul Owner: %s",
+	"unstable.soul_fragment.tooltip_weak_soul": "Soul has been spread too thin.",
 
 	"unstable.activation_ritual.title": "Activation Ritual",
 	"unstable.activation_ritual.natural_earth": "- Altar has sufficient natural earth",

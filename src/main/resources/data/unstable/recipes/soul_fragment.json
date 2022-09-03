@@ -1,0 +1,11 @@
+{
+  "type": "unstable:soul_fragment",
+  "ingredients": [
+    {
+      "item": "unstable:etheric_sword"
+    }
+  ],
+  "result": {
+    "item": "unstable:soul_fragment"
+  }
+}

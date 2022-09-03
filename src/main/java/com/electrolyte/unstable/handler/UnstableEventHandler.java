@@ -22,6 +22,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
@@ -48,6 +49,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.w3c.dom.Attr;
 
 import java.util.Iterator;
 import java.util.Objects;
@@ -332,6 +334,9 @@ public class UnstableEventHandler {
             player.sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_ended").withStyle(ChatFormatting.WHITE), player.getUUID());
             data.resetData();
         }
+        if(event.getPlayer().getAttribute(Attributes.MAX_HEALTH).getValue() != (event.getOriginal().getAttributeBaseValue(Attributes.MAX_HEALTH))) {
+            event.getPlayer().getAttribute(Attributes.MAX_HEALTH).setBaseValue(event.getOriginal().getAttributeBaseValue(Attributes.MAX_HEALTH));
+        }
     }
 
     @SubscribeEvent
@@ -346,19 +351,4 @@ public class UnstableEventHandler {
             }
         }
     }
-
-
-    /*@SubscribeEvent
-    public static void alterBlockDrops(PlayerEvent.HarvestCheck event) {
-        LootContext.Builder builder = event.getTargetBlock().
-        List<ItemStack> drops = event.getTargetBlock().getDrops(builder);
-        if(event.getPlayer() == null) return;
-        if(event.getPlayer().getHeldItemMainhand().getItem() == ModTools.destructionPickaxe.get() || event.getPlayer().getHeldItemMainhand().getItem() == ModTools.erosionShovel.get()) {
-            event.getDrops().clear();
-        } else if (event.getPlayer().getHeldItemMainhand().getItem() == ModTools.precisionShears.get() && !event.getPlayer().isCrouching()) {
-            for (ItemStack drop : drops) {
-                event.getPlayer().addItemStackToInventory(drop);
-            }
-        }
-    }*/
 }
