@@ -1,7 +1,7 @@
 { 
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "I",
+    "G",
     "S",
     "D"
   ],
@@ -10,8 +10,8 @@
         "item": "unstable:division_sigil_activated",
         "data": 32767
       },
-    "I": {
-        "item": "minecraft:iron_nugget"
+    "G": {
+        "item": "minecraft:gold_nugget"
     },
     "D": {
         "item": "minecraft:diamond"
