@@ -19,6 +19,7 @@ public class UnstableConfig {
     public static ForgeConfigSpec.ConfigValue<String> ACTIVATION_BLOCK;
     public static ForgeConfigSpec.IntValue MIN_SPAWN_DELAY;
     public static ForgeConfigSpec.IntValue MAX_SPAWN_DELAY;
+    public static ForgeConfigSpec.BooleanValue SOUL_RESET_DEATH;
 
     static {
         ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
@@ -70,6 +71,9 @@ public class UnstableConfig {
             MAX_SPAWN_DELAY = SERVER_BUILDER
                 .comment("Minimum amount of time to wait before cursed earth attempts to spawn a mob")
                 .defineInRange("maxSpawnDelay", 1200, 0, Integer.MAX_VALUE);
+            SOUL_RESET_DEATH = SERVER_BUILDER
+                .comment("Should the soul drain from the player's health reset when they die?")
+                .define("soulResetDeath", false);
             SERVER_BUILDER.pop();
 
         SERVER_BUILDER.pop();
