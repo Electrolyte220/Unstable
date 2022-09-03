@@ -11,10 +11,9 @@
 			"text": "Warning: Highly Explosive!"
 		},
 		{
-			"type": "unstable:unstable_ingot_recipe",
-			"item": "unstable:unstable_ingot",
-			"title": "Unstable Ingot",
-			"text": "This requires an activated division sigil, as well as a vanilla crafting table to be able to craft."
+			"type": "patchouli:crafting",
+			"recipe": "unstable:unstable_ingot",
+			"title": "Unstable Ingot"
 		}
 	]
 }

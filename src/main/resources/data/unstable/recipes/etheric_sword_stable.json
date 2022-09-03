@@ -1,0 +1,20 @@
+{ 
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "U",
+    "O",
+    "O"
+  ],
+  "key": {
+    "U": {
+        "item": "unstable:stable_ingot"
+    },
+    "O": {
+        "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "unstable:etheric_sword",
+    "nbt": "{Enchantments:[{id:\"minecraft:sharpness\", lvl: 5}]}"
+  }
+}
