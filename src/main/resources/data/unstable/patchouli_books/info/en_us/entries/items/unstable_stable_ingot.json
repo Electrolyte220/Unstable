@@ -1,0 +1,22 @@
+{
+	"name": "Unstable/Stable Ingot",
+	"icon": "unstable:unstable_stable_ingot",
+	"category": "unstable:items",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"x": 100,
+			"y": 50,
+			"item": "unstable:unstable_stable_ingot",
+			"text": "It seems using nuggets to craft unstable ingots allows it to be crafted anywhere, and seems to make the ingot stable enough to be held outside of the crafting menu."
+		},
+		{
+			"type": "patchouli:crafting",
+			"recipe": "unstable:unstable_stable_nugget"
+		},
+		{
+			"type": "patchouli:crafting",
+			"recipe": "unstable:unstable_stable_nugget_to_ingot"
+		}
+	]
+}

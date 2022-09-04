@@ -1,0 +1,18 @@
+{
+	"name": "Precision Shears",
+	"icon": "unstable:precision_shears",
+	"category": "unstable:tools",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "unstable:precision_shears",
+			"title": "Precision Shears",
+			"text": "This tool can be used to harvest blocks that normal shears can, and can instantly harvest blocks that have a stone tier or lower mining level by shift right clicking the block."
+		},
+		{
+			"type": "patchouli:crafting",
+			"recipe": "unstable:precision_shears",
+			"text": "Using Stable Ingots will yield a special enchantment."
+		}
+	]
+}

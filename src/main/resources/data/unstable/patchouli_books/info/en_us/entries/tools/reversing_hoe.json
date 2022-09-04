@@ -1,0 +1,39 @@
+{
+	"name": "Reversing Hoe",
+	"icon": "unstable:reversing_hoe",
+	"category": "unstable:tools",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "unstable:reversing_hoe",
+			"title": "Reversing Hoe",
+			"text": "This tool can be used to reverse the state of certain blocks. $(br2)See the next page for further details."
+		},
+		{
+			"type": "patchouli:crafting",
+			"recipe": "unstable:reversing_hoe",
+			"text": "Using Stable Ingots will yield a special enchantment."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "minecraft:grass_block",
+			"text": "Converted from Dirt Related Blocks."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "minecraft:stone",
+			"text": "Converted from Cobblestone."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "minecraft:deepslate",
+			"text": "Converted from Cobbled Deepslate."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "minecraft:wheat",
+			"title": "Crops",
+			"text": "Any crop that is clicked with this hoe will regress it to a previous state. $(br2)The crop must have the $(br)'forge:crops' tag for this to work."
+		}
+	]
+}

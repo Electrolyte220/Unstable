@@ -1,0 +1,18 @@
+{
+	"name": "Soul Fragment",
+	"icon": "unstable:soul_fragment",
+	"category": "unstable:items",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"x": 100,
+			"y": 50,
+			"item": "unstable:soul_fragment",
+			"text": "Takes a bit of the player's soul every time it is crafted. However, this can only be done whilst the player's soul is not weak."
+		},
+		{
+			"type": "patchouli:crafting",
+			"recipe": "unstable:soul_fragment"
+		}
+	]
+}

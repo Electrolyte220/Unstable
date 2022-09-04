@@ -1,0 +1,18 @@
+{
+	"name": "Healing Axe",
+	"icon": "unstable:healing_axe",
+	"category": "unstable:tools",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "unstable:healing_axe",
+			"title": "Healing Axe",
+			"text": "This tool can restore some of the player's hunger when held. $(br2)It can also be used to heal living creatures, and deals increased damage to undead creatures."
+		},
+		{
+			"type": "patchouli:crafting",
+			"recipe": "unstable:healing_axe",
+			"text": "Using Stable Ingots will yield a special enchantment."
+		}
+	]
+}

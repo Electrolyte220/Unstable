@@ -1,17 +1,17 @@
 {
-	"name": "Destruction Pickaxe",
-	"icon": "unstable:destruction_pickaxe",
+	"name": "Erosion Shovel",
+	"icon": "unstable:erosion_shovel",
 	"category": "unstable:tools",
 	"pages": [
 		{
 			"type": "patchouli:spotlight",
-			"item": "unstable:destruction_pickaxe",
-			"title": "Destruction Pickaxe",
+			"item": "unstable:erosion_shovel",
+			"title": "Erosion Shovel",
 			"text": "This tool has the same mining tier as diamond."
 		},
 		{
 			"type": "patchouli:crafting",
-			"recipe": "unstable:destruction_pickaxe",
+			"recipe": "unstable:erosion_shovel",
 			"text": "Using Stable Ingots will yield a special enchantment."
 		}
 	]
