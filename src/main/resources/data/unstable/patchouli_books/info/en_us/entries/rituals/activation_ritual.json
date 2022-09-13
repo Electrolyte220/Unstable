@@ -33,7 +33,8 @@
 				]
 				]
 			},
-			"enable_visualize": true
+			"enable_visualize": true,
+			"text": "$(4)Warning: Performing this ritual may cause some unintended effects."
 		},
 		{
 			"type": "patchouli:text",
