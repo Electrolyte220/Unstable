@@ -18,15 +18,15 @@ public class ModTools {
     }
 
     public static final RegistryObject<SwordItem> ETHERIC_SWORD = TOOLS.register("etheric_sword",
-            () -> new EthericSword(UnstableToolMaterial.UNSTABLE, 3, 1, new Item.Properties()));
+            () -> new EthericSword(UnstableToolMaterial.UNSTABLE, 3, -2.4F, new Item.Properties()));
     public static final RegistryObject<PickaxeItem> DESTRUCTION_PICKAXE = TOOLS.register("destruction_pickaxe",
-            () -> new DestructionPickaxe(UnstableToolMaterial.UNSTABLE, 3, 1, new Item.Properties()));
+            () -> new DestructionPickaxe(UnstableToolMaterial.UNSTABLE, 1, -2.8F, new Item.Properties()));
     public static final RegistryObject<TieredItem> EROSION_SHOVEL = TOOLS.register("erosion_shovel",
-            () -> new ErosionShovel(UnstableToolMaterial.UNSTABLE,3, 1, new Item.Properties()));
+            () -> new ErosionShovel(UnstableToolMaterial.UNSTABLE,1.5F, -3.0F, new Item.Properties()));
     public static final RegistryObject<AxeItem> HEALING_AXE = TOOLS.register("healing_axe",
-            () -> new HealingAxe(UnstableToolMaterial.UNSTABLE, -4, 1, new Item.Properties()));
+            () -> new HealingAxe(UnstableToolMaterial.UNSTABLE, -5, -3.0F, new Item.Properties()));
     public static final RegistryObject<TieredItem> REVERSING_HOE = TOOLS.register("reversing_hoe",
-            () -> new ReversingHoe(UnstableToolMaterial.UNSTABLE, 1, 1, new Item.Properties()));
+            () -> new ReversingHoe(UnstableToolMaterial.UNSTABLE, -4, 0.0F, new Item.Properties()));
     public static final RegistryObject<Item> PRECISION_SHEARS = TOOLS.register("precision_shears",
             () -> new PrecisionShears(new Item.Properties().tab(Unstable.UNSTABLE_TAB).durability(1796)));
 }
