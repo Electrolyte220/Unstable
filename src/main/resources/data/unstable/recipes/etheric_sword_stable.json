@@ -15,6 +15,6 @@
   },
   "result": {
     "item": "unstable:etheric_sword",
-    "nbt": "{Enchantments:[{id:\"minecraft:sharpness\", lvl: 5}]}"
+    "nbt": "{Enchantments:[{id:\"minecraft:sharpness\", lvl: 5}],Unbreakable:1b}"
   }
 }

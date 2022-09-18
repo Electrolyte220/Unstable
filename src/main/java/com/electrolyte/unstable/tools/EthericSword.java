@@ -7,6 +7,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.enchantment.Enchantments;
 import org.jetbrains.annotations.NotNull;
 
 public class EthericSword extends SwordItem {
@@ -27,6 +28,7 @@ public class EthericSword extends SwordItem {
             CompoundTag tag = new CompoundTag();
             tag.putBoolean("Unbreakable", true);
             stack.setTag(tag);
+            stack.enchant(Enchantments.SHARPNESS, 5);
             list.add(stack);
         }
     }

@@ -49,7 +49,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.w3c.dom.Attr;
 
 import java.util.Iterator;
 import java.util.Objects;

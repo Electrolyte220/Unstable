@@ -28,14 +28,6 @@ public class HealingAxe extends AxeItem {
     }
 
     @Override
-    public void onCraftedBy(ItemStack stack, @NotNull Level worldIn, @NotNull Player playerIn) {
-        CompoundTag nbt = new CompoundTag();
-        nbt.putBoolean("Unbreakable", true);
-        stack.setTag(nbt);
-        stack.enchant(Enchantments.BLOCK_EFFICIENCY, 10);
-    }
-
-    @Override
     public boolean isFoil(@NotNull ItemStack stack) {
         return false;
     }

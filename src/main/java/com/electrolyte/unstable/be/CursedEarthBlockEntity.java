@@ -3,7 +3,6 @@ package com.electrolyte.unstable.be;
 import com.electrolyte.unstable.UnstableConfig;
 import com.electrolyte.unstable.init.ModBlocks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.Difficulty;

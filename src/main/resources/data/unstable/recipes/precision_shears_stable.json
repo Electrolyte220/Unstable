@@ -14,6 +14,6 @@
   },
   "result": {
     "item": "unstable:precision_shears",
-    "nbt": "{Enchantments:[{id:\"minecraft:efficiency\", lvl: 5}]}"
+    "nbt": "{Enchantments:[{id:\"minecraft:efficiency\", lvl: 5}],Unbreakable:1b}"
   }
 }

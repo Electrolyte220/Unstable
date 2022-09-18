@@ -3,18 +3,14 @@ package com.electrolyte.unstable;
 import com.electrolyte.unstable.be.CursedEarthBlockEntity;
 import com.electrolyte.unstable.init.ModBlocks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RedStoneWireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.Objects;
 
 public class DivisionCheck {
 

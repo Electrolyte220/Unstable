@@ -40,13 +40,6 @@ public class ReversingHoe extends DiggerItem {
     }
 
     @Override
-    public void onCraftedBy(ItemStack stack, @NotNull Level level, @NotNull Player playerIn) {
-        CompoundTag nbt = new CompoundTag();
-        nbt.putBoolean("Unbreakable", true);
-        stack.setTag(nbt);
-    }
-    
-    @Override
     public boolean isFoil(@NotNull ItemStack stack) {
         return false;
     }
