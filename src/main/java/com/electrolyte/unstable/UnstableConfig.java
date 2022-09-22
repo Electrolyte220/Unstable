@@ -14,7 +14,7 @@ public class UnstableConfig {
     public static ForgeConfigSpec.BooleanValue REMOVE_ACTIVE_SIGIL;
     public static ForgeConfigSpec.IntValue ACTIVATED_DURABILITY;
     public static ForgeConfigSpec.IntValue NEEDED_MOBS;
-    public static ForgeConfigSpec.IntValue MOB_SPAWN_RANGE;
+    //public static ForgeConfigSpec.IntValue MOB_SPAWN_RANGE;
     public static ForgeConfigSpec.IntValue MAX_MOBS;
     public static ForgeConfigSpec.ConfigValue<String> ACTIVATION_BLOCK;
     public static ForgeConfigSpec.IntValue MIN_SPAWN_DELAY;
@@ -45,9 +45,9 @@ public class UnstableConfig {
             NEEDED_MOBS = COMMON_BUILDER
                     .comment("During the Psudeo Inversion Ritual, how many mob kills are needed to obtain a stable sigil?")
                     .defineInRange("neededMobs", 100, 1, Integer.MAX_VALUE);
-            MOB_SPAWN_RANGE = COMMON_BUILDER
+           /* MOB_SPAWN_RANGE = COMMON_BUILDER
                     .comment("During the Psudeo Inversion Ritual, how far away from the player should mobs be allowed to spawn?")
-                    .defineInRange("mobSpawnRange", 25, 1, Integer.MAX_VALUE);
+                    .defineInRange("mobSpawnRange", 25, 1, Integer.MAX_VALUE);*/
             MAX_MOBS = COMMON_BUILDER
                     .comment("Maximum number of mobs allowed during the Psudeo Inversion Ritual")
                     .defineInRange("maximumMobs", 250, 1, Integer.MAX_VALUE);

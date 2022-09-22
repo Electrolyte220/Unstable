@@ -32,11 +32,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockCollisions;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
@@ -226,10 +228,6 @@ public class UnstableEventHandler {
         if (event.phase == TickEvent.Phase.START && event.world.dimension() == Level.END) {
             ServerLevel level = Objects.requireNonNull(event.world.getServer()).getLevel(Level.END);
             UnstableSavedData data = UnstableSavedData.get(level);
-            int posX = -10;
-            int posY = 70;
-            int posZ = -10;
-            int distanceAway = new Random().nextInt(UnstableConfig.MOB_SPAWN_RANGE.get()) - UnstableConfig.MOB_SPAWN_RANGE.get();
             if (data.isEndSiegeOccurring()) {
                 AtomicInteger playersParticipating = new AtomicInteger();
                 if(level.getServer().getTickCount() % 20 == 0) { level.players().forEach(player -> {
@@ -238,13 +236,18 @@ public class UnstableEventHandler {
                     data.setPlayersParticipating(playersParticipating.get());
                 }
                 if(level.getServer().getTickCount() % 100 == 0) {
+                    AABB spawnableLocations = new AABB(-150, 0, -150, 150, 80, 150);
+                    //int posX = -10;
+                    //int posY = 70;
+                    //int posZ = -10;
                     if (data.getTotalKills() < UnstableConfig.NEEDED_MOBS.get()) {
-                        Iterator<Entity> mobs = level.getEntities().getAll().iterator();
+                        int mobCount = level.getEntities(null, spawnableLocations).size();
+                        /*Iterator<Entity> mobs = level.getEntities().getAll().iterator();
                         int mobCount = 0;
                         while(mobs.hasNext()) {
                             Entity entity = mobs.next();
                             if(entity instanceof Mob) mobCount++;
-                        }
+                        }*/
                         if (mobCount < UnstableConfig.MAX_MOBS.get()) {
                             for (int i = 0; i < playersParticipating.get(); i++) {
                                 int spawnedMobInt = new Random().nextInt(UnstableEntityDataStorageManager.getMasterStorage().size());
@@ -254,14 +257,27 @@ public class UnstableEventHandler {
                                     Unstable.LOGGER.error("Mob " + '\'' + entityData.entity().getRegistryName().toString() + '\'' + " cannot be spawned as it does not exist in the registry.");
                                     spawnedMobInt = new Random().nextInt(UnstableEntityDataStorageManager.getMasterStorage().size());
                                     entityData = UnstableEntityDataStorageManager.getMasterStorage().get(spawnedMobInt);
-                                    EntityType.byString(entityData.entity().getRegistryName().toString());
+                                    exists = EntityType.byString(entityData.entity().getRegistryName().toString());
                                 }
                                 EntityType<?> entityType = exists.get();
                                 Mob mob = (Mob) entityType.create(level);
                                 CompoundTag tag = new CompoundTag();
                                 tag.putBoolean("spawnedBySiege", true);
                                 mob.addTag(tag.toString());
-                                mob.setPos(posX, posY, posZ + 3);
+                                mob.setPos(genXOrZ(), genY(), genXOrZ());
+                                Unstable.LOGGER.info("Attempt 1:\tX:" + mob.getX() + "\tY:"+ mob.getY() + "\tZ:"+ mob.getZ());
+                                BlockCollisions collisions = new BlockCollisions(level, mob, mob.getBoundingBox(), false);
+                                int counter = 0;
+                                    while (!mob.isOnGround() || collisions.hasNext()) {
+                                        if (counter < 1000000) {
+                                            mob.setPos(genXOrZ(), genY(), genXOrZ());
+                                            //Unstable.LOGGER.info("New Invalid Attempt:\tX:" + mob.getX() + "\tY:"+ mob.getY() + "\tZ:"+ mob.getZ());
+                                            collisions = new BlockCollisions(level, mob, mob.getBoundingBox(), false);
+                                            counter++;
+                                    }
+                                }
+                                Unstable.LOGGER.info("Tries:" + counter);
+                                Unstable.LOGGER.info("New Valid Attempt:\tX:" + mob.getX() + "\tY:"+ mob.getY() + "\tZ:"+ mob.getZ());
                                 if (!entityData.effects().isEmpty()) {
                                     entityData.effects().forEach(mob::addEffect);
                                 }
@@ -273,7 +289,7 @@ public class UnstableEventHandler {
                                 if (!entityData.armor().isEmpty()) {
                                     entityData.armor().forEach(armorList -> armorList.forEach(mob::setItemSlot));
                                 }
-                                mob.finalizeSpawn(level, level.getCurrentDifficultyAt(new BlockPos(posX, posY, posZ)), MobSpawnType.NATURAL, null, null);
+                                mob.finalizeSpawn(level, level.getCurrentDifficultyAt(new BlockPos(mob.getX(), mob.getY(), mob.getZ())), MobSpawnType.NATURAL, null, null);
                                 level.addFreshEntity(mob);
                             }
                         }
@@ -281,6 +297,14 @@ public class UnstableEventHandler {
                 }
             }
         }
+    }
+
+    private static int genXOrZ() {
+        return (int) (Math.random()  * 150 * (Math.random() > 0.5 ? 1 : -1));
+    }
+
+    private static int genY() {
+        return (int) (Math.random() * 80);
     }
 
     @SubscribeEvent
