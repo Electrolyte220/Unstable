@@ -40,13 +40,13 @@ public class CursedEarthBlockEntity extends BlockEntity {
                 WeightedRandomList<MobSpawnSettings.SpawnerData> validEntities = level.getBiome(pos).value().getMobSettings().getMobs(MobCategory.MONSTER);
                 validEntities.getRandom(new Random()).ifPresent(spawnerData -> {
                     EntityType<?> type = spawnerData.type;
-                    if (SpawnPlacements.checkSpawnRules(type, (ServerLevelAccessor) level, MobSpawnType.NATURAL, pos.above(), new Random())) {
+                    if (SpawnPlacements.checkSpawnRules(type, (ServerLevelAccessor) level, MobSpawnType.SPAWNER, pos.above(), new Random())) {
                         Mob mob = (Mob) type.create(level);
                         mob.setPos(pos.getX() + 0.5, pos.above().getY(), pos.getZ() + 0.5);
                         mob.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, 3, true, true));
                         BlockCollisions collisions = new BlockCollisions(level, mob, mob.getBoundingBox(), false);
                         if (!collisions.hasNext() && level.getNearbyEntities(Mob.class, TargetingConditions.DEFAULT, mob, (new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 0.5, (double) pos.above().getY(), pos.getZ() + 0.5).inflate(5))).size() < 25) {
-                            mob.finalizeSpawn((ServerLevelAccessor) level, level.getCurrentDifficultyAt(pos), MobSpawnType.NATURAL, null, null);
+                            mob.finalizeSpawn((ServerLevelAccessor) level, level.getCurrentDifficultyAt(pos), MobSpawnType.SPAWNER, null, null);
                             level.addFreshEntity(mob);
                         }
                     }
