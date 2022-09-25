@@ -1,15 +1,19 @@
-package com.electrolyte.unstable;
+package com.electrolyte.unstable.helper;
 
 import com.electrolyte.unstable.listener.EndSiegeChestDataReloadListener;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -19,7 +23,7 @@ import net.minecraft.world.level.dimension.DimensionType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DivisionCheckEnd {
+public class PseudoInversionRitualHelper {
 
     public static boolean checkDimension(ResourceLocation dimension) {
         return dimension.equals(DimensionType.END_LOCATION.location());
@@ -179,11 +183,6 @@ public class DivisionCheckEnd {
     }
 
     public static void destroyBeaconAndChests(Level level, BlockPos pos) {
-        ((ServerLevel) level).sendParticles(ParticleTypes.EXPLOSION, pos.getX(), pos.getY(), pos.getZ(),2, 1.0D, 0.0D, 0.0D, 0);
-        if (level.getBlockState(pos.below()).getBlock() == Blocks.BEACON) {
-            level.setBlock(pos.below(), Blocks.AIR.defaultBlockState(), 2);
-            level.playSound(null, pos, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 1.0F, 1.0F);
-        }
         BlockPos northChest = new BlockPos(pos.getX(), pos.below().getY(), pos.north(5).getZ());
         BlockPos southChest = new BlockPos(pos.getX(), pos.below().getY(), pos.south(5).getZ());
         BlockPos eastChest = new BlockPos(pos.east(5).getX(), pos.below().getY(), pos.getZ());
@@ -200,8 +199,6 @@ public class DivisionCheckEnd {
                     stack.shrink(1);
                 }
             }
-
-            ((ServerLevel) level).sendParticles(ParticleTypes.EXPLOSION, northChest.getX(), northChest.getY() + 0.5D, northChest.getZ() ,2, 0.0D, 0.0D, 0.0D, 0);
             level.setBlock(northChest, Blocks.AIR.defaultBlockState(), 2);
         }
         if (level.getBlockState(southChest).getBlock() == Blocks.CHEST) {
@@ -211,7 +208,6 @@ public class DivisionCheckEnd {
                     stack.shrink(1);
                 }
             }
-            ((ServerLevel) level).sendParticles(ParticleTypes.EXPLOSION, southChest.getX(), southChest.getY() + 0.5D, southChest.getZ(),2, 0.0D, 0.0D, 0.0D, 0);
             level.setBlock(southChest, Blocks.AIR.defaultBlockState(), 2);
         }
         if (level.getBlockState(eastChest).getBlock() == Blocks.CHEST) {
@@ -221,7 +217,6 @@ public class DivisionCheckEnd {
                     stack.shrink(1);
                 }
             }
-            ((ServerLevel) level).sendParticles(ParticleTypes.EXPLOSION, eastChest.getX(), eastChest.getY() + 0.5D, eastChest.getZ(),2, 0.0D, 0.0D, 0.0D, 0);
             level.setBlock(eastChest, Blocks.AIR.defaultBlockState(), 2);
         }
         if (level.getBlockState(westChest).getBlock() == Blocks.CHEST) {
@@ -231,8 +226,25 @@ public class DivisionCheckEnd {
                     stack.shrink(1);
                 }
             }
-            ((ServerLevel) level).sendParticles(ParticleTypes.EXPLOSION, westChest.getX(), westChest.getY() + 0.5D, westChest.getZ(),2, 0.0D, 0.0D, 0.0D, 0);
             level.setBlock(westChest, Blocks.AIR.defaultBlockState(),2);
         }
+        level.setBlock(pos.below(), Blocks.AIR.defaultBlockState(), 2);
+        level.explode(null, pos.getX(), pos.getY(), pos.getZ(), 2.5F, Explosion.BlockInteraction.DESTROY);
+
+        level.setBlock(northChest, Blocks.AIR.defaultBlockState(), 2);
+        level.explode(null, northChest.getX(), northChest.getY(), northChest.getZ(), 2.5F, Explosion.BlockInteraction.DESTROY);
+
+        level.setBlock(southChest, Blocks.AIR.defaultBlockState(), 2);
+        level.explode(null, southChest.getX(), southChest.getY(), southChest.getZ(), 2.5F, Explosion.BlockInteraction.DESTROY);
+
+        level.setBlock(eastChest, Blocks.AIR.defaultBlockState(), 2);
+        level.explode(null, eastChest.getX(), eastChest.getY(), eastChest.getZ(), 2.5F, Explosion.BlockInteraction.DESTROY);
+
+        level.setBlock(westChest, Blocks.AIR.defaultBlockState(), 2);
+        level.explode(null, westChest.getX(), westChest.getY(), westChest.getZ(), 2.5F, Explosion.BlockInteraction.DESTROY);
+    }
+
+    public static void sendSiegeMessage(MutableComponent translateKey, Level level) {
+        level.getServer().getLevel(Level.END).players().forEach(player -> player.displayClientMessage(translateKey, true));
     }
 }

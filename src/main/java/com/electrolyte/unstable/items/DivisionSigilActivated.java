@@ -1,6 +1,6 @@
 package com.electrolyte.unstable.items;
 
-import com.electrolyte.unstable.DivisionCheckEnd;
+import com.electrolyte.unstable.helper.PseudoInversionRitualHelper;
 import com.electrolyte.unstable.UnstableConfig;
 import com.electrolyte.unstable.listener.EndSiegeChestDataReloadListener;
 import net.minecraft.ChatFormatting;
@@ -78,41 +78,41 @@ public class DivisionSigilActivated extends Item {
         if(context.getLevel().isClientSide) return InteractionResult.FAIL;
         ResourceLocation dim = context.getPlayer().level.dimension().location();
         boolean everythingCorrect = true;
-        if(DivisionCheckEnd.checkDimension(dim)) {
-           if(DivisionCheckEnd.checkBeacon(context.getLevel(), context.getClickedPos())) {
-                if(DivisionCheckEnd.checkEndBlocks(context.getLevel(), context.getClickedPos())) {
+        if(PseudoInversionRitualHelper.checkDimension(dim)) {
+           if(PseudoInversionRitualHelper.checkBeacon(context.getLevel(), context.getClickedPos())) {
+                if(PseudoInversionRitualHelper.checkEndBlocks(context.getLevel(), context.getClickedPos())) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.area").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-                } else if(!DivisionCheckEnd.checkEndBlocks(context.getLevel(), context.getClickedPos())) {
+                } else if(!PseudoInversionRitualHelper.checkEndBlocks(context.getLevel(), context.getClickedPos())) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.area_fail"), context.getPlayer().getUUID());
                     everythingCorrect = false;
-                } if(DivisionCheckEnd.checkChests(context.getLevel(), context.getClickedPos())) {
+                } if(PseudoInversionRitualHelper.checkChests(context.getLevel(), context.getClickedPos())) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.chest").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-                } else if(!DivisionCheckEnd.checkChests(context.getLevel(), context.getClickedPos())) {
+                } else if(!PseudoInversionRitualHelper.checkChests(context.getLevel(), context.getClickedPos())) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.chest_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
                     everythingCorrect = false;
-                } if(DivisionCheckEnd.checkChestContents(context.getLevel(), context.getClickedPos().north(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.NORTH)) {
+                } if(PseudoInversionRitualHelper.checkChestContents(context.getLevel(), context.getClickedPos().north(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.NORTH)) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.north_chest").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-                } else if(!DivisionCheckEnd.checkChestContents(context.getLevel(), context.getClickedPos().north(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.NORTH)) {
+                } else if(!PseudoInversionRitualHelper.checkChestContents(context.getLevel(), context.getClickedPos().north(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.NORTH)) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.north_chest_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
                     everythingCorrect = false;
-                } if(DivisionCheckEnd.checkChestContents(context.getLevel(), context.getClickedPos().south(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.SOUTH)) {
+                } if(PseudoInversionRitualHelper.checkChestContents(context.getLevel(), context.getClickedPos().south(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.SOUTH)) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.south_chest").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-                } else if(!DivisionCheckEnd.checkChestContents(context.getLevel(), context.getClickedPos().south(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.SOUTH)) {
+                } else if(!PseudoInversionRitualHelper.checkChestContents(context.getLevel(), context.getClickedPos().south(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.SOUTH)) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.south_chest_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
                     everythingCorrect = false;
-                } if(DivisionCheckEnd.checkChestContents(context.getLevel(), context.getClickedPos().east(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.EAST)) {
+                } if(PseudoInversionRitualHelper.checkChestContents(context.getLevel(), context.getClickedPos().east(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.EAST)) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.east_chest").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-                } else if(!DivisionCheckEnd.checkChestContents(context.getLevel(), context.getClickedPos().east(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.EAST)) {
+                } else if(!PseudoInversionRitualHelper.checkChestContents(context.getLevel(), context.getClickedPos().east(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.EAST)) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.east_chest_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
                     everythingCorrect = false;
-                } if(DivisionCheckEnd.checkChestContents(context.getLevel(), context.getClickedPos().west(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.WEST)) {
+                } if(PseudoInversionRitualHelper.checkChestContents(context.getLevel(), context.getClickedPos().west(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.WEST)) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.west_chest").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-                } else if(!DivisionCheckEnd.checkChestContents(context.getLevel(), context.getClickedPos().west(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.WEST)) {
+                } else if(!PseudoInversionRitualHelper.checkChestContents(context.getLevel(), context.getClickedPos().west(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.WEST)) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.west_chest_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
                     everythingCorrect = false;
-                } if(DivisionCheckEnd.checkRedstoneAndString(context.getLevel(), context.getClickedPos())) {
+                } if(PseudoInversionRitualHelper.checkRedstoneAndString(context.getLevel(), context.getClickedPos())) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.redstone_string").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-                } else if(!DivisionCheckEnd.checkRedstoneAndString(context.getLevel(), context.getClickedPos())) {
+                } else if(!PseudoInversionRitualHelper.checkRedstoneAndString(context.getLevel(), context.getClickedPos())) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.redstone_string_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
                     everythingCorrect = false;
                 } if(everythingCorrect) {

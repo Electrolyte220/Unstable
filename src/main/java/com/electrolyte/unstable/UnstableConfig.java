@@ -10,7 +10,6 @@ public class UnstableConfig {
     public static ForgeConfigSpec SERVER_CONFIG;
 
     public static ForgeConfigSpec.BooleanValue CURSED_EARTH_PARTICLES;
-    public static ForgeConfigSpec.BooleanValue REMOVE_ACTIVE_SIGIL;
     public static ForgeConfigSpec.IntValue ACTIVATED_DURABILITY;
     public static ForgeConfigSpec.IntValue NEEDED_MOBS;
     public static ForgeConfigSpec.IntValue MAX_MOBS;
@@ -67,9 +66,6 @@ public class UnstableConfig {
             NEEDED_MOBS = SERVER_BUILDER
                 .comment("During the Psudeo Inversion Ritual, how many mob kills are needed to obtain a stable sigil?")
                 .defineInRange("neededMobs", 100, 1, Integer.MAX_VALUE);
-            REMOVE_ACTIVE_SIGIL = SERVER_BUILDER
-                .comment("Should the active sigil be removed from the player's inventory after receiving the stable sigil?")
-                .define("removeActiveSigil", true);
             SERVER_BUILDER.pop();
 
             SERVER_BUILDER.comment("Soul Fragment").push("Settings related to Soul Fragment");

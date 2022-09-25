@@ -1,5 +1,7 @@
-package com.electrolyte.unstable;
+package com.electrolyte.unstable.helper;
 
+import com.electrolyte.unstable.Unstable;
+import com.electrolyte.unstable.UnstableConfig;
 import com.electrolyte.unstable.be.CursedEarthBlockEntity;
 import com.electrolyte.unstable.init.ModBlocks;
 import net.minecraft.core.BlockPos;
@@ -12,7 +14,7 @@ import net.minecraft.world.level.block.RedStoneWireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class DivisionCheck {
+public class ActivationRitualHelper {
 
     public static void updateRedstone(Level level, BlockPos pos) {
         for (int x = -1; x <= 1; x++) {

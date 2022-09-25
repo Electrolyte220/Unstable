@@ -1,6 +1,7 @@
 package com.electrolyte.unstable.savedata;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
@@ -8,12 +9,15 @@ import net.minecraft.world.level.storage.DimensionDataStorage;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class UnstableSavedData extends SavedData {
 
     private boolean isEndSiegeOccurring;
     private int playersParticipating;
     private int totalKills;
+
+    private ListTag playersWithActivationSigil;
 
     @Nonnull
     public static UnstableSavedData get(Level level) {
@@ -28,6 +32,7 @@ public class UnstableSavedData extends SavedData {
         this.isEndSiegeOccurring = tag.getBoolean("isEndSiegeOccurring");
         this.playersParticipating = tag.getInt("playersParticipating");
         this.totalKills = tag.getInt("totalKills");
+        this.playersWithActivationSigil = tag.getList("playersWithActivationSigil",9);
     }
 
     @Override
@@ -35,6 +40,7 @@ public class UnstableSavedData extends SavedData {
         pCompoundTag.putBoolean("isEndSiegeOccurring", this.isEndSiegeOccurring);
         pCompoundTag.putInt("playersParticipating", this.playersParticipating);
         pCompoundTag.putInt("totalKills", this.totalKills);
+        pCompoundTag.put("playersWithActivationSigil", this.playersWithActivationSigil);
         return pCompoundTag;
     }
 
@@ -65,10 +71,20 @@ public class UnstableSavedData extends SavedData {
         this.setDirty();
     }
 
+    public ListTag getPlayersWithActivationSigil() {
+        return playersWithActivationSigil;
+    }
+
+    public void setPlayersWithActivationSigil(ListTag playersWithActivationSigil) {
+        this.playersWithActivationSigil = playersWithActivationSigil;
+        this.setDirty();
+    }
+
     public void resetData() {
         this.isEndSiegeOccurring = false;
         this.totalKills = 0;
         this.playersParticipating = 0;
+        this.playersWithActivationSigil = new ListTag();
         this.setDirty();
     }
 }

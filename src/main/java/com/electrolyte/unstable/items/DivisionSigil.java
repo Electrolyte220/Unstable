@@ -1,6 +1,6 @@
 package com.electrolyte.unstable.items;
 
-import com.electrolyte.unstable.DivisionCheck;
+import com.electrolyte.unstable.helper.ActivationRitualHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -27,27 +27,27 @@ public class DivisionSigil extends Item {
     @Override
     public @NotNull InteractionResult useOn(UseOnContext context) {
         if(context.getLevel().isClientSide) return InteractionResult.FAIL;
-        if(DivisionCheck.checkEnchantTable(context.getLevel(), context.getClickedPos())) {
+        if(ActivationRitualHelper.checkEnchantTable(context.getLevel(), context.getClickedPos())) {
             context.getPlayer().sendMessage(new TranslatableComponent("unstable.activation_ritual.title").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-            if(DivisionCheck.checkNatural(context.getLevel(), context.getClickedPos())) {
+            if(ActivationRitualHelper.checkNatural(context.getLevel(), context.getClickedPos())) {
                 context.getPlayer().sendMessage(new TranslatableComponent("unstable.activation_ritual.natural_earth").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-            } else if(!DivisionCheck.checkNatural(context.getLevel(), context.getClickedPos())) {
+            } else if(!ActivationRitualHelper.checkNatural(context.getLevel(), context.getClickedPos())) {
                 context.getPlayer().sendMessage(new TranslatableComponent("unstable.activation_ritual.natural_earth_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
-            } if(DivisionCheck.checkLight(context.getLevel(), context.getClickedPos())) {
+            } if(ActivationRitualHelper.checkLight(context.getLevel(), context.getClickedPos())) {
                 context.getPlayer().sendMessage(new TranslatableComponent("unstable.activation_ritual.darkness").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-            } else if(!DivisionCheck.checkLight(context.getLevel(), context.getClickedPos())) {
+            } else if(!ActivationRitualHelper.checkLight(context.getLevel(), context.getClickedPos())) {
                 context.getPlayer().sendMessage(new TranslatableComponent( "unstable.activation_ritual.darkness_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
-            } if(DivisionCheck.checkSky(context.getLevel(), context.getClickedPos())) {
+            } if(ActivationRitualHelper.checkSky(context.getLevel(), context.getClickedPos())) {
                 context.getPlayer().sendMessage(new TranslatableComponent( "unstable.activation_ritual.sky").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-            } else if (!DivisionCheck.checkSky(context.getLevel(), context.getClickedPos())) {
+            } else if (!ActivationRitualHelper.checkSky(context.getLevel(), context.getClickedPos())) {
                 context.getPlayer().sendMessage(new TranslatableComponent( "unstable.activation_ritual.sky_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
-            }if(DivisionCheck.checkRedstone(context.getLevel(), context.getClickedPos())) {
+            }if(ActivationRitualHelper.checkRedstone(context.getLevel(), context.getClickedPos())) {
                 context.getPlayer().sendMessage(new TranslatableComponent( "unstable.activation_ritual.redstone").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-            } else if(!DivisionCheck.checkRedstone(context.getLevel(), context.getClickedPos())) {
+            } else if(!ActivationRitualHelper.checkRedstone(context.getLevel(), context.getClickedPos())) {
                 context.getPlayer().sendMessage(new TranslatableComponent("unstable.activation_ritual.redstone_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
-            } if(DivisionCheck.checkTime(context.getLevel().getDayTime())) {
+            } if(ActivationRitualHelper.checkTime(context.getLevel().getDayTime())) {
                 context.getPlayer().sendMessage(new TranslatableComponent("unstable.activation_ritual.time").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-            } if(!DivisionCheck.checkTime(context.getLevel().getDayTime())) {
+            } if(!ActivationRitualHelper.checkTime(context.getLevel().getDayTime())) {
                 if(context.getLevel().getDayTime() <= 15000) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.activation_ritual.time_early").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
                 } else if (context.getLevel().getDayTime() >= 20000) {
@@ -61,7 +61,7 @@ public class DivisionSigil extends Item {
     @Override
     @OnlyIn(Dist.CLIENT)
     public boolean isFoil(@NotNull ItemStack stack) {
-        return DivisionCheck.checkTime(Minecraft.getInstance().level.getDayTime());
+        return ActivationRitualHelper.checkTime(Minecraft.getInstance().level.getDayTime());
     }
 
     @Override
