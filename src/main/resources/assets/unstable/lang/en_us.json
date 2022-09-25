@@ -77,5 +77,5 @@
 	"unstable.pseudo_inversion_ritual.already_stable": "Sigil is already Stable",
 	"unstable.pseudo_inversion_ritual.multiple_sigil": "There can only be one Pseudo-Inversion Ritual active at any given time",
 	"unstable.pseudo_inversion_ritual.siege_started": "The Siege in 'The End' has begun",
-	"unstable.pseudo_inversion_ritual.siege_kills": "Kills: %d"
+	"unstable.pseudo_inversion_ritual.siege_kills": "Kills: %s"
 }

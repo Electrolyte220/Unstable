@@ -14,10 +14,12 @@ import com.electrolyte.unstable.listener.EntityDataReloadListener;
 import com.electrolyte.unstable.savedata.UnstableSavedData;
 import com.google.gson.Gson;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -132,20 +134,19 @@ public class UnstableEventHandler {
                             ActivationRitualHelper.checkLight(event.getEntity().getLevel(), pos2) &&
                             ActivationRitualHelper.checkSky(event.getEntity().getLevel(), pos2)) {
                         LightningBolt lightningBoltEntity = new LightningBolt(EntityType.LIGHTNING_BOLT, event.getEntity().getLevel());
-                        ServerLevel world = (ServerLevel) event.getEntity().getLevel();
-                        world.playSound(null, pos1.getX(), pos1.getY(), pos1.getZ(), ModSounds.ACTIVATION_RITUAL_SUCCESS.get(), SoundSource.AMBIENT, 1.0f, 1.0f);
+                        ServerLevel level = (ServerLevel) event.getEntity().getLevel();
+                        level.playSound(null, pos1.getX(), pos1.getY(), pos1.getZ(), ModSounds.ACTIVATION_RITUAL_SUCCESS.get(), SoundSource.AMBIENT, 1.0f, 1.0f);
                         lightningBoltEntity.setPos(pos1.getX(), pos1.getY(), pos1.getZ());
-                        world.addFreshEntity(lightningBoltEntity);
+                        level.addFreshEntity(lightningBoltEntity);
                         player.getInventory().removeItem(stack);
                         player.getInventory().add(new ItemStack(ModItems.DIVISION_SIGIL_ACTIVATED.get()));
-                        ActivationRitualHelper.updateBlocks(event.getEntity().getLevel(), pos2);
-                        ActivationRitualHelper.updateRedstone(event.getEntity().getLevel(), pos2);
+                        ActivationRitualHelper.updateBlocks(level, pos2);
+                        ActivationRitualHelper.updateRedstone(level, pos2);
                     }
                 }
             }
             UnstableSavedData data = UnstableSavedData.get(player.level);
             if (beaconBlock == Blocks.BEACON && event.getEntity() instanceof IronGolem) {
-                PseudoInversionRitualHelper.sendSiegeMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_started").withStyle(ChatFormatting.WHITE), event.getEntity().getLevel());
                 for(Slot slot : player.inventoryMenu.slots) {
                     ItemStack stack = slot.getItem();
                     if (stack.getItem() == ModItems.DIVISION_SIGIL.get()) {
@@ -168,17 +169,16 @@ public class UnstableEventHandler {
                             AtomicInteger players = new AtomicInteger();
                             player.level.players().forEach(playerIn -> {
                                 if (playerIn.level.dimension().location().equals(DimensionType.END_LOCATION.location())) {
-                                    playerIn.sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_started").withStyle(ChatFormatting.WHITE), playerIn.getUUID());
+                                    playerIn.displayClientMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_started").withStyle(ChatFormatting.WHITE), true);
                                     players.getAndIncrement();
                                     ListTag listTag = new ListTag();
-                                    for (int i = 0; i < players.get(); i++) {
-                                        if (player.getInventory().contains(stack)) {
-                                            CompoundTag tag = new CompoundTag();
-                                            tag.putUUID("playerUUID", player.getUUID());
-                                            listTag.add(tag);
-                                            data.setPlayersWithActivationSigil(listTag);
-                                            //player.getInventory().removeItem(stack);
-                                        }
+                                    if (playerIn.getInventory().contains(stack)) {
+                                        CompoundTag tag = new CompoundTag();
+                                        tag.putUUID("playerUUID", playerIn.getUUID());
+                                        listTag.addAll(data.getPlayersWithActivationSigil());
+                                        listTag.add(tag);
+                                        data.setPlayersWithActivationSigil(listTag);
+                                        //playerIn.getInventory().removeItem(stack);
                                     }
                                 }
                             });
@@ -191,10 +191,10 @@ public class UnstableEventHandler {
             if (playerDim.equals(DimensionType.END_LOCATION.location())) {
                 if (data.isEndSiegeOccurring() && data.getTotalKills() < UnstableConfig.NEEDED_MOBS.get() && event.getEntity().getTags().contains("{spawnedBySiege:1b}")) {
                     data.setTotalKills(data.getTotalKills() + 1);
-                    player.sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_kills", new TranslatableComponent(String.valueOf(data.getTotalKills()))).withStyle(ChatFormatting.WHITE), player.getUUID());
+                    PseudoInversionRitualHelper.sendSiegeMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_kills", data.getTotalKills() + "/" + UnstableConfig.NEEDED_MOBS.get()).withStyle(ChatFormatting.WHITE), event.getEntity().getLevel());
                 }
                 if (data.getTotalKills() >= UnstableConfig.NEEDED_MOBS.get()) {
-                    player.sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_ended").withStyle(ChatFormatting.WHITE), player.getUUID());
+                    PseudoInversionRitualHelper.sendSiegeMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_ended").withStyle(ChatFormatting.WHITE), event.getEntity().getLevel());
                     player.level.players().forEach(playerIn -> {
                         for(Tag tag : data.getPlayersWithActivationSigil()) {
                             CompoundTag tag1 = (CompoundTag) tag;
