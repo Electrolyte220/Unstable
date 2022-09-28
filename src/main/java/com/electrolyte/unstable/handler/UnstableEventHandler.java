@@ -1,12 +1,12 @@
 package com.electrolyte.unstable.handler;
 
-import com.electrolyte.unstable.helper.ActivationRitualHelper;
-import com.electrolyte.unstable.helper.PseudoInversionRitualHelper;
 import com.electrolyte.unstable.Unstable;
 import com.electrolyte.unstable.UnstableConfig;
 import com.electrolyte.unstable.damagesource.DivideByDiamondDamageSource;
 import com.electrolyte.unstable.endsiege.UnstableEntityDataStorage;
 import com.electrolyte.unstable.endsiege.UnstableEntityDataStorageManager;
+import com.electrolyte.unstable.helper.ActivationRitualHelper;
+import com.electrolyte.unstable.helper.PseudoInversionRitualHelper;
 import com.electrolyte.unstable.init.ModItems;
 import com.electrolyte.unstable.init.ModSounds;
 import com.electrolyte.unstable.listener.EndSiegeChestDataReloadListener;
@@ -14,19 +14,16 @@ import com.electrolyte.unstable.listener.EntityDataReloadListener;
 import com.electrolyte.unstable.savedata.UnstableSavedData;
 import com.google.gson.Gson;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.IronGolem;
@@ -178,7 +175,7 @@ public class UnstableEventHandler {
                                         listTag.addAll(data.getPlayersWithActivationSigil());
                                         listTag.add(tag);
                                         data.setPlayersWithActivationSigil(listTag);
-                                        //playerIn.getInventory().removeItem(stack);
+                                        playerIn.getInventory().removeItem(stack);
                                     }
                                 }
                             });
@@ -263,12 +260,8 @@ public class UnstableEventHandler {
                                 while (!NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, level, mob.getOnPos(), entityType)) {
                                     mob.setPos(genXOrZ(), genY(), genXOrZ());
                                 }
-                                Unstable.LOGGER.info("New Valid Attempt:\tX:" + mob.getX() + "\tY:"+ mob.getY() + "\tZ:"+ mob.getZ());
                                 if (!entityData.effects().isEmpty()) {
                                     entityData.effects().forEach(mob::addEffect);
-                                    //TODO: Remove after testing
-                                    mob.addEffect(new MobEffectInstance(MobEffects.GLOWING, 100000, 1, true, true));
-                                    mob.setNoAi(true);
                                 }
                                 if (!entityData.equipment().isEmpty()) {
                                     entityData.equipment().forEach(equipmentList -> equipmentList.forEach((interactionHand, stack) ->
@@ -289,11 +282,11 @@ public class UnstableEventHandler {
     }
 
     private static int genXOrZ() {
-        return (int) (Math.random()  * 150 * (Math.random() > 0.5 ? 1 : -1));
+        return Mth.nextInt(new Random(), -150, 150);
     }
 
     private static int genY() {
-        return (int) (Math.random() * 10) + 55;
+        return Mth.nextInt(new Random(), 55, 65);
     }
 
     @SubscribeEvent
