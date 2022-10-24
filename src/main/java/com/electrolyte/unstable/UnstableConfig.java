@@ -18,6 +18,7 @@ public class UnstableConfig {
     public static ForgeConfigSpec.IntValue MAX_SPAWN_DELAY;
     public static ForgeConfigSpec.IntValue MIN_MOBS_PIR;
     public static ForgeConfigSpec.IntValue MAX_MOBS_PIR;
+    public static ForgeConfigSpec.IntValue MOB_SPAWN_RAGE_PIR;
     public static ForgeConfigSpec.BooleanValue SOUL_RESET_DEATH;
 
     static {
@@ -63,6 +64,9 @@ public class UnstableConfig {
             MAX_MOBS = SERVER_BUILDER
                 .comment("Maximum number of mobs allowed during the Psudeo Inversion Ritual.")
                 .defineInRange("maximumMobs", 250, 1, Integer.MAX_VALUE);
+            MOB_SPAWN_RAGE_PIR = SERVER_BUILDER
+                .comment("Maximum range mobs can spawn from the player during the pseudo inversion ritual.")
+                .defineInRange("mobSpawnRagePir", 75, 1, 128);
             NEEDED_MOBS = SERVER_BUILDER
                 .comment("During the Psudeo Inversion Ritual, how many mob kills are needed to obtain a stable sigil?")
                 .defineInRange("neededMobs", 100, 1, Integer.MAX_VALUE);

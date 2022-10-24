@@ -126,6 +126,13 @@ public class PseudoInversionRitualHelper {
                 level.getBlockState(pos.east(5)).getBlock() == Blocks.CHEST && level.getBlockState(pos.west(5)).getBlock() == Blocks.CHEST;
     }
 
+    /*
+    TODO: Need new types
+    Types:
+    - Normal: Items/Blocks/Item Tags without any NBT
+    - NBT Ignored: Items with NBT, where the nbt doesn't matter, it just needs to differ from the other items in the chest (like potions, banners, enchanted armor/tools that have durability, etc.)
+    - NBT Match All: Items with NBT, where every NBT Tag Matters (enchanted armor with durability), (people who want specific potions, but the slot order doesn't matter, aslong as there is a different potion in each slot)
+    - NBT Match Specific: Items with NBT, where only certain NBT tags matter (like enchanted armor with durability, but only the enchantments matter) */
     public static boolean checkChestContents(Level level, BlockPos pos, EndSiegeChestDataReloadListener.CHEST_LOCATION location) {
         BlockEntity te = level.getBlockEntity(pos);
         if (te instanceof ChestBlockEntity) {

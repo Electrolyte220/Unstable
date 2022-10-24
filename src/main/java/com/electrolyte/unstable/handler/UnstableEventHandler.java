@@ -23,7 +23,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.IronGolem;
@@ -180,6 +179,7 @@ public class UnstableEventHandler {
                                 }
                             });
                             data.setEndSiegeOccurring(true);
+                            //data.setStartingLocation(new int[]{pos1.getX(), pos1.below(2).getY(), pos1.getZ()});
                             data.setPlayersParticipating(players.get());
                         }
                     }
@@ -236,8 +236,9 @@ public class UnstableEventHandler {
             if (data.isEndSiegeOccurring()) {
                 int playersParticipating = level.players().size();
                 data.setPlayersParticipating(playersParticipating);
+                int maxSpawningRange = UnstableConfig.MOB_SPAWN_RAGE_PIR.get();
                 if(level.getServer().getTickCount() % 10 == 0) {
-                    AABB spawnableLocations = new AABB(-150, 55, -150, 150, 75, 150);
+                    AABB spawnableLocations = new AABB(-maxSpawningRange, 55, -maxSpawningRange, maxSpawningRange, 75, maxSpawningRange);
                     if (data.getTotalKills() < UnstableConfig.NEEDED_MOBS.get()) {
                         int mobCount = level.getEntities(null, spawnableLocations).size();
                         if (mobCount < UnstableConfig.MAX_MOBS.get()) {
@@ -281,12 +282,12 @@ public class UnstableEventHandler {
         }
     }
 
-    private static int genXOrZ() {
-        return Mth.nextInt(new Random(), -150, 150);
+    private static int genXOrZ(/*int relPos*/) {
+        return /*relPos + */ (int) (Math.random()  * UnstableConfig.MOB_SPAWN_RAGE_PIR.get() * (Math.random() > 0.5 ? 1 : -1));
     }
 
     private static int genY() {
-        return Mth.nextInt(new Random(), 55, 65);
+        return (int) (Math.random() * 10) + 55;
     }
 
     @SubscribeEvent

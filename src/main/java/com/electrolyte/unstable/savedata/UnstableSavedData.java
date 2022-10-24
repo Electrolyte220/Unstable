@@ -1,5 +1,6 @@
 package com.electrolyte.unstable.savedata;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
@@ -16,6 +17,7 @@ public class UnstableSavedData extends SavedData {
     private boolean isEndSiegeOccurring;
     private int playersParticipating;
     private int totalKills;
+    private int[] startingLocation;
 
     private ListTag playersWithActivationSigil;
 
@@ -33,6 +35,7 @@ public class UnstableSavedData extends SavedData {
         this.playersParticipating = tag.getInt("playersParticipating");
         this.totalKills = tag.getInt("totalKills");
         this.playersWithActivationSigil = tag.getList("playersWithActivationSigil",9);
+        this.startingLocation = tag.getIntArray("startingLocation");
     }
 
     @Override
@@ -41,6 +44,7 @@ public class UnstableSavedData extends SavedData {
         pCompoundTag.putInt("playersParticipating", this.playersParticipating);
         pCompoundTag.putInt("totalKills", this.totalKills);
         pCompoundTag.put("playersWithActivationSigil", this.playersWithActivationSigil);
+        pCompoundTag.putIntArray("startingLocation", this.startingLocation);
         return pCompoundTag;
     }
 
@@ -80,11 +84,21 @@ public class UnstableSavedData extends SavedData {
         this.setDirty();
     }
 
+    public int[] getStartingLocation() {
+        return startingLocation;
+    }
+
+    public void setStartingLocation(int[] startingLocation) {
+        this.startingLocation = startingLocation;
+        this.setDirty();
+    }
+
     public void resetData() {
         this.isEndSiegeOccurring = false;
         this.totalKills = 0;
         this.playersParticipating = 0;
         this.playersWithActivationSigil = new ListTag();
+        this.startingLocation = new int[3];
         this.setDirty();
     }
 }
