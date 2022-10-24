@@ -31,7 +31,8 @@
 					" TRRRRRRRR ",
 					"     C     "
 				]
-			]
+			],
+				"symmetrical": true
 			},
 			"enable_visualize": true,
 			"text": "Chest contents can either be viewed in JEI, or on the next few pages."
