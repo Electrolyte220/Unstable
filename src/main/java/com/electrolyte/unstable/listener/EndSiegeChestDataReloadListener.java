@@ -59,25 +59,17 @@ public class EndSiegeChestDataReloadListener extends SimpleJsonResourceReloadLis
             if(contents.size() < 27) {
                 if (element.getAsJsonObject().get("item") != null) {
                     if (element.getAsJsonObject().get("nbt") != null) {
-                        Unstable.LOGGER.info(String.valueOf(element.getAsJsonObject()));
                         contents.add(PartialNBTIngredient.Serializer.INSTANCE.parse(element.getAsJsonObject()));
                     } else {
                         contents.add(Ingredient.fromJson(element.getAsJsonObject()));
                     }
                 } else if (element.getAsJsonObject().get("tag") != null) {
-                    //String tagRegistryName = element.getAsJsonObject().get("tag").toString();
-                    //if (Objects.requireNonNull(ForgeRegistries.ITEMS.tags()).stream().noneMatch(tag -> tag.getKey().location().equals(ResourceLocation.of(tagRegistryName.substring(1, tagRegistryName.length() - 1), ':')))) {
-                    //    Unstable.LOGGER.warn("Warning: {} is not a valid item tag. It will not be added to the list of required items needed to start the End Siege.", tagRegistryName);
-                    //} else {
                         contents.add(Ingredient.fromJson(element.getAsJsonObject()));
-                    //}
                 }
             } else {
                 Unstable.LOGGER.warn("More than 27 itemstacks have been added to a chest! Only the first 27 items in the list will count!");
             }
         });
-
-        contents.forEach(content -> Unstable.LOGGER.warn(String.valueOf(content.toJson())));
         return contents;
     }
 }

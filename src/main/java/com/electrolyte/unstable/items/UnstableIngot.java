@@ -32,29 +32,6 @@ public class UnstableIngot extends Item {
         stack.setTag(tag);
     }
 
-    //TODO: Double check and make sure there are no ways to cheese the ingots.
-    /*@Override
-    public void inventoryTick(@NotNull ItemStack pStack, @NotNull Level pLevel, @NotNull Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if(pStack.hasTag()) {
-            CompoundTag tag = pStack.getOrCreateTag();
-            if (!tag.getBoolean("creativeSpawned")) {
-                int timeToExplode = tag.getInt("explodesIn");
-                if (timeToExplode > 0) {
-                    timeToExplode--;
-                    tag.putInt("explodesIn", timeToExplode);
-                    pStack.setTag(tag);
-                }
-                if (timeToExplode == 0) {
-                    pStack.shrink(1);
-                    pLevel.explode(pEntity, pEntity.getX(), pEntity.getY(), pEntity.getZ(), 1, false, Explosion.BlockInteraction.NONE);
-                    if (pEntity instanceof LivingEntity) {
-                        pEntity.hurt(DivideByDiamondDamageSource.INSTANCE, Float.MAX_VALUE);
-                    }
-                }
-            }
-        }
-    }*/
-
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         if(pStack.getTag() == null) {

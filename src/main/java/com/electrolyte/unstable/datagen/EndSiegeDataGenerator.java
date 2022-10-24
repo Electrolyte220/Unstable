@@ -34,7 +34,7 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
 
     @Override
     public void run(@NotNull HashCache cache) {
-        buildEntityData(cache, "default", 2, 5, List.of(EntityType.ZOMBIE, EntityType.WITCH, EntityType.SILVERFISH, EntityType.SPIDER, EntityType.SKELETON, EntityType.WITHER_SKELETON, EntityType.CREEPER, EntityType.BLAZE, EntityType.PIGLIN, EntityType.PHANTOM),
+        buildEntityData(cache, "default", 2, 5, List.of(EntityType.ZOMBIE, EntityType.WITCH, EntityType.SILVERFISH, EntityType.SPIDER, EntityType.CAVE_SPIDER, EntityType.SKELETON, EntityType.WITHER_SKELETON, EntityType.CREEPER, EntityType.BLAZE, EntityType.ZOMBIFIED_PIGLIN, EntityType.PHANTOM, EntityType.EVOKER, EntityType.PILLAGER, EntityType.VINDICATOR, EntityType.ILLUSIONER),
                 Optional.of(List.of(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 6000, 3, true, true), new MobEffectInstance(MobEffects.DAMAGE_BOOST, 6000, 0, true, false))),
                 Optional.empty(), Optional.empty());
 
@@ -49,15 +49,6 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
                 NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_WEAKNESS)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_SLOW_FALLING))));
         buildChestData(cache, "west", List.of(Ingredient.of(Items.MUSIC_DISC_11), Ingredient.of(Items.MUSIC_DISC_13), Ingredient.of(Items.MUSIC_DISC_BLOCKS), Ingredient.of(Items.MUSIC_DISC_CAT), Ingredient.of(Items.MUSIC_DISC_CHIRP),
                 Ingredient.of(Items.MUSIC_DISC_FAR), Ingredient.of(Items.MUSIC_DISC_MALL), Ingredient.of(Items.MUSIC_DISC_MELLOHI), Ingredient.of(Items.MUSIC_DISC_OTHERSIDE), Ingredient.of(Items.MUSIC_DISC_PIGSTEP), Ingredient.of(Items.MUSIC_DISC_STAL), Ingredient.of(Items.MUSIC_DISC_STRAD), Ingredient.of(Items.MUSIC_DISC_WAIT), Ingredient.of(Items.MUSIC_DISC_WARD)));
-        /*ItemStack sword = new ItemStack(Items.DIAMOND_SWORD);
-        sword.enchant(Enchantments.SHARPNESS, 3);
-        ItemStack diamond_leggings = new ItemStack(Items.DIAMOND_LEGGINGS);
-        diamond_leggings.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 2);
-        buildEntityData(cache, "undead", 2, 5, Arrays.asList(EntityType.SKELETON, EntityType.ZOMBIE),
-                Optional.of(Arrays.asList(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 10, 10, true, true),
-                        new MobEffectInstance(MobEffects.ABSORPTION, 10, 10, true, true))),
-                Optional.of(Arrays.asList(Map.of(InteractionHand.MAIN_HAND, sword), Map.of(InteractionHand.OFF_HAND, new ItemStack(Items.TOTEM_OF_UNDYING)))),
-                Optional.of(Arrays.asList(Map.of(EquipmentSlot.HEAD, new ItemStack(Items.GOLDEN_HELMET)), Map.of(EquipmentSlot.LEGS, diamond_leggings))));*/
     }
 
     private void buildEntityData(HashCache cache, String fileName, int minCount, int maxCount, List<EntityType<?>> entities, Optional<List<MobEffectInstance>> effects, Optional<List<Map<InteractionHand, ItemStack>>> equipment, Optional<List<Map<EquipmentSlot, ItemStack>>> armor) {

@@ -10,12 +10,17 @@
     "minecraft:witch",
     "minecraft:silverfish",
     "minecraft:spider",
+    "minecraft:cave_spider",
     "minecraft:skeleton",
     "minecraft:wither_skeleton",
     "minecraft:creeper",
     "minecraft:blaze",
     "minecraft:piglin",
-    "minecraft:phantom"
+    "minecraft:phantom",
+    "minecraft:evoker",
+    "minecraft:pillager",
+    "minecraft:vindicator",
+    "minecraft:illusioner"
   ],
   "effects": [
     {

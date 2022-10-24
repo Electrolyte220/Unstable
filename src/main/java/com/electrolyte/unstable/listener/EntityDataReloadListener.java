@@ -128,7 +128,6 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
                     try {
                         CompoundTag tag = NbtUtils.snbtToStructure(jsonObject.get("nbt").getAsString());
                         stack.setTag(tag);
-                        //armor.add(Map.of(slot, stack));
                     } catch (CommandSyntaxException e) {Unstable.LOGGER.error("Unable to get nbt for armor item {}.", jsonObject.get("item").getAsString(), e);}
                 }
                 armor.add(Map.of(slot, stack));
