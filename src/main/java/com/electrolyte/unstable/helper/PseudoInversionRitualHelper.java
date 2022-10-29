@@ -1,16 +1,10 @@
 package com.electrolyte.unstable.helper;
 
-import com.electrolyte.unstable.listener.EndSiegeChestDataReloadListener;
+import com.electrolyte.unstable.UnstableEnums;
+import com.electrolyte.unstable.endsiege.chests.UnstableChestDataStorageManager;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Explosion;
@@ -21,7 +15,8 @@ import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.dimension.DimensionType;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PseudoInversionRitualHelper {
 
@@ -126,14 +121,8 @@ public class PseudoInversionRitualHelper {
                 level.getBlockState(pos.east(5)).getBlock() == Blocks.CHEST && level.getBlockState(pos.west(5)).getBlock() == Blocks.CHEST;
     }
 
-    /*
-    TODO: Need new types
-    Types:
-    - Normal: Items/Blocks/Item Tags without any NBT
-    - NBT Ignored: Items with NBT, where the nbt doesn't matter, it just needs to differ from the other items in the chest (like potions, banners, enchanted armor/tools that have durability, etc.)
-    - NBT Match All: Items with NBT, where every NBT Tag Matters (enchanted armor with durability), (people who want specific potions, but the slot order doesn't matter, aslong as there is a different potion in each slot)
-    - NBT Match Specific: Items with NBT, where only certain NBT tags matter (like enchanted armor with durability, but only the enchantments matter) */
-    public static boolean checkChestContents(Level level, BlockPos pos, EndSiegeChestDataReloadListener.CHEST_LOCATION location) {
+    public static boolean checkChestContents(Level level, BlockPos pos, UnstableEnums.CHEST_LOCATION location) {
+        AtomicBoolean prevItemFound = new AtomicBoolean(true);
         BlockEntity te = level.getBlockEntity(pos);
         if (te instanceof ChestBlockEntity) {
             ArrayList<ItemStack> chestItems = new ArrayList<>();
@@ -142,58 +131,58 @@ public class PseudoInversionRitualHelper {
                     chestItems.add(((ChestBlockEntity) te).getItem(i));
                 }
             }
-            //Check if two stacks and their tags equal each other (for items like potions)
-            for (int i = 0; i < chestItems.size(); i++) {
-                ItemStack currentItem = chestItems.get(i);
-                if (currentItem.getTag() != null) {
-                    CompoundTag stackTag = currentItem.getTag();
-                    for (int j = 0; j < chestItems.size(); j++) {
-                        if (i != j) {
-                            CompoundTag stackTag1 = chestItems.get(j).getTag();
-                            if (currentItem.is(chestItems.get(j).getItem()) && stackTag.equals(stackTag1)) {
-                                return false;
-                            }
-                        }
-                    }
-                } else {
-                    for (int j = 0; j < chestItems.size(); j++) {
-                        if (i != j) {
-                            if (currentItem.is(chestItems.get(j).getItem())) {
-                                return false;
-                            }
+            UnstableChestDataStorageManager.getMasterStorage().forEach(dataStorage -> {
+                if (dataStorage.chestLocation().equals(location)) {
+                    for (Map<UnstableEnums.NBT_TYPE, Ingredient> map : dataStorage.chestContents()) {
+                        if (prevItemFound.get()) {
+                            map.forEach((nbtType, ingredient) -> {
+                                if(prevItemFound.get()) {
+                                    prevItemFound.set(checkItem(ingredient, chestItems, nbtType));
+                                }
+                            });
                         }
                     }
                 }
-            }
-            List<Ingredient> validItems = EndSiegeChestDataReloadListener.CHEST_CONTENTS.get(location);
-            if (validItems.size() != chestItems.size())
-                return false;
-            boolean prevItemFound = false;
-            for (int i = 0; i < chestItems.size(); i++) {
-                ItemStack chestStack = chestItems.get(i);
-                if (!prevItemFound && i != 0)
-                    return false;
-                prevItemFound = false;
-                for (Ingredient validItem : validItems) {
-                    for (int k = 0; k < validItem.getItems().length; k++) {
-                        ItemStack ingredientItem = validItem.getItems()[k];
-                        if (chestStack.is(ingredientItem.getItem())) {
-                            prevItemFound = true;
-                            break;
+            });
+        }
+        return prevItemFound.get();
+    }
+
+    private static boolean checkItem(Ingredient ingredient, ArrayList<ItemStack> chestItems, UnstableEnums.NBT_TYPE nbtType) {
+        if (ingredient.getItems().length == 1) {
+            for (ItemStack chestItem : chestItems) {
+                if (ingredient.getItems()[0].is(chestItem.getItem())) {
+                    if(nbtType != UnstableEnums.NBT_TYPE.IGNORE_NBT && chestItem.getTag() != null) {
+                        if (nbtType == UnstableEnums.NBT_TYPE.ALL_NBT) {
+                            if(ingredient.getItems()[0].getTag().equals(chestItem.getTag())) return true;
+                        } else if (nbtType == UnstableEnums.NBT_TYPE.PARTIAL_NBT) {
+                            String chestItemNBT = chestItem.getTag().getAsString();
+                            String nbt = ingredient.toJson().getAsJsonObject().get("nbt").getAsString();
+                            String requiredNBT = nbt.substring(1, nbt.length() - 1);
+                            if(chestItemNBT.contains(requiredNBT)) return true;
                         }
+                    } else {
+                        return true;
                     }
                 }
             }
-            return prevItemFound;
+        } else {
+            for (ItemStack chestStack : chestItems) {
+                for (ItemStack ingStack : ingredient.getItems()) {
+                    if (chestStack.is(ingStack.getItem())) {
+                        return true;
+                    }
+                }
+            }
         }
         return false;
     }
 
     public static void destroyBeaconAndChests(Level level, BlockPos pos) {
-        BlockPos northChest = new BlockPos(pos.getX(), pos.below().getY(), pos.north(5).getZ());
-        BlockPos southChest = new BlockPos(pos.getX(), pos.below().getY(), pos.south(5).getZ());
-        BlockPos eastChest = new BlockPos(pos.east(5).getX(), pos.below().getY(), pos.getZ());
-        BlockPos westChest = new BlockPos(pos.west(5).getX(), pos.below().getY(), pos.getZ());
+        BlockPos northChest = pos.below().north(5);
+        BlockPos southChest = pos.below().south(5);
+        BlockPos eastChest = pos.below().east(5);
+        BlockPos westChest = pos.below().west(5);
 
         ChestBlockEntity northChestTE = (ChestBlockEntity) level.getBlockEntity(northChest);
         ChestBlockEntity southChestTE = (ChestBlockEntity) level.getBlockEntity(southChest);

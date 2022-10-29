@@ -1,7 +1,7 @@
 package com.electrolyte.unstable.jei;
 
 import com.electrolyte.unstable.Unstable;
-import com.electrolyte.unstable.listener.EndSiegeChestDataReloadListener;
+import com.electrolyte.unstable.endsiege.chests.UnstableChestDataStorageManager;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
@@ -37,8 +37,8 @@ public class UnstablePlugin implements IModPlugin {
     @Override
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
         List recipes = new ArrayList<>();
-        EndSiegeChestDataReloadListener.CHEST_CONTENTS.forEach((chestLocation, ingredients) -> {
-            EndSiegeRecipe recipe = new EndSiegeRecipe(chestLocation, ingredients);
+        UnstableChestDataStorageManager.getMasterStorage().forEach(dataStorage -> {
+            EndSiegeRecipe recipe = new EndSiegeRecipe(dataStorage.chestLocation(), dataStorage.chestContents());
             recipes.add(recipe);
         });
         registration.addRecipes(EndSiegeCategory.END_SIEGE_RECIPE_TYPE, recipes);

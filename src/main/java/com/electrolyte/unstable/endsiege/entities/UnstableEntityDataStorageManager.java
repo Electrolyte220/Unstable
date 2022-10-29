@@ -1,4 +1,4 @@
-package com.electrolyte.unstable.endsiege;
+package com.electrolyte.unstable.endsiege.entities;
 
 import java.util.ArrayList;
 

@@ -2,46 +2,43 @@
   "location": "SOUTH",
   "contents": [
     {
-      "item": "minecraft:grass_block"
+      "item": "minecraft:turtle_egg"
     },
     {
-      "tag": "forge:ores/lapis"
+      "item": "minecraft:scute"
     },
     {
-      "item": "minecraft:dirt"
+      "tag": "forge:heads"
     },
     {
-      "item": "minecraft:obsidian"
+      "item": "minecraft:end_crystal"
     },
     {
-      "tag": "forge:sand"
+      "item": "minecraft:rabbit_foot"
     },
     {
-      "tag": "forge:ores/diamond"
+      "item": "minecraft:name_tag"
     },
     {
-      "tag": "forge:gravel"
+      "item": "minecraft:dragon_breath"
     },
     {
-      "tag": "forge:ores/redstone"
+      "item": "minecraft:totem_of_undying"
     },
     {
-      "tag": "forge:ores/gold"
+      "item": "minecraft:shulker_shell"
     },
     {
-      "item": "minecraft:clay"
+      "item": "minecraft:phantom_membrane"
     },
     {
-      "tag": "forge:ores/iron"
+      "item": "minecraft:nautilus_shell"
     },
     {
-      "tag": "forge:ores/emerald"
+      "item": "minecraft:heart_of_the_sea"
     },
     {
-      "tag": "forge:ores/coal"
-    },
-    {
-      "tag": "forge:ores/copper"
+      "item": "minecraft:enchanted_golden_apple"
     }
   ]
 }

@@ -1,6 +1,6 @@
 package com.electrolyte.unstable.patchouli;
 
-import com.electrolyte.unstable.listener.EndSiegeChestDataReloadListener;
+import com.electrolyte.unstable.endsiege.chests.UnstableChestDataStorageManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiComponent;
@@ -28,20 +28,23 @@ public class ChestComponent implements ICustomComponent {
         xPos.set(2);
         yPos.set(14);
         count.getAndIncrement();
-        EndSiegeChestDataReloadListener.CHEST_CONTENTS.get(EndSiegeChestDataReloadListener.CHEST_LOCATION.valueOf(chestLocation.toUpperCase())).forEach(ingredient -> {
-            RenderSystem.enableBlend();
-            RenderSystem.setShaderColor(1F, 1F,1F, 1F);
-            RenderSystem.setShaderTexture(0, new ResourceLocation(PatchouliAPI.MOD_ID, "textures/gui/crafting.png"));
-            GuiComponent.blit(ms, xPos.get() -5, yPos.get() -5, 20, 102, 26, 26, 128, 256);
-            context.renderIngredient(ms, xPos.get(), yPos.get(), mouseX, mouseY, ingredient);
-            xPos.addAndGet(24);
-            if(count.get() % 5 == 0) {
-                xPos.set(2);
-                yPos.addAndGet(24);
+        UnstableChestDataStorageManager.getMasterStorage().forEach(dataStorage -> {
+            if(dataStorage.chestLocation().toString().equals(chestLocation.toUpperCase())) {
+                dataStorage.chestContents().forEach(ingredientMap -> ingredientMap.forEach((nbtType, ingredient) -> {
+                    RenderSystem.enableBlend();
+                    RenderSystem.setShaderColor(1F, 1F,1F, 1F);
+                    RenderSystem.setShaderTexture(0, new ResourceLocation(PatchouliAPI.MOD_ID, "textures/gui/crafting.png"));
+                    GuiComponent.blit(ms, xPos.get() - 5, yPos.get() - 5, 20, 102, 26, 26, 128, 256);
+                    context.renderIngredient(ms, xPos.get(), yPos.get(), mouseX, mouseY, ingredient);
+                    xPos.addAndGet(24);
+                    if (count.get() % 5 == 0) {
+                        xPos.set(2);
+                        yPos.addAndGet(24);
+                    }
+                    count.getAndIncrement();
+                }));
             }
-            count.getAndIncrement();
         });
-
     }
 
     @Override

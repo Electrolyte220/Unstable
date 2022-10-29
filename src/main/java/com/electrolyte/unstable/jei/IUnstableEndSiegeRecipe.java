@@ -1,15 +1,15 @@
 package com.electrolyte.unstable.jei;
 
-import com.electrolyte.unstable.listener.EndSiegeChestDataReloadListener;
+import com.electrolyte.unstable.UnstableEnums;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Unmodifiable;
 
-import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Map;
 
 public interface IUnstableEndSiegeRecipe {
 
-    @Unmodifiable List<Ingredient> getInputs();
+    @Unmodifiable List<Map<UnstableEnums.NBT_TYPE, Ingredient>> getInputs();
 
-    @Nonnull EndSiegeChestDataReloadListener.CHEST_LOCATION getLocation();
+    UnstableEnums.CHEST_LOCATION getLocation();
 }

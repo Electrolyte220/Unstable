@@ -1,8 +1,8 @@
 package com.electrolyte.unstable.listener;
 
 import com.electrolyte.unstable.Unstable;
-import com.electrolyte.unstable.endsiege.UnstableEntityDataStorage;
-import com.electrolyte.unstable.endsiege.UnstableEntityDataStorageManager;
+import com.electrolyte.unstable.endsiege.entities.UnstableEntityDataStorage;
+import com.electrolyte.unstable.endsiege.entities.UnstableEntityDataStorageManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
