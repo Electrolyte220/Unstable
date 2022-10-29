@@ -5,40 +5,70 @@
       "tag": "forge:stone"
     },
     {
-      "item": "minecraft:brick"
+      "tag": "minecraft:dirt"
+    },
+    {
+      "tag": "forge:gravel"
+    },
+    {
+      "tag": "forge:sand"
     },
     {
       "tag": "forge:glass"
     },
     {
-      "tag": "unstable:cooked_fish"
+      "item": "minecraft:clay"
     },
     {
-      "item": "minecraft:terracotta"
+      "tag": "minecraft:terracotta"
     },
     {
-      "tag": "forge:dyes/green"
-    },
-    {
-      "tag": "minecraft:coals"
+      "tag": "forge:dyes"
     },
     {
       "tag": "unstable:cooked_meat"
     },
     {
-      "tag": "forge:ingots"
+      "tag": "minecraft:fox_food"
+    },
+    {
+      "tag": "unstable:cooked_fish"
     },
     {
       "item": "minecraft:honey_bottle"
     },
     {
-      "item": "minecraft:quartz"
+      "tag": "forge:ores/coal"
     },
     {
-      "tag": "minecraft:fox_food"
+      "tag": "forge:ores/iron"
     },
     {
-      "item": "minecraft:nether_brick"
+      "tag": "forge:ores/copper"
+    },
+    {
+      "tag": "forge:ores/lapis"
+    },
+    {
+      "tag": "forge:ores/gold"
+    },
+    {
+      "tag": "forge:ores/redstone"
+    },
+    {
+      "tag": "forge:ores/diamond"
+    },
+    {
+      "tag": "forge:ores/emerald"
+    },
+    {
+      "tag": "forge:ores/quartz"
+    },
+    {
+      "tag": "forge:obsidian"
+    },
+    {
+      "tag": "forge:storage_blocks/amethyst"
     }
   ]
 }

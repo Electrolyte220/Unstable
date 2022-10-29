@@ -1,6 +1,7 @@
 package com.electrolyte.unstable.datagen;
 
 import com.electrolyte.unstable.Unstable;
+import com.electrolyte.unstable.UnstableEnums;
 import com.electrolyte.unstable.init.ModTags;
 import com.google.gson.*;
 import net.minecraft.data.DataGenerator;
@@ -17,7 +18,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.NBTIngredient;
 import org.jetbrains.annotations.NotNull;
@@ -34,21 +34,26 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
 
     @Override
     public void run(@NotNull HashCache cache) {
-        buildEntityData(cache, "default", 2, 5, List.of(EntityType.ZOMBIE, EntityType.WITCH, EntityType.SILVERFISH, EntityType.SPIDER, EntityType.CAVE_SPIDER, EntityType.SKELETON, EntityType.WITHER_SKELETON, EntityType.CREEPER, EntityType.BLAZE, EntityType.ZOMBIFIED_PIGLIN, EntityType.PHANTOM, EntityType.EVOKER, EntityType.PILLAGER, EntityType.VINDICATOR, EntityType.ILLUSIONER),
+        buildEntityData(cache, "default", 2, 5, List.of(EntityType.ZOMBIE, EntityType.WITCH, EntityType.SILVERFISH, EntityType.SPIDER, EntityType.CAVE_SPIDER, EntityType.SKELETON, EntityType.WITHER_SKELETON, EntityType.CREEPER, EntityType.BLAZE, EntityType.ZOMBIFIED_PIGLIN,
+                        EntityType.PHANTOM, EntityType.EVOKER, EntityType.PILLAGER, EntityType.VINDICATOR, EntityType.ILLUSIONER),
                 Optional.of(List.of(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 6000, 3, true, true), new MobEffectInstance(MobEffects.DAMAGE_BOOST, 6000, 0, true, false))),
                 Optional.empty(), Optional.empty());
 
-        buildChestData(cache, "north", List.of(Ingredient.of(Tags.Items.STONE), Ingredient.of(Items.BRICK), Ingredient.of(Tags.Items.GLASS), Ingredient.of(ModTags.COOKED_FISH), Ingredient.of(Items.TERRACOTTA),
-                Ingredient.of(Tags.Items.DYES_GREEN), Ingredient.of(ItemTags.COALS), Ingredient.of(ModTags.COOKED_MEAT), Ingredient.of(Tags.Items.INGOTS), Ingredient.of(Items.HONEY_BOTTLE), Ingredient.of(Items.QUARTZ), Ingredient.of(ItemTags.FOX_FOOD), Ingredient.of(Items.NETHER_BRICK)));
-        buildChestData(cache, "south", List.of(Ingredient.of(Blocks.GRASS_BLOCK), Ingredient.of(Tags.Items.ORES_LAPIS), Ingredient.of(Blocks.DIRT), Ingredient.of(Blocks.OBSIDIAN), Ingredient.of(Tags.Items.SAND), Ingredient.of(Tags.Items.ORES_DIAMOND),
-                Ingredient.of(Tags.Items.GRAVEL), Ingredient.of(Tags.Items.ORES_REDSTONE), Ingredient.of(Tags.Items.ORES_GOLD), Ingredient.of(Blocks.CLAY), Ingredient.of(Tags.Items.ORES_IRON), Ingredient.of(Tags.Items.ORES_EMERALD), Ingredient.of(Tags.Items.ORES_COAL), Ingredient.of(Tags.Items.ORES_COPPER)));
-        buildChestData(cache, "east", List.of(NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_INVISIBILITY)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_LEAPING)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_FIRE_RESISTANCE)),
-                NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_SWIFTNESS)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_SLOWNESS)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_TURTLE_MASTER)),
-                NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_WATER_BREATHING)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.STRONG_HEALING)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.STRONG_HARMING)),
-                NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_POISON)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_REGENERATION)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_STRENGTH)),
-                NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_WEAKNESS)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_SLOW_FALLING))));
+        buildChestData(cache, "north", List.of(Ingredient.of(Tags.Items.STONE), Ingredient.of(ItemTags.DIRT), Ingredient.of(Tags.Items.GRAVEL), Ingredient.of(Tags.Items.SAND), Ingredient.of(Tags.Items.GLASS), Ingredient.of(Items.CLAY),
+                Ingredient.of(ItemTags.TERRACOTTA), Ingredient.of(Tags.Items.DYES), Ingredient.of(ModTags.COOKED_MEAT), Ingredient.of(ItemTags.FOX_FOOD), Ingredient.of(ModTags.COOKED_FISH), Ingredient.of(Items.HONEY_BOTTLE), Ingredient.of(Tags.Items.ORES_COAL),
+                Ingredient.of(Tags.Items.ORES_IRON), Ingredient.of(Tags.Items.ORES_COPPER), Ingredient.of(Tags.Items.ORES_LAPIS), Ingredient.of(Tags.Items.ORES_GOLD), Ingredient.of(Tags.Items.ORES_REDSTONE), Ingredient.of(Tags.Items.ORES_DIAMOND),
+                Ingredient.of(Tags.Items.ORES_EMERALD), Ingredient.of(Tags.Items.ORES_QUARTZ), Ingredient.of(Tags.Items.OBSIDIAN), Ingredient.of(Tags.Items.STORAGE_BLOCKS_AMETHYST)), Optional.of(UnstableEnums.NBT_TYPE.IGNORE_NBT));
+        buildChestData(cache, "south", List.of(Ingredient.of(Items.TURTLE_EGG), Ingredient.of(Items.SCUTE), Ingredient.of(Tags.Items.HEADS), Ingredient.of(Items.END_CRYSTAL), Ingredient.of(Items.RABBIT_FOOT), Ingredient.of(Items.NAME_TAG),
+                Ingredient.of(Items.DRAGON_BREATH), Ingredient.of(Items.TOTEM_OF_UNDYING), Ingredient.of(Items.SHULKER_SHELL), Ingredient.of(Items.PHANTOM_MEMBRANE), Ingredient.of(Items.NAUTILUS_SHELL), Ingredient.of(Items.HEART_OF_THE_SEA),
+                Ingredient.of(Items.ENCHANTED_GOLDEN_APPLE)), Optional.of(UnstableEnums.NBT_TYPE.IGNORE_NBT));
+        buildChestData(cache, "east", List.of(NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_INVISIBILITY)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_LEAPING)),
+                NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_FIRE_RESISTANCE)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_SWIFTNESS)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_SLOWNESS)),
+                NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_TURTLE_MASTER)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_WATER_BREATHING)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.STRONG_HEALING)),
+                NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.STRONG_HARMING)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_POISON)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_REGENERATION)),
+                NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_STRENGTH)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_WEAKNESS)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_SLOW_FALLING))), Optional.of(UnstableEnums.NBT_TYPE.ALL_NBT));
         buildChestData(cache, "west", List.of(Ingredient.of(Items.MUSIC_DISC_11), Ingredient.of(Items.MUSIC_DISC_13), Ingredient.of(Items.MUSIC_DISC_BLOCKS), Ingredient.of(Items.MUSIC_DISC_CAT), Ingredient.of(Items.MUSIC_DISC_CHIRP),
-                Ingredient.of(Items.MUSIC_DISC_FAR), Ingredient.of(Items.MUSIC_DISC_MALL), Ingredient.of(Items.MUSIC_DISC_MELLOHI), Ingredient.of(Items.MUSIC_DISC_OTHERSIDE), Ingredient.of(Items.MUSIC_DISC_PIGSTEP), Ingredient.of(Items.MUSIC_DISC_STAL), Ingredient.of(Items.MUSIC_DISC_STRAD), Ingredient.of(Items.MUSIC_DISC_WAIT), Ingredient.of(Items.MUSIC_DISC_WARD)));
+                Ingredient.of(Items.MUSIC_DISC_FAR), Ingredient.of(Items.MUSIC_DISC_MALL), Ingredient.of(Items.MUSIC_DISC_MELLOHI), Ingredient.of(Items.MUSIC_DISC_OTHERSIDE), Ingredient.of(Items.MUSIC_DISC_PIGSTEP), Ingredient.of(Items.MUSIC_DISC_STAL),
+                Ingredient.of(Items.MUSIC_DISC_STRAD), Ingredient.of(Items.MUSIC_DISC_WAIT), Ingredient.of(Items.MUSIC_DISC_WARD)), Optional.of(UnstableEnums.NBT_TYPE.IGNORE_NBT));
     }
 
     private void buildEntityData(HashCache cache, String fileName, int minCount, int maxCount, List<EntityType<?>> entities, Optional<List<MobEffectInstance>> effects, Optional<List<Map<InteractionHand, ItemStack>>> equipment, Optional<List<Map<EquipmentSlot, ItemStack>>> armor) {
@@ -108,15 +113,19 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
         }
     }
 
-    private void buildChestData(HashCache cache, String chestLocation, List<Ingredient> chestContents) {
+    private void buildChestData(HashCache cache, String chestLocation, List<Ingredient> chestContents, Optional<UnstableEnums.NBT_TYPE> nbtType) {
         Path file = this.gen.getOutputFolder().resolve("data/unstable/end_siege_chest_data/" + chestLocation + ".json");
         JsonObject jsonObject = new JsonObject();
         JsonArray chestContentsArray = new JsonArray();
         jsonObject.addProperty("location", chestLocation.toUpperCase());
         chestContents.forEach(ingredient -> {
             JsonElement ingredientElement = ingredient.toJson();
-            //Only copy 'item' and 'nbt', since 'type' and 'count' is not needed
             JsonObject newIngredient = new JsonObject();
+            nbtType.ifPresent(type -> {
+                if(type != UnstableEnums.NBT_TYPE.IGNORE_NBT) {
+                newIngredient.addProperty("nbtType", type.toString());
+                }
+            });
             if(ingredientElement.getAsJsonObject().get("item") != null) {
                 newIngredient.add("item", ingredientElement.getAsJsonObject().get("item"));
                 if(ingredientElement.getAsJsonObject().get("nbt") != null) {

@@ -1,4 +1,4 @@
-package com.electrolyte.unstable.endsiege;
+package com.electrolyte.unstable.endsiege.entities;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;

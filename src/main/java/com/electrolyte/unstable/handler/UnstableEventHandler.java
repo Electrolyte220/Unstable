@@ -2,9 +2,10 @@ package com.electrolyte.unstable.handler;
 
 import com.electrolyte.unstable.Unstable;
 import com.electrolyte.unstable.UnstableConfig;
+import com.electrolyte.unstable.UnstableEnums;
 import com.electrolyte.unstable.damagesource.DivideByDiamondDamageSource;
-import com.electrolyte.unstable.endsiege.UnstableEntityDataStorage;
-import com.electrolyte.unstable.endsiege.UnstableEntityDataStorageManager;
+import com.electrolyte.unstable.endsiege.entities.UnstableEntityDataStorage;
+import com.electrolyte.unstable.endsiege.entities.UnstableEntityDataStorageManager;
 import com.electrolyte.unstable.helper.ActivationRitualHelper;
 import com.electrolyte.unstable.helper.PseudoInversionRitualHelper;
 import com.electrolyte.unstable.init.ModItems;
@@ -156,10 +157,10 @@ public class UnstableEventHandler {
                             event.setCanceled(true);
                             player.sendMessage(new TranslatableComponent( "unstable.pseudo_inversion_ritual.multiple_sigil").withStyle(ChatFormatting.RED), player.getUUID());
                         } else if (PseudoInversionRitualHelper.checkChests(event.getEntity().getLevel(), pos2.below()) &&
-                                PseudoInversionRitualHelper.checkChestContents(event.getEntity().getLevel(), pos2.below().north(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.NORTH) &&
-                                PseudoInversionRitualHelper.checkChestContents(event.getEntity().getLevel(), pos2.below().south(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.SOUTH) &&
-                                PseudoInversionRitualHelper.checkChestContents(event.getEntity().getLevel(), pos2.below().east(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.EAST) &&
-                                PseudoInversionRitualHelper.checkChestContents(event.getEntity().getLevel(), pos2.below().west(5), EndSiegeChestDataReloadListener.CHEST_LOCATION.WEST) &&
+                                PseudoInversionRitualHelper.checkChestContents(event.getEntity().getLevel(), pos2.below().north(5), UnstableEnums.CHEST_LOCATION.NORTH) &&
+                                PseudoInversionRitualHelper.checkChestContents(event.getEntity().getLevel(), pos2.below().south(5), UnstableEnums.CHEST_LOCATION.SOUTH) &&
+                                PseudoInversionRitualHelper.checkChestContents(event.getEntity().getLevel(), pos2.below().east(5), UnstableEnums.CHEST_LOCATION.EAST) &&
+                                PseudoInversionRitualHelper.checkChestContents(event.getEntity().getLevel(), pos2.below().west(5), UnstableEnums.CHEST_LOCATION.WEST) &&
                                 PseudoInversionRitualHelper.checkRedstoneAndString(event.getEntity().getLevel(), pos2.below())) {
                             PseudoInversionRitualHelper.destroyBeaconAndChests(event.getEntity().getLevel(), pos2);
                             AtomicInteger players = new AtomicInteger();
