@@ -1,8 +1,11 @@
 package com.electrolyte.unstable.helper;
 
 import com.electrolyte.unstable.UnstableEnums;
-import com.electrolyte.unstable.endsiege.chests.UnstableChestDataStorageManager;
+import com.electrolyte.unstable.endsiege.UnstableChestDataStorage;
+import com.electrolyte.unstable.savedata.UnstableSavedData;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -131,7 +134,7 @@ public class PseudoInversionRitualHelper {
                     chestItems.add(((ChestBlockEntity) te).getItem(i));
                 }
             }
-            UnstableChestDataStorageManager.getMasterStorage().forEach(dataStorage -> {
+            UnstableChestDataStorage.getMasterStorage().forEach(dataStorage -> {
                 if (dataStorage.chestLocation().equals(location)) {
                     for (Map<UnstableEnums.NBT_TYPE, Ingredient> map : dataStorage.chestContents()) {
                         if (prevItemFound.get()) {
@@ -240,7 +243,15 @@ public class PseudoInversionRitualHelper {
         level.explode(null, westChest.getX(), westChest.getY(), westChest.getZ(), 2.5F, Explosion.BlockInteraction.DESTROY);
     }
 
-    public static void sendSiegeMessage(MutableComponent translateKey, Level level) {
-        level.getServer().getLevel(Level.END).players().forEach(player -> player.displayClientMessage(translateKey, true));
+    //TODO: Make sure this only sends kills messages to players participating in the end siege.
+    public static void sendSiegeMessage(MutableComponent translateKey, Level level, UnstableSavedData data) {
+        level.getServer().getLevel(Level.END).players().forEach(player -> {
+            for(Tag tag : data.getPlayersWithActivationSigil()) {
+                CompoundTag tag1 = (CompoundTag) tag;
+                if(tag1.getUUID("playerUUID").equals(player.getUUID())) {
+                    player.displayClientMessage(translateKey, true);
+                }
+            }
+        });
     }
 }

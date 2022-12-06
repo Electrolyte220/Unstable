@@ -1,8 +1,7 @@
 package com.electrolyte.unstable.listener;
 
 import com.electrolyte.unstable.Unstable;
-import com.electrolyte.unstable.endsiege.entities.UnstableEntityDataStorage;
-import com.electrolyte.unstable.endsiege.entities.UnstableEntityDataStorageManager;
+import com.electrolyte.unstable.endsiege.UnstableEntityDataStorage;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -35,8 +34,8 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
 
     @Override
     protected void apply(@NotNull Map<ResourceLocation, JsonElement> object, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller) {
-        if(!UnstableEntityDataStorageManager.getMasterStorage().isEmpty()) {
-            UnstableEntityDataStorageManager.getMasterStorage().clear();
+        if(!UnstableEntityDataStorage.getMasterStorage().isEmpty()) {
+            UnstableEntityDataStorage.getMasterStorage().clear();
         }
         Unstable.LOGGER.info("Setting up End Siege Entity Data...");
         object.forEach((location, jsonElement) -> {
@@ -50,7 +49,7 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
             List<MobEffectInstance> effectList = validateAndConvertEffects(effects);
             List<Map<InteractionHand, ItemStack>> equipmentList = validateAndConvertEquipment(equipment);
             List<Map<EquipmentSlot, ItemStack>> armorList = validateAndConvertArmor(armor);
-            entityList.forEach(entity -> UnstableEntityDataStorageManager.addEntries(new UnstableEntityDataStorage(entity, spawnCountArray[0], spawnCountArray[1], effectList, equipmentList, armorList)));
+            entityList.forEach(entity -> UnstableEntityDataStorage.addEntries(new UnstableEntityDataStorage(entity, spawnCountArray[0], spawnCountArray[1], effectList, equipmentList, armorList)));
         });
         Unstable.LOGGER.info("Finished Setting up End Siege Entity Data.");
     }

@@ -2,8 +2,7 @@ package com.electrolyte.unstable.listener;
 
 import com.electrolyte.unstable.Unstable;
 import com.electrolyte.unstable.UnstableEnums;
-import com.electrolyte.unstable.endsiege.chests.UnstableChestDataStorage;
-import com.electrolyte.unstable.endsiege.chests.UnstableChestDataStorageManager;
+import com.electrolyte.unstable.endsiege.UnstableChestDataStorage;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -29,8 +28,8 @@ public class EndSiegeChestDataReloadListener extends SimpleJsonResourceReloadLis
 
     @Override
     protected void apply(@NotNull Map<ResourceLocation, JsonElement> pObject, @NotNull ResourceManager pResourceManager, @NotNull ProfilerFiller pProfiler) {
-        if(!UnstableChestDataStorageManager.getMasterStorage().isEmpty()) {
-            UnstableChestDataStorageManager.getMasterStorage().clear();
+        if(!UnstableChestDataStorage.getMasterStorage().isEmpty()) {
+            UnstableChestDataStorage.getMasterStorage().clear();
         }
         Unstable.LOGGER.info("Setting up End Siege Chest Data...");
         pObject.forEach(((resourceLocation, jsonElement) -> {
@@ -39,7 +38,7 @@ public class EndSiegeChestDataReloadListener extends SimpleJsonResourceReloadLis
             UnstableEnums.CHEST_LOCATION location = validateLocation(jsonLocation);
             if(!location.equals(UnstableEnums.CHEST_LOCATION.NONE)) {
                 List<Map<UnstableEnums.NBT_TYPE, Ingredient>> contents = validateContents(jsonContents);
-                UnstableChestDataStorageManager.addEntries(new UnstableChestDataStorage(location, contents));
+                UnstableChestDataStorage.addEntries(new UnstableChestDataStorage(location, contents));
             } else {
                 Unstable.LOGGER.error("Location '{}' is not a valid location. Valid locations are: 'NORTH', 'SOUTH', 'EAST', or 'WEST'", location);
             }

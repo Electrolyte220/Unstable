@@ -4,8 +4,7 @@ import com.electrolyte.unstable.Unstable;
 import com.electrolyte.unstable.UnstableConfig;
 import com.electrolyte.unstable.UnstableEnums;
 import com.electrolyte.unstable.damagesource.DivideByDiamondDamageSource;
-import com.electrolyte.unstable.endsiege.entities.UnstableEntityDataStorage;
-import com.electrolyte.unstable.endsiege.entities.UnstableEntityDataStorageManager;
+import com.electrolyte.unstable.endsiege.UnstableEntityDataStorage;
 import com.electrolyte.unstable.helper.ActivationRitualHelper;
 import com.electrolyte.unstable.helper.PseudoInversionRitualHelper;
 import com.electrolyte.unstable.init.ModItems;
@@ -189,10 +188,10 @@ public class UnstableEventHandler {
             if (playerDim.equals(DimensionType.END_LOCATION.location())) {
                 if (data.isEndSiegeOccurring() && data.getTotalKills() < UnstableConfig.NEEDED_MOBS.get() && event.getEntity().getTags().contains("{spawnedBySiege:1b}")) {
                     data.setTotalKills(data.getTotalKills() + 1);
-                    PseudoInversionRitualHelper.sendSiegeMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_kills", data.getTotalKills() + "/" + UnstableConfig.NEEDED_MOBS.get()).withStyle(ChatFormatting.WHITE), event.getEntity().getLevel());
+                    PseudoInversionRitualHelper.sendSiegeMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_kills", data.getTotalKills() + "/" + UnstableConfig.NEEDED_MOBS.get()).withStyle(ChatFormatting.WHITE), event.getEntity().getLevel(), data);
                 }
                 if (data.getTotalKills() >= UnstableConfig.NEEDED_MOBS.get()) {
-                    PseudoInversionRitualHelper.sendSiegeMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_ended").withStyle(ChatFormatting.WHITE), event.getEntity().getLevel());
+                    PseudoInversionRitualHelper.sendSiegeMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_ended").withStyle(ChatFormatting.WHITE), event.getEntity().getLevel(), data);
                     player.level.players().forEach(playerIn -> {
                         for(Tag tag : data.getPlayersWithActivationSigil()) {
                             CompoundTag tag1 = (CompoundTag) tag;
@@ -244,13 +243,13 @@ public class UnstableEventHandler {
                         int mobCount = level.getEntities(null, spawnableLocations).size();
                         if (mobCount < UnstableConfig.MAX_MOBS.get()) {
                             for (int i = 0; i < playersParticipating; i++) {
-                                int spawnedMobInt = new Random().nextInt(UnstableEntityDataStorageManager.getMasterStorage().size());
-                                UnstableEntityDataStorage entityData = UnstableEntityDataStorageManager.getMasterStorage().get(spawnedMobInt);
+                                int spawnedMobInt = new Random().nextInt(UnstableEntityDataStorage.getMasterStorage().size());
+                                UnstableEntityDataStorage entityData = UnstableEntityDataStorage.getMasterStorage().get(spawnedMobInt);
                                 Optional<EntityType<?>> exists = EntityType.byString(entityData.entity().getRegistryName().toString());
                                 while (exists.isEmpty()) {
                                     Unstable.LOGGER.error("Mob " + '\'' + entityData.entity().getRegistryName().toString() + '\'' + " cannot be spawned as it does not exist in the registry.");
-                                    spawnedMobInt = new Random().nextInt(UnstableEntityDataStorageManager.getMasterStorage().size());
-                                    entityData = UnstableEntityDataStorageManager.getMasterStorage().get(spawnedMobInt);
+                                    spawnedMobInt = new Random().nextInt(UnstableEntityDataStorage.getMasterStorage().size());
+                                    entityData = UnstableEntityDataStorage.getMasterStorage().get(spawnedMobInt);
                                     exists = EntityType.byString(entityData.entity().getRegistryName().toString());
                                 }
                                 EntityType<?> entityType = exists.get();
