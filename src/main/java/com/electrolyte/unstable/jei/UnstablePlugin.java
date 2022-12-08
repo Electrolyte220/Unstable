@@ -2,6 +2,7 @@ package com.electrolyte.unstable.jei;
 
 import com.electrolyte.unstable.Unstable;
 import com.electrolyte.unstable.endsiege.UnstableChestDataStorage;
+import com.electrolyte.unstable.init.ModItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
@@ -31,7 +32,8 @@ public class UnstablePlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(VanillaTypes.ITEM_STACK, new ItemStack(Blocks.BEACON), EndSiegeCategory.PLUGIN_UID);
+        registration.addRecipeCatalyst(VanillaTypes.ITEM_STACK, new ItemStack(Blocks.BEACON), EndSiegeCategory.END_SIEGE_RECIPE_TYPE);
+        registration.addRecipeCatalyst(VanillaTypes.ITEM_STACK, new ItemStack(ModItems.DIVISION_SIGIL_ACTIVATED.get()), EndSiegeCategory.END_SIEGE_RECIPE_TYPE);
     }
 
     @Override
