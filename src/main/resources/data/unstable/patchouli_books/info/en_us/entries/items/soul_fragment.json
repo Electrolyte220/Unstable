@@ -11,8 +11,8 @@
 			"text": "Takes a bit of the player's soul every time it is crafted. However, this can only be done whilst the player's soul is not weak."
 		},
 		{
-			"type": "patchouli:crafting",
-			"recipe": "unstable:soul_fragment"
+			"type": "patchouli:text",
+			"text": "Can be crafted by shift-right clicking with an Etheric Sword"
 		}
 	]
 }

@@ -5,7 +5,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -24,28 +23,17 @@ public class SoulFragment extends Item {
     }
 
     @Override
-    public void onCraftedBy(ItemStack pStack, Level pLevel, Player pPlayer) {
-        if(!pLevel.isClientSide) {
-            pStack.getOrCreateTag().putUUID("playerUUID", pPlayer.getUUID());
-            if (pPlayer.getMaxHealth() > 6) {
-                pPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(pPlayer.getAttribute(Attributes.MAX_HEALTH).getValue() - 2);
-                pPlayer.hurt(DamageSource.GENERIC, 2.0F);
-            } else {
-                pStack.getOrCreateTag().putBoolean("weakSoul", true);
-            }
-        }
-    }
-
-    @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
-        if(pPlayer.getItemInHand(pUsedHand).getTag() != null && pPlayer.getItemInHand(pUsedHand).getTag().contains("playerUUID") &&
-                pPlayer.getUUID().equals(pPlayer.getItemInHand(pUsedHand).getTag().getUUID("playerUUID")) && pPlayer.getMaxHealth() <= 18) {
-            if(!pPlayer.getItemInHand(pUsedHand).getTag().getBoolean("weakSoul")) {
+        ItemStack stack = pPlayer.getItemInHand(pUsedHand);
+        if(stack.getTag() != null && stack.getTag().contains("playerUUID") &&
+                pPlayer.getUUID().equals(stack.getTag().getUUID("playerUUID")) && pPlayer.getMaxHealth() <= 18) {
+            if(!stack.getTag().getBoolean("weakSoul")) {
                 pPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(pPlayer.getAttribute(Attributes.MAX_HEALTH).getValue() + 2);
-                pPlayer.getInventory().removeFromSelected(true);
+                stack.setCount(stack.getCount() - 1);
+                return InteractionResultHolder.sidedSuccess(stack, pLevel.isClientSide);
             }
         }
-        return InteractionResultHolder.pass(pPlayer.getItemInHand(pUsedHand));
+        return InteractionResultHolder.pass(stack);
     }
 
     @Override

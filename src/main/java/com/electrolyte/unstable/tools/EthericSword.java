@@ -1,13 +1,22 @@
 package com.electrolyte.unstable.tools;
 
 import com.electrolyte.unstable.Unstable;
+import com.electrolyte.unstable.init.ModItems;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.common.util.FakePlayer;
 import org.jetbrains.annotations.NotNull;
 
 public class EthericSword extends SwordItem {
@@ -31,5 +40,24 @@ public class EthericSword extends SwordItem {
             stack.enchant(Enchantments.SHARPNESS, 5);
             list.add(stack);
         }
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
+        ItemStack ethericSwordStack = pPlayer.getItemInHand(pUsedHand);
+        ItemStack soulFragmentStack = new ItemStack(ModItems.SOUL_FRAGMENT.get());
+        if(pPlayer instanceof FakePlayer || !pPlayer.isCrouching() || pLevel.isClientSide) return InteractionResultHolder.pass(ethericSwordStack);
+        soulFragmentStack.getOrCreateTag().putUUID("playerUUID", pPlayer.getUUID());
+        if (pPlayer.getHealth() > 2) {
+            pPlayer.hurt(DamageSource.GENERIC, 2.0F);
+            if(pPlayer.getMaxHealth() > 6) {
+                pPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(pPlayer.getAttribute(Attributes.MAX_HEALTH).getValue() - 2);
+            } else {
+                soulFragmentStack.getOrCreateTag().putBoolean("weakSoul", true);
+            }
+            pPlayer.setItemInHand(pUsedHand, soulFragmentStack);
+            return InteractionResultHolder.success(soulFragmentStack);
+        }
+        return InteractionResultHolder.pass(ethericSwordStack);
     }
 }

@@ -1,7 +1,6 @@
 package com.electrolyte.unstable.init;
 
 import com.electrolyte.unstable.Unstable;
-import com.electrolyte.unstable.recipes.SoulFragmentRecipe;
 import com.electrolyte.unstable.recipes.UnstableIngotRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -19,6 +18,4 @@ public class ModRecipes {
 
     public static final RegistryObject<RecipeSerializer<?>> UNSTABLE_INGOT_RECIPE_SERIALIZER = RECIPE_SERIALIZERS.register("unstable_ingot",
             UnstableIngotRecipe.Serializer::new);
-    public static final RegistryObject<RecipeSerializer<?>> SOUL_FRAGMENT_RECIPE_SERIALIZER = RECIPE_SERIALIZERS.register("soul_fragment",
-            SoulFragmentRecipe.Serializer::new);
 }
