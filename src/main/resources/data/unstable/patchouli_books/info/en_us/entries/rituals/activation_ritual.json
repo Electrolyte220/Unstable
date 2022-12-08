@@ -5,7 +5,7 @@
 	"pages": [
 		{
 			"type": "patchouli:text",
-			"text": "This ritual will allow the player to transform their useless inactive division sigil into something more useful. $(br2)To see the requirements for the ritual, you can either shift right click an enchantment table, or read them on the next page."
+			"text": "This ritual will allow the player to transform their inactive Division Sigil into something more useful. $(br2)To see the requirements for the ritual, you can either shift right click an enchantment table, or read them on the next page."
 		},
 		{
 			"type": "patchouli:multiblock",
@@ -34,7 +34,7 @@
 				]
 			},
 			"enable_visualize": true,
-			"text": "$(4)Warning: Performing this ritual may cause some unintended effects."
+			"text": "$(4)Warning: Performing this ritual may cause some unintended results."
 		},
 		{
 			"type": "patchouli:text",

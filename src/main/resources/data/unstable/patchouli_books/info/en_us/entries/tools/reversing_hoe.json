@@ -7,17 +7,17 @@
 			"type": "patchouli:spotlight",
 			"item": "unstable:reversing_hoe",
 			"title": "Reversing Hoe",
-			"text": "This tool can be used to reverse the state of certain blocks. $(br2)See the next page for further details."
+			"text": "This tool can be used to reverse the state of certain blocks, alongside being used as a regular hoe. $(br2)See the next few pages for further details. $(br2)Also, it cannot be repaired in an anvil."
 		},
 		{
 			"type": "patchouli:crafting",
 			"recipe": "unstable:reversing_hoe",
-			"text": "Using Stable Ingots will yield a special enchantment."
+			"text": "Using Stable Ingots will yield a special enchantment, alongside making the tool unbreakable."
 		},
 		{
 			"type": "patchouli:spotlight",
 			"item": "minecraft:grass_block",
-			"text": "Converted from Dirt Related Blocks."
+			"text": "Converted from Dirt related Blocks."
 		},
 		{
 			"type": "patchouli:spotlight",

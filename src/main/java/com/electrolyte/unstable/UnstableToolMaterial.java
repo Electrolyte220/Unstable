@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 public enum UnstableToolMaterial implements Tier {
 
-    UNSTABLE(3.5F, 8.5F, 1796, 3, 0);
+    UNSTABLE(3.5F, 9.5F, 2501, 4, 0);
 
     private final float attackDamage, speed;
     private final int uses, harvestLevel, enchantability;

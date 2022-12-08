@@ -1,0 +1,19 @@
+{
+	"name": "Stable Ingot",
+	"icon": "unstable:stable_ingot",
+	"category": "unstable:items",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"x": 100,
+			"y": 50,
+			"item": "unstable:stable_ingot",
+			"text": "It seems using a stabilized version of the Division Sigil yields a safer version of the Unstable Ingot."
+		},
+		{
+			"type": "patchouli:crafting",
+			"recipe": "unstable:stable_ingot",
+			"text": "This stable version of the Unstable Ingot is safe enough to be held by the player, and has the added bonus of adding some special properties to tools that are crafted out of them."
+		}
+	]
+}

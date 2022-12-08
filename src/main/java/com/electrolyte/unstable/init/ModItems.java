@@ -28,9 +28,6 @@ public class ModItems {
             () -> new Item(new Item.Properties().tab(Unstable.UNSTABLE_TAB)));
     public static final RegistryObject<Item> STABLE_INGOT = ITEMS.register("stable_ingot",
             () -> new Item(new Item.Properties().tab(Unstable.UNSTABLE_TAB)));
-    public static final RegistryObject<Item> UNSTABLE_STABLE_NUGGET = ITEMS.register("unstable_stable_nugget",
-            () -> new Item(new Item.Properties().tab(Unstable.UNSTABLE_TAB)));
     public static final RegistryObject<Item> SOUL_FRAGMENT = ITEMS.register("soul_fragment",
             () -> new SoulFragment(new Item.Properties().tab(Unstable.UNSTABLE_TAB)));
-
 }

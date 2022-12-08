@@ -5,7 +5,7 @@
 	"pages": [
 		{
 			"type": "patchouli:text",
-			"text": "This ritual will allow the player to transform their activated division sigil into a more stable version. $(br2)The order of items in chests does not matter, as long as all items are in their respective chests. $(br2)To start this ritual, a sacrifice is needed from the protector of villages."
+			"text": "This ritual will allow the player to transform their activated Division Sigil into a stabilized version. $(br2)The order of items in chests do not matter, as long as all items are in their respective chests. $(br2)To start this ritual, a sacrifice is needed from the protector of villages."
 		},
 		{
 			"type": "patchouli:multiblock",
