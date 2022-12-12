@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
@@ -44,18 +45,17 @@ public class HealingAxe extends AxeItem {
     public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
         if(player instanceof FakePlayer) return false;
         if(entity instanceof Mob mob) {
-                if(mob.getMobType() != MobType.UNDEAD && mob.getHealth() < mob.getMaxHealth()) {
+            //TODO: Find a better particle
+                if(mob.getType().getCategory() == MobCategory.CREATURE && mob.getHealth() < mob.getMaxHealth()) {
                     mob.setHealth(mob.getHealth() + 0.75F);
-                    //TODO: Find a better particle for this.
                     mob.getLevel().addParticle(ParticleTypes.HEART, (mob.getX() - 0.5) + new Random().nextDouble(1), (mob.getY() + 0.25) + new Random().nextDouble(1), (mob.getZ() - 0.5) + new Random().nextDouble(1), 0, 0.5, 0);
                     player.hurt(HealingAxeDamageSource.INSTANCE, 1.5F);
-                    //mob.addEffect(new MobEffectInstance(MobEffects.HEAL, 1, 0, false, true));
-                } else if (mob.getMobType() == MobType.UNDEAD) {
+                    super.onLeftClickEntity(stack, player, entity);
+                } else if (mob.getType().getCategory() == MobCategory.MONSTER) {
                     mob.setHealth(mob.getHealth() - 3);
-                    //TODO: Find a better particle for this.
                     mob.getLevel().addParticle(ParticleTypes.HEART, (mob.getX() - 0.5) + new Random().nextDouble(1), (mob.getY() + 0.25) + new Random().nextDouble(1), (mob.getZ() - 0.5) + new Random().nextDouble(1), 0, 0.5, 0);
                     player.hurt(HealingAxeDamageSource.INSTANCE, 1.5F);
-                    //mob.addEffect(new MobEffectInstance(MobEffects.HEAL, 1, 1, false, true));
+                    super.onLeftClickEntity(stack, player, entity);
                 }
         }
         return false;
