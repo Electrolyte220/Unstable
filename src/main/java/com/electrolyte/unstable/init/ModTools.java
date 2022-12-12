@@ -2,7 +2,7 @@ package com.electrolyte.unstable.init;
 
 import com.electrolyte.unstable.Unstable;
 import com.electrolyte.unstable.UnstableToolMaterial;
-import com.electrolyte.unstable.tools.*;
+import com.electrolyte.unstable.items.tools.*;
 import net.minecraft.world.item.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;

@@ -1,4 +1,4 @@
-package com.electrolyte.unstable.tools;
+package com.electrolyte.unstable.items.tools;
 
 import com.electrolyte.unstable.Unstable;
 import net.minecraft.core.NonNullList;
