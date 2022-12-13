@@ -68,6 +68,7 @@ public class ReversingHoe extends DiggerItem {
                     if(currentAge > 0) {
                         if(!level.isClientSide) {
                             level.setBlock(pos, state.setValue((Property<Integer>) property, currentAge - 1), 2);
+                            context.getItemInHand().hurtAndBreak(1, player, p -> p.broadcastBreakEvent(context.getHand()));
                             return InteractionResult.SUCCESS;
                         }
                     } else return InteractionResult.PASS;
