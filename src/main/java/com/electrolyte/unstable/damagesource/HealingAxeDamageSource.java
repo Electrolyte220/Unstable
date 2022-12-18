@@ -19,6 +19,6 @@ public class HealingAxeDamageSource extends DamageSource {
 
     @Override
     public @NotNull Component getLocalizedDeathMessage(LivingEntity entityLivingBaseIn) {
-        return new TranslatableComponent(entityLivingBaseIn.getDisplayName().getString() + " did not watch their health!");
+        return new TranslatableComponent(entityLivingBaseIn.getDisplayName().getString() + " forgot to heal themselves.");
     }
 }

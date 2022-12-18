@@ -45,22 +45,21 @@ public class HealingAxe extends AxeItem {
     public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
         if(player instanceof FakePlayer) return false;
         if(entity instanceof Mob mob && entity.getLevel() instanceof ServerLevel serverLevel) {
-            //TODO: Find a better particle
-                if(mob.getType().getCategory() == MobCategory.CREATURE) {
-                    if(mob.getHealth() < mob.getMaxHealth()) {
-                        mob.setHealth(mob.getHealth() + 0.75F);
-                        serverLevel.sendParticles(ParticleTypes.HEART, (mob.getX() - 0.5) + new Random().nextDouble(1), (mob.getY() + 0.5) + new Random().nextDouble(1), (mob.getZ() - 0.5) + new Random().nextDouble(1),1, 0, 0.25, 0, 0.25);
-                        player.hurt(HealingAxeDamageSource.INSTANCE, 1.5F);
-                        stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(player.getUsedItemHand()));
-                    }
-                    return true;
-                } else if (mob.getType().getCategory() == MobCategory.MONSTER) {
-                    mob.setHealth(mob.getHealth() - 3);
-                    serverLevel.sendParticles(ParticleTypes.WITCH, (mob.getX() - 0.5) + new Random().nextDouble(1), (mob.getY() + 0.75) + new Random().nextDouble(1), (mob.getZ() - 0.5) + new Random().nextDouble(1), 5, 0, 0.5, 0, 0.25);
+            if(mob.getType().getCategory() == MobCategory.CREATURE) {
+                if(mob.getHealth() < mob.getMaxHealth()) {
+                    mob.setHealth(mob.getHealth() + 0.75F);
+                    serverLevel.sendParticles(ParticleTypes.HEART, (mob.getX() - 0.5) + new Random().nextDouble(1), (mob.getY() + 0.5) + new Random().nextDouble(1), (mob.getZ() - 0.5) + new Random().nextDouble(1),1, 0, 0.25, 0, 0.25);
                     player.hurt(HealingAxeDamageSource.INSTANCE, 1.5F);
                     stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(player.getUsedItemHand()));
-                    super.onLeftClickEntity(stack, player, entity);
                 }
+                return true;
+            } else if (mob.getType().getCategory() == MobCategory.MONSTER) {
+                mob.setHealth(mob.getHealth() - 3);
+                serverLevel.sendParticles(ParticleTypes.WITCH, (mob.getX() - 0.5) + new Random().nextDouble(1), (mob.getY() + 0.75) + new Random().nextDouble(1), (mob.getZ() - 0.5) + new Random().nextDouble(1), 5, 0, 0.5, 0, 0.25);
+                player.hurt(HealingAxeDamageSource.INSTANCE, 1.5F);
+                stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(player.getUsedItemHand()));
+                super.onLeftClickEntity(stack, player, entity);
+            }
         }
         return false;
     }
