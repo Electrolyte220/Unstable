@@ -24,7 +24,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.crafting.PartialNBTIngredient;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
@@ -44,17 +43,17 @@ public class EndSiegeCategory implements IRecipeCategory<IUnstableEndSiegeRecipe
     }
 
     @Override
-    public @NotNull Component getTitle() {
+    public Component getTitle() {
         return new TranslatableComponent("unstable.jei.title");
     }
 
     @Override
-    public @NotNull IDrawable getBackground() {
+    public IDrawable getBackground() {
         return this.background;
     }
 
     @Override
-    public @NotNull IDrawable getIcon() {
+    public IDrawable getIcon() {
         return this.icon;
     }
 
@@ -69,7 +68,7 @@ public class EndSiegeCategory implements IRecipeCategory<IUnstableEndSiegeRecipe
     }
 
     @Override
-    public void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull IUnstableEndSiegeRecipe recipe, @NotNull IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, IUnstableEndSiegeRecipe recipe, IFocusGroup focuses) {
         int spaceBetweenItems = 18;
         int currInput = 0;
         for(Map<UnstableEnums.NBT_TYPE, Ingredient> ingredientMap : recipe.getInputs()) {
@@ -113,12 +112,12 @@ public class EndSiegeCategory implements IRecipeCategory<IUnstableEndSiegeRecipe
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void draw(@NotNull IUnstableEndSiegeRecipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull PoseStack stack, double mouseX, double mouseY) {
+    public void draw(IUnstableEndSiegeRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
         Minecraft.getInstance().font.draw(stack, new TranslatableComponent("unstable.jei.chest_" + recipe.getLocation().toString().toLowerCase()), (background.getWidth() - Minecraft.getInstance().font.width("unstable.jei.chest_" + recipe.getLocation().toString().toLowerCase())) + 5, 1, 0xFF808080);
     }
     @OnlyIn(Dist.CLIENT)
     @Override
-    public List<Component> getTooltipStrings(@NotNull IUnstableEndSiegeRecipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+    public List<Component> getTooltipStrings(IUnstableEndSiegeRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
         if(mouseX >= 0 && mouseX <= 175) {
             if(mouseY >= 0 && mouseY <= 15) {
                 return List.of(new TranslatableComponent("unstable.jei.tooltip.chest_hover"));

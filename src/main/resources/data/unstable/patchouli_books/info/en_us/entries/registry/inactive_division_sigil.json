@@ -1,0 +1,14 @@
+{
+  "name": "Inactive Division Sigil",
+  "icon": "unstable:division_sigil",
+  "category": "unstable:registry",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "x": 100,
+      "y": 50,
+      "item": "unstable:division_sigil",
+      "text": "Can be obtained from killing the Elder Guardian, Ender Dragon, or Wither. To activate, perform the $(n)$(l:rituals/activation_ritual)Activation Ritual$()."
+    }
+  ]
+}

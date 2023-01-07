@@ -13,7 +13,6 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.crafting.NBTIngredient;
 import net.minecraftforge.common.crafting.PartialNBTIngredient;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +26,7 @@ public class EndSiegeChestDataReloadListener extends SimpleJsonResourceReloadLis
     }
 
     @Override
-    protected void apply(@NotNull Map<ResourceLocation, JsonElement> pObject, @NotNull ResourceManager pResourceManager, @NotNull ProfilerFiller pProfiler) {
+    protected void apply(Map<ResourceLocation, JsonElement> pObject, ResourceManager pResourceManager, ProfilerFiller pProfiler) {
         if(!UnstableChestDataStorage.getMasterStorage().isEmpty()) {
             UnstableChestDataStorage.getMasterStorage().clear();
         }

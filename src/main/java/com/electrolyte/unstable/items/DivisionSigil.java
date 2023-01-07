@@ -13,7 +13,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -25,7 +24,7 @@ public class DivisionSigil extends Item {
     }
 
     @Override
-    public @NotNull InteractionResult useOn(UseOnContext context) {
+    public  InteractionResult useOn(UseOnContext context) {
         if(context.getLevel().isClientSide) return InteractionResult.FAIL;
         if(ActivationRitualHelper.checkEnchantTable(context.getLevel(), context.getClickedPos())) {
             context.getPlayer().sendMessage(new TranslatableComponent("unstable.activation_ritual.title").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
@@ -60,12 +59,12 @@ public class DivisionSigil extends Item {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean isFoil(@NotNull ItemStack stack) {
+    public boolean isFoil(ItemStack stack) {
         return ActivationRitualHelper.checkTime(Minecraft.getInstance().level.getDayTime());
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag isAdvanced) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag isAdvanced) {
         tooltip.add(new TranslatableComponent("unstable.division_sigil.tooltip_inactive_1").withStyle(ChatFormatting.GRAY));
         tooltip.add(new TranslatableComponent("unstable.division_sigil.tooltip_inactive_2").withStyle(ChatFormatting.GRAY));
         tooltip.add(new TranslatableComponent("unstable.division_sigil.tooltip_inactive_3").withStyle(ChatFormatting.GRAY));

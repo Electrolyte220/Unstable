@@ -1,0 +1,14 @@
+{
+  "name": "Stable Division Sigil",
+  "icon": "unstable:division_sigil_stable",
+  "category": "unstable:registry",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "x": 100,
+      "y": 50,
+      "item": "unstable:division_sigil_stable",
+      "text": "Obtained by performing the $(n)$(l:rituals/pseudo_inversion_ritual)Pseudo Inversion Ritual$(), and to is used in the creation of $(n)$(l:registry/stable_ingot)Stable Ingots."
+    }
+  ]
+}

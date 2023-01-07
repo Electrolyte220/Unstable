@@ -9,6 +9,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Blocks;
@@ -18,8 +20,8 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.lighting.LayerLightEngine;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
@@ -31,7 +33,7 @@ public class CursedEarth extends BaseEntityBlock {
     }
 
     @Override
-    public void randomTick(@NotNull BlockState pState, @NotNull ServerLevel pLevel, @NotNull BlockPos pPos, @NotNull Random pRandom) {
+    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, Random pRandom) {
         if(!canBeCursedEarth(pState, pLevel, pPos)) {
             if(!pLevel.isAreaLoaded(pPos, 1)) return;
             pLevel.setBlockAndUpdate(pPos, Blocks.DIRT.defaultBlockState());
@@ -50,8 +52,13 @@ public class CursedEarth extends BaseEntityBlock {
         BlockPos pos = pPos.above();
         BlockState state = pLevel.getBlockState(pos);
         if(state.isAir() && pLevel.getGameRules().getBoolean(GameRules.RULE_DOFIRETICK)) {
-            if (pLevel.getBrightness(LightLayer.BLOCK, pos) > 7) {
-                pLevel.setBlockAndUpdate(pos, Blocks.FIRE.defaultBlockState());
+            if(pLevel.getBrightness(LightLayer.BLOCK, pos) > 1) {
+                pLevel.getEntities(null, new AABB(pos, pos).inflate(1)).forEach(entity -> {
+                    if(!(entity instanceof Player)) entity.hurt(DamageSource.CACTUS, 0.5f);
+                });
+            }
+            if (pLevel.getBrightness(LightLayer.BLOCK, pos) > 9) {
+                if(pRandom.nextInt(24) == 0) pLevel.setBlockAndUpdate(pos, Blocks.FIRE.defaultBlockState());
             } else if (pLevel.isDay() && pLevel.canSeeSky(pos)) {
                 pLevel.setBlockAndUpdate(pos, Blocks.FIRE.defaultBlockState());
             }
@@ -78,7 +85,7 @@ public class CursedEarth extends BaseEntityBlock {
         return LayerLightEngine.getLightBlockInto(pLevelReader, pState, pPos, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(pLevelReader, blockpos)) < 7;
     }
 
-    public void animateTick(@NotNull BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull Random pRand) {
+    public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, Random pRand) {
         if(UnstableConfig.CURSED_EARTH_PARTICLES.get()) {
             for (int i = 0; i < pRand.nextInt(1) + 1; ++i) {
                 this.spawnParticle(pLevel, pPos, pState);
@@ -112,18 +119,18 @@ public class CursedEarth extends BaseEntityBlock {
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
+    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return new CursedEarthBlockEntity(pPos, pState);
     }
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level pLevel, @NotNull BlockState pState, @NotNull BlockEntityType<T> pBlockEntityType) {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
         return createTickerHelper(pBlockEntityType, ModBlocks.CURSED_EARTH_BE.get(), pLevel.isClientSide ? CursedEarthBlockEntity::clientTick : CursedEarthBlockEntity::serverTick);
     }
 
     @Override
-    public @NotNull RenderShape getRenderShape(@NotNull BlockState pState) {
+    public RenderShape getRenderShape(BlockState pState) {
         return RenderShape.MODEL;
     }
 }

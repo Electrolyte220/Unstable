@@ -1,0 +1,14 @@
+{
+  "name": "Active Division Sigil",
+  "icon": "unstable:division_sigil_activated",
+  "category": "unstable:registry",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "x": 100,
+      "y": 50,
+      "item": "unstable:division_sigil_activated",
+      "text": "Obtained by performing the $(n)$(l:rituals/activation_ritual)Activation Ritual$(), and is used in the creation of $(n)$(l:registry/unstable_ingot)Unstable Ingots."
+    }
+  ]
+}

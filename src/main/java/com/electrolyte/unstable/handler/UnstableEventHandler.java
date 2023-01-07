@@ -29,6 +29,7 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.ElderGuardian;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
@@ -51,6 +52,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -102,6 +104,15 @@ public class UnstableEventHandler {
                 if (tag.equals("{spawnedBySiege:1b}")) {
                     event.getEntity().remove(Entity.RemovalReason.DISCARDED);
                 }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onCreeperExplode(ExplosionEvent event) {
+        if(event.getExplosion().getSourceMob() instanceof Creeper creeper) {
+            if(creeper.getTags().contains("noLingeringEffects")) {
+                creeper.removeAllEffects();
             }
         }
     }
@@ -258,6 +269,9 @@ public class UnstableEventHandler {
                                 CompoundTag tag = new CompoundTag();
                                 tag.putBoolean("spawnedBySiege", true);
                                 mob.addTag(tag.toString());
+                                if(mob instanceof Creeper creeper) {
+                                    creeper.addTag("noLingeringEffects");
+                                }
                                 mob.setPos(genXOrZ(), genY(), genXOrZ());
                                 while (!NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, level, mob.getOnPos(), entityType)) {
                                     mob.setPos(genXOrZ(), genY(), genXOrZ());

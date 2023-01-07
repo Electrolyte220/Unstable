@@ -3,6 +3,7 @@ package com.electrolyte.unstable.be;
 import com.electrolyte.unstable.UnstableConfig;
 import com.electrolyte.unstable.init.ModBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.Difficulty;
@@ -10,6 +11,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.level.BlockCollisions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -32,31 +34,51 @@ public class CursedEarthBlockEntity extends BlockEntity {
 
     public static void clientTick(Level level, BlockPos pos, BlockState state, CursedEarthBlockEntity blockEntity) {}
 
-    private void serverTickInternal(Level level, BlockPos pos, BlockState state, CursedEarthBlockEntity blockEntity) {
+    public static void serverTick(Level level, BlockPos pos, BlockState state, CursedEarthBlockEntity blockEntity) {
+        if(blockEntity.spawnTimer % 100 == 0) {
+            level.getEntities(null, new AABB(pos.above(), pos.above()).inflate(1)).forEach(entity -> {
+                if(entity instanceof Mob mob) {
+                    if(mob instanceof Creeper creeper && !creeper.getTags().contains("noLingeringEffects")) {
+                        creeper.addTag("noLingeringEffects");
+                    }
+                    mob.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100, 1, true, true));
+                    mob.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 100, 0, true, true));
+                    mob.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 100, 1, true, true));
+                }
+            });
+        }
         if(level.getDifficulty() != Difficulty.PEACEFUL) {
-            if (spawnTimer > 0) {
-                spawnTimer--;
-            } else if (spawnTimer == 0) {
+            if (blockEntity.spawnTimer > 0) {
+                blockEntity.spawnTimer--;
+            } else if (blockEntity.spawnTimer == 0) {
                 WeightedRandomList<MobSpawnSettings.SpawnerData> validEntities = level.getBiome(pos).value().getMobSettings().getMobs(MobCategory.MONSTER);
                 validEntities.getRandom(new Random()).ifPresent(spawnerData -> {
                     EntityType<?> type = spawnerData.type;
                     if (blockEntity.getTileData().getBoolean("createdByRitual") || SpawnPlacements.checkSpawnRules(type, (ServerLevelAccessor) level, MobSpawnType.SPAWNER, pos.above(), new Random())) {
                         Mob mob = (Mob) type.create(level);
                         mob.setPos(pos.getX() + 0.5, pos.above().getY(), pos.getZ() + 0.5);
-                        mob.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, 3, true, true));
+                        mob.setYHeadRot(new Random().nextFloat() * 360.0F);
                         BlockCollisions collisions = new BlockCollisions(level, mob, mob.getBoundingBox(), false);
-                        if (!collisions.hasNext() && level.getNearbyEntities(Mob.class, TargetingConditions.DEFAULT, mob, (new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 0.5, (double) pos.above().getY(), pos.getZ() + 0.5).inflate(5))).size() < 25) {
+                        if (!collisions.hasNext() && level.getNearbyEntities(Mob.class, TargetingConditions.DEFAULT, mob, (new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 0.5, pos.above().getY(), pos.getZ() + 0.5).inflate(5))).size() < 25) {
                             mob.finalizeSpawn((ServerLevelAccessor) level, level.getCurrentDifficultyAt(pos), MobSpawnType.SPAWNER, null, null);
                             level.addFreshEntity(mob);
                         }
                     }
                 });
-                spawnTimer = Mth.nextInt(new Random(), spawnTimerMin, spawnTimerMax);
+                blockEntity.spawnTimer = Mth.nextInt(new Random(), blockEntity.spawnTimerMin, blockEntity.spawnTimerMax);
             }
         }
     }
 
-    public static void serverTick(Level level, BlockPos pos, BlockState state, CursedEarthBlockEntity blockEntity) {
-        blockEntity.serverTickInternal(level, pos, state, blockEntity);
+    @Override
+    public void load(CompoundTag pTag) {
+        this.spawnTimer = pTag.getInt("spawnTimer");
+        super.load(pTag);
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag pTag) {
+        pTag.putInt("spawnTimer", this.spawnTimer);
+        super.saveAdditional(pTag);
     }
 }

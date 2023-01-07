@@ -20,7 +20,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,7 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
     }
 
     @Override
-    protected void apply(@NotNull Map<ResourceLocation, JsonElement> object, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller) {
+    protected void apply(Map<ResourceLocation, JsonElement> object, ResourceManager resourceManager, ProfilerFiller profilerFiller) {
         if(!UnstableEntityDataStorage.getMasterStorage().isEmpty()) {
             UnstableEntityDataStorage.getMasterStorage().clear();
         }
@@ -85,8 +84,8 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
                 MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(jsonObject.get("mobEffect").getAsString()));
                 int amplifier = jsonObject.has("amplifier") ? jsonObject.get("amplifier").getAsInt() : 0;
                 int duration = jsonObject.has("duration") ? jsonObject.get("duration").getAsInt() : 100;
-                boolean ambient = jsonObject.has("ambient") ? jsonObject.get("ambient").getAsBoolean() : true;
-                boolean visible = jsonObject.has("visible") ? jsonObject.get("visible").getAsBoolean() : true;
+                boolean ambient = !jsonObject.has("ambient") || jsonObject.get("ambient").getAsBoolean();
+                boolean visible = !jsonObject.has("visible") || jsonObject.get("visible").getAsBoolean();
                 mobEffects.add(new MobEffectInstance(effect, amplifier, duration, ambient, visible));
             }
         }

@@ -12,7 +12,6 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +20,12 @@ import java.util.List;
 public class UnstablePlugin implements IModPlugin {
 
     @Override
-    public @NotNull ResourceLocation getPluginUid() {
+    public ResourceLocation getPluginUid() {
         return new ResourceLocation(Unstable.MOD_ID, "jei_plugin");
     }
 
     @Override
-    public void registerCategories(@NotNull IRecipeCategoryRegistration registration) {
+    public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new EndSiegeCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
@@ -37,7 +36,7 @@ public class UnstablePlugin implements IModPlugin {
     }
 
     @Override
-    public void registerRecipes(@NotNull IRecipeRegistration registration) {
+    public void registerRecipes(IRecipeRegistration registration) {
         List recipes = new ArrayList<>();
         UnstableChestDataStorage.getMasterStorage().forEach(dataStorage -> {
             EndSiegeRecipe recipe = new EndSiegeRecipe(dataStorage.chestLocation(), dataStorage.chestContents());

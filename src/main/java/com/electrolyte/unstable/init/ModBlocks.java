@@ -29,7 +29,7 @@ public class ModBlocks {
     }
 
     public static final RegistryObject<Block> CURSED_EARTH = BLOCKS.register("cursed_earth",
-            () -> new CursedEarth(BlockBehaviour.Properties.of(Material.GRASS).randomTicks().strength(0.6F).sound(SoundType.GRASS)));
+            () -> new CursedEarth(BlockBehaviour.Properties.of(Material.GRASS).randomTicks().explosionResistance(200).strength(0.6F).sound(SoundType.GRASS)));
     public static final RegistryObject<BlockItem> CURSED_EARTH_ITEM = ITEMS.register("cursed_earth",
             () -> new BlockItem(CURSED_EARTH.get(), new Item.Properties().tab(Unstable.UNSTABLE_TAB)));
     public static final RegistryObject<BlockEntityType<CursedEarthBlockEntity>> CURSED_EARTH_BE = BLOCK_ENTITIES.register("cursed_earth",

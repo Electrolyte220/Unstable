@@ -11,7 +11,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 @Mod("unstable")
@@ -34,9 +33,8 @@ public class Unstable {
     }
 
     public static final CreativeModeTab UNSTABLE_TAB = new CreativeModeTab("unstable") {
-
         @Override
-        public @NotNull ItemStack makeIcon() {
+        public  ItemStack makeIcon() {
             return new ItemStack(ModItems.DIVISION_SIGIL.get());
         }
     };

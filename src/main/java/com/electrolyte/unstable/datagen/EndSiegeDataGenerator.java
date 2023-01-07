@@ -20,7 +20,6 @@ import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.NBTIngredient;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -33,10 +32,13 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     @Override
-    public void run(@NotNull HashCache cache) {
+    public void run(HashCache cache) {
         buildEntityData(cache, "default", 2, 5, List.of(EntityType.ZOMBIE, EntityType.WITCH, EntityType.SILVERFISH, EntityType.SPIDER, EntityType.CAVE_SPIDER, EntityType.SKELETON, EntityType.WITHER_SKELETON, EntityType.CREEPER, EntityType.BLAZE, EntityType.ZOMBIFIED_PIGLIN,
                         EntityType.PHANTOM, EntityType.EVOKER, EntityType.PILLAGER, EntityType.VINDICATOR, EntityType.ILLUSIONER),
-                Optional.of(List.of(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 6000, 3, true, true), new MobEffectInstance(MobEffects.DAMAGE_BOOST, 6000, 0, true, false))),
+                Optional.of(List.of(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 6000, 1, true, true),
+                        new MobEffectInstance(MobEffects.DAMAGE_BOOST, 6000, 0, true, true),
+                        new MobEffectInstance(MobEffects.REGENERATION, 6000, 0, true, true),
+                        new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 6000, 0, true, true))),
                 Optional.empty(), Optional.empty());
 
         buildChestData(cache, "north", List.of(Ingredient.of(Tags.Items.STONE), Ingredient.of(ItemTags.DIRT), Ingredient.of(Tags.Items.GRAVEL), Ingredient.of(Tags.Items.SAND), Ingredient.of(Tags.Items.GLASS), Ingredient.of(Items.CLAY),
@@ -66,7 +68,7 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
         spawnCountArray.add(spawnCount);
         jsonObject.add("spawnCount", spawnCountArray);
         JsonArray entityArray = new JsonArray();
-        for(EntityType<?> entity : entities) {
+        for (EntityType<?> entity : entities) {
             entityArray.add(entity.getRegistryName().toString());
         }
         jsonObject.add("entities", entityArray);
@@ -88,10 +90,10 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
             JsonObject equipmentObject = new JsonObject();
             equipmentObject.addProperty("hand", interactionHand.toString());
             equipmentObject.addProperty("item", stack.getItem().getRegistryName().toString());
-            if(stack.getTag() != null) {
+            if (stack.getTag() != null) {
                 equipmentObject.addProperty("nbt", stack.getTag().toString());
             }
-        equipmentArray.add(equipmentObject);
+            equipmentArray.add(equipmentObject);
         })));
         jsonObject.add("equipment", equipmentArray);
 
@@ -100,7 +102,7 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
             JsonObject armorObject = new JsonObject();
             armorObject.addProperty("armor", equipmentSlot.toString());
             armorObject.addProperty("item", stack.getItem().getRegistryName().toString());
-            if(stack.getTag() != null) {
+            if (stack.getTag() != null) {
                 armorObject.addProperty("nbt", stack.getTag().toString());
             }
             armorArray.add(armorObject);
@@ -108,7 +110,8 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
         jsonObject.add("armor", armorArray);
         try {
             DataProvider.save(GSON, cache, GSON.toJsonTree(jsonObject), file);
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             Unstable.LOGGER.error("Error adding entity data for {}", file, e);
         }
     }
@@ -122,13 +125,13 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
             JsonElement ingredientElement = ingredient.toJson();
             JsonObject newIngredient = new JsonObject();
             nbtType.ifPresent(type -> {
-                if(type != UnstableEnums.NBT_TYPE.IGNORE_NBT) {
-                newIngredient.addProperty("nbtType", type.toString());
+                if (type != UnstableEnums.NBT_TYPE.IGNORE_NBT) {
+                    newIngredient.addProperty("nbtType", type.toString());
                 }
             });
-            if(ingredientElement.getAsJsonObject().get("item") != null) {
+            if (ingredientElement.getAsJsonObject().get("item") != null) {
                 newIngredient.add("item", ingredientElement.getAsJsonObject().get("item"));
-                if(ingredientElement.getAsJsonObject().get("nbt") != null) {
+                if (ingredientElement.getAsJsonObject().get("nbt") != null) {
                     newIngredient.add("nbt", ingredientElement.getAsJsonObject().get("nbt"));
                 }
                 chestContentsArray.add(newIngredient);
@@ -139,13 +142,14 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
         jsonObject.add("contents", chestContentsArray);
         try {
             DataProvider.save(GSON, cache, GSON.toJsonTree(jsonObject), file);
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             Unstable.LOGGER.error("Error adding chest data for {}", file, e);
         }
     }
 
     @Override
-    public @NotNull String getName() {
+    public String getName() {
         return Unstable.MOD_ID;
     }
 }

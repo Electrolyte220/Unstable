@@ -1,0 +1,18 @@
+{
+  "name": "Cursed Earth",
+  "icon": "unstable:cursed_earth",
+  "category": "unstable:registry",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "x": 100,
+      "y": 50,
+      "item": "unstable:cursed_earth",
+      "text": "This seemingly mystical piece of dirt is made from the $(n)$(l:rituals/activation_ritual)Activation Ritual$(), and has various properties attached to it.$(br2)$(4)Warning: Mobs spawned from cursed earth are stronger than normal, so be prepared!"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Firstly, if exposed to either the sky or other forms of bright light, the block will catch fire to itself and other cursed earth nearby.$(br2)$(li)Secondly, this block is able to spawn mobs depending on the biome it is placed in.$(br2)$(li)Lastly, if stood on for too long, entities (excluding the player) will take small amounts of damage."
+    }
+  ]
+}

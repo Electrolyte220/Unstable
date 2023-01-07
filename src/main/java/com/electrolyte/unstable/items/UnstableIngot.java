@@ -13,7 +13,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.DecimalFormat;
@@ -26,14 +25,14 @@ public class UnstableIngot extends Item {
     }
 
     @Override
-    public void onCraftedBy(@NotNull ItemStack stack, @NotNull Level level, @NotNull Player player) {
+    public void onCraftedBy(ItemStack stack, Level level, Player player) {
         CompoundTag tag = new CompoundTag();
         tag.putInt("explodesIn", 200);
         stack.setTag(tag);
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         if(pStack.getTag() == null) {
             pTooltipComponents.add(new TranslatableComponent("unstable.unstable_ingot.tooltip.unstable").withStyle(ChatFormatting.RED));
             pTooltipComponents.add(new TranslatableComponent("unstable.unstable_ingot.tooltip.crafting").withStyle(ChatFormatting.GRAY));
@@ -48,7 +47,7 @@ public class UnstableIngot extends Item {
     }
 
     @Override
-    public void fillItemCategory(@NotNull CreativeModeTab pCategory, @NotNull NonNullList<ItemStack> pItems) {
+    public void fillItemCategory(CreativeModeTab pCategory, NonNullList<ItemStack> pItems) {
         if(pCategory == Unstable.UNSTABLE_TAB) {
             ItemStack unstableIngot = new ItemStack(ModItems.UNSTABLE_INGOT.get());
             unstableIngot.getOrCreateTag().putBoolean("creativeSpawned", true);

@@ -33,7 +33,6 @@ import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Random;
@@ -45,12 +44,12 @@ public class PrecisionShears extends Item {
     }
 
     @Override
-    public boolean isFoil(@NotNull ItemStack stack) {
+    public boolean isFoil(ItemStack stack) {
         return false;
     }
 
     @Override
-    public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack stack, @NotNull Player playerIn, @NotNull LivingEntity entity, @NotNull InteractionHand hand) {
+    public InteractionResult interactLivingEntity(ItemStack stack, Player playerIn, LivingEntity entity, InteractionHand hand) {
         if (entity instanceof IForgeShearable target) {
             if (entity.level.isClientSide) return InteractionResult.SUCCESS;
             BlockPos pos = new BlockPos(entity.getX(), entity.getY(), entity.getZ());
@@ -79,7 +78,7 @@ public class PrecisionShears extends Item {
     }
 
     @Override
-    public @NotNull InteractionResult useOn(UseOnContext context) {
+    public InteractionResult useOn(UseOnContext context) {
        Player player = context.getPlayer();
        Level level = context.getLevel();
        BlockPos pos = context.getClickedPos();
@@ -112,7 +111,7 @@ public class PrecisionShears extends Item {
     }
 
     @Override
-    public boolean mineBlock(@NotNull ItemStack pStack, Level pLevel, @NotNull BlockState pState, @NotNull BlockPos pPos, @NotNull LivingEntity pEntityLiving) {
+    public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pEntityLiving) {
         if (!pLevel.isClientSide && !pState.is(BlockTags.FIRE)) {
             pStack.hurtAndBreak(1, pEntityLiving, (p_43076_) -> {
                 p_43076_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
@@ -122,7 +121,7 @@ public class PrecisionShears extends Item {
     }
 
     @Override
-    public float getDestroySpeed(@NotNull ItemStack pStack, BlockState pState) {
+    public float getDestroySpeed(ItemStack pStack, BlockState pState) {
         if (!pState.is(Blocks.COBWEB) && !pState.is(BlockTags.LEAVES)) {
             if (pState.is(BlockTags.WOOL)) {
                 return 5.0F;
@@ -147,7 +146,7 @@ public class PrecisionShears extends Item {
     }
 
     @Override
-    public void fillItemCategory(@NotNull CreativeModeTab category, @NotNull NonNullList<ItemStack> list) {
+    public void fillItemCategory(CreativeModeTab category, NonNullList<ItemStack> list) {
         if(category == Unstable.UNSTABLE_TAB) {
             ItemStack stack = new ItemStack(this);
             CompoundTag tag = new CompoundTag();

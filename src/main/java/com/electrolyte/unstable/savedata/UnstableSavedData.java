@@ -6,7 +6,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
@@ -37,7 +36,7 @@ public class UnstableSavedData extends SavedData {
     }
 
     @Override
-    public @NotNull CompoundTag save(@NotNull CompoundTag pCompoundTag) {
+    public CompoundTag save(CompoundTag pCompoundTag) {
         pCompoundTag.putBoolean("isEndSiegeOccurring", this.isEndSiegeOccurring);
         pCompoundTag.putInt("playersParticipating", this.playersParticipating);
         pCompoundTag.putInt("totalKills", this.totalKills);

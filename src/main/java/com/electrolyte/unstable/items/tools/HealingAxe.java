@@ -18,7 +18,6 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.FakePlayer;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
@@ -29,12 +28,12 @@ public class HealingAxe extends AxeItem {
     }
 
     @Override
-    public boolean isFoil(@NotNull ItemStack stack) {
+    public boolean isFoil(ItemStack stack) {
         return false;
     }
 
     @Override
-    public void inventoryTick(@NotNull ItemStack stack, @NotNull Level worldIn, @NotNull Entity entityIn, int itemSlot, boolean isSelected) {
+    public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         if(isSelected && entityIn instanceof ServerPlayer player && worldIn.getGameTime() % 40L == 0L) {
             player.getFoodData().setFoodLevel(player.getFoodData().getFoodLevel() + 1);
             player.getFoodData().setSaturation(player.getFoodData().getSaturationLevel() + 0.1F);
@@ -66,7 +65,7 @@ public class HealingAxe extends AxeItem {
     }
 
     @Override
-    public void fillItemCategory(@NotNull CreativeModeTab category, @NotNull NonNullList<ItemStack> list) {
+    public void fillItemCategory(CreativeModeTab category, NonNullList<ItemStack> list) {
         if (category == Unstable.UNSTABLE_TAB) {
             ItemStack stack = new ItemStack(this);
             CompoundTag tag = new CompoundTag();

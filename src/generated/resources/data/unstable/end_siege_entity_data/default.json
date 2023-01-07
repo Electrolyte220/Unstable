@@ -25,7 +25,7 @@
   "effects": [
     {
       "mobEffect": "minecraft:speed",
-      "amplifier": 3,
+      "amplifier": 1,
       "duration": 6000,
       "ambient": true,
       "visible": true
@@ -35,7 +35,21 @@
       "amplifier": 0,
       "duration": 6000,
       "ambient": true,
-      "visible": false
+      "visible": true
+    },
+    {
+      "mobEffect": "minecraft:regeneration",
+      "amplifier": 0,
+      "duration": 6000,
+      "ambient": true,
+      "visible": true
+    },
+    {
+      "mobEffect": "minecraft:resistance",
+      "amplifier": 0,
+      "duration": 6000,
+      "ambient": true,
+      "visible": true
     }
   ],
   "equipment": [],

@@ -16,7 +16,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -47,18 +46,18 @@ public class DivisionSigilActivated extends Item {
     }
 
     @Override
-    public boolean isRepairable(@NotNull ItemStack stack) {
+    public boolean isRepairable(ItemStack stack) {
         return false;
     }
 
     @Override
-    public boolean isBarVisible(@NotNull ItemStack stack) {
+    public boolean isBarVisible(ItemStack stack) {
         return false;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean isFoil(@NotNull ItemStack stack) {
+    public boolean isFoil(ItemStack stack) {
         return true;
     }
     
@@ -68,13 +67,13 @@ public class DivisionSigilActivated extends Item {
     }
     
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flagIn) {
         if(!stack.hasTag()) return;
        tooltip.add(new TranslatableComponent("unstable.division_sigil.tooltip.active", new TranslatableComponent(String.valueOf(this.getMaxDamage(stack) - this.getDamage(stack)))).withStyle(ChatFormatting.GRAY));
     }
 
     @Override
-    public @NotNull InteractionResult useOn(UseOnContext context) {
+    public InteractionResult useOn(UseOnContext context) {
         if(context.getLevel().isClientSide) return InteractionResult.FAIL;
         ResourceLocation dim = context.getPlayer().level.dimension().location();
         boolean everythingCorrect = true;

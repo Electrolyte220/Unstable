@@ -8,7 +8,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.enchantment.Enchantments;
-import org.jetbrains.annotations.NotNull;
 
 public class DestructionPickaxe extends PickaxeItem {
 
@@ -17,12 +16,12 @@ public class DestructionPickaxe extends PickaxeItem {
     }
 
     @Override
-    public boolean isFoil(@NotNull ItemStack stack) {
+    public boolean isFoil(ItemStack stack) {
         return false;
     }
 
     @Override
-    public void fillItemCategory(@NotNull CreativeModeTab category, @NotNull NonNullList<ItemStack> list) {
+    public void fillItemCategory(CreativeModeTab category, NonNullList<ItemStack> list) {
         if(category == Unstable.UNSTABLE_TAB) {
             ItemStack stack = new ItemStack(this);
             CompoundTag tag = new CompoundTag();

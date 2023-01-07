@@ -1,7 +1,7 @@
 {
 	"name": "Soul Fragment",
 	"icon": "unstable:soul_fragment",
-	"category": "unstable:items",
+	"category": "unstable:registry",
 	"pages": [
 		{
 			"type": "patchouli:spotlight",
@@ -9,10 +9,6 @@
 			"y": 50,
 			"item": "unstable:soul_fragment",
 			"text": "Takes a bit of the player's soul every time it is crafted. $(br2)Can be crafted by shift right clicking with an Etheric Sword. $(br2)However, this can only be done whilst the player's soul is strong enough."
-		},
-		{
-			"type": "patchouli:text",
-			"text": ""
 		}
 	]
 }

@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "com.electrolyte.unstable.mixin",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "MixinBaseSpawner"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "unstable.mixin-refmap.json"
+}

@@ -19,7 +19,6 @@ import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Set;
@@ -163,7 +162,7 @@ public class UnstableIngotRecipe extends ShapedRecipe {
     }
 
     public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<UnstableIngotRecipe> {
-        public @NotNull UnstableIngotRecipe fromJson(@NotNull ResourceLocation pRecipeId, @NotNull JsonObject pJson) {
+        public UnstableIngotRecipe fromJson(ResourceLocation pRecipeId, JsonObject pJson) {
             Map<String, Ingredient> map = UnstableIngotRecipe.keyFromJson(GsonHelper.getAsJsonObject(pJson, "key"));
             String[] astring = UnstableIngotRecipe.shrink(UnstableIngotRecipe.patternFromJson(GsonHelper.getAsJsonArray(pJson, "pattern")));
             int i = astring[0].length();
@@ -173,7 +172,7 @@ public class UnstableIngotRecipe extends ShapedRecipe {
             return new UnstableIngotRecipe(pRecipeId, "", i, j, nonnulllist, itemstack);
         }
 
-        public UnstableIngotRecipe fromNetwork(@NotNull ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
+        public UnstableIngotRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
             int i = pBuffer.readVarInt();
             int j = pBuffer.readVarInt();
             NonNullList<Ingredient> nonnulllist = NonNullList.withSize(i * j, Ingredient.EMPTY);

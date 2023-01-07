@@ -25,7 +25,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -40,12 +39,12 @@ public class ReversingHoe extends DiggerItem {
     }
 
     @Override
-    public boolean isFoil(@NotNull ItemStack stack) {
+    public boolean isFoil(ItemStack stack) {
         return false;
     }
 
     @Override
-    public @NotNull InteractionResult useOn(UseOnContext context) {
+    public InteractionResult useOn(UseOnContext context) {
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
         Player player = context.getPlayer();
@@ -105,7 +104,7 @@ public class ReversingHoe extends DiggerItem {
 
 
     @Override
-    public void fillItemCategory(@NotNull CreativeModeTab category, @NotNull NonNullList<ItemStack> list) {
+    public void fillItemCategory(CreativeModeTab category, NonNullList<ItemStack> list) {
         if (category == Unstable.UNSTABLE_TAB) {
             ItemStack stack = new ItemStack(this);
             CompoundTag tag = new CompoundTag();

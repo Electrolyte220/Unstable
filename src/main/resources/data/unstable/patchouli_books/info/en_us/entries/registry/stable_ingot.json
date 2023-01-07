@@ -1,7 +1,7 @@
 {
 	"name": "Stable Ingot",
 	"icon": "unstable:stable_ingot",
-	"category": "unstable:items",
+	"category": "unstable:registry",
 	"pages": [
 		{
 			"type": "patchouli:spotlight",
