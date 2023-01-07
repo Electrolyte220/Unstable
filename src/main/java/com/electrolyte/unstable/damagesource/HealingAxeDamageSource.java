@@ -4,6 +4,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
+import org.jetbrains.annotations.NotNull;
 
 public class HealingAxeDamageSource extends DamageSource {
 
@@ -17,7 +18,7 @@ public class HealingAxeDamageSource extends DamageSource {
     }
 
     @Override
-    public Component getLocalizedDeathMessage(LivingEntity entityLivingBaseIn) {
-        return new TranslatableComponent(entityLivingBaseIn.getDisplayName().getString() + " did not watch their health!");
+    public @NotNull Component getLocalizedDeathMessage(LivingEntity entityLivingBaseIn) {
+        return new TranslatableComponent(entityLivingBaseIn.getDisplayName().getString() + " forgot to heal themselves.");
     }
 }

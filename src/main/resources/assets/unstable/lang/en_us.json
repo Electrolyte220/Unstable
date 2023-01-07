@@ -16,7 +16,6 @@
 	"item.unstable.erosion_shovel": "Erosion Shovel",
 	"item.unstable.precision_shears": "Precision Shears",
 
-
 	"unstable.division_sigil.tooltip_inactive_1": "INACTIVE: You must perform the Activation Ritual.",
 	"unstable.division_sigil.tooltip_inactive_2": "Sneak right-click on an",
 	"unstable.division_sigil.tooltip_inactive_3": "enchanting table for more details.",
@@ -67,6 +66,13 @@
 	"unstable.pseudo_inversion_ritual.death": "You cannot die whilst performing this ritual!",
 	"unstable.pseudo_inversion_ritual.changed_dimension": "You must be in The End whilst performing this ritual!",
 	"unstable.pseudo_inversion_ritual.siege_ended": "The Siege in 'The End' has ended.",
+	"unstable.pseudo_inversion_ritual.correct_setup": "Everything is correct, now sacrifice the protector of villages.",
+	"unstable.pseudo_inversion_ritual.not_activated": "You must first perform the Activation Ritual before performing the Pseudo-Inversion Ritual",
+	"unstable.pseudo_inversion_ritual.already_stable": "Sigil is already Stable",
+	"unstable.pseudo_inversion_ritual.multiple_sigil": "There can only be one Pseudo-Inversion Ritual active at any given time",
+	"unstable.pseudo_inversion_ritual.siege_started": "The Siege in 'The End' has begun",
+	"unstable.pseudo_inversion_ritual.siege_kills": "Kills: %s",
+
 	"unstable.jei.title": "Required Items for End Siege",
 	"unstable.jei.chest_north": "North Chest",
 	"unstable.jei.chest_south": "South Chest",
@@ -75,11 +81,5 @@
 	"unstable.jei.tooltip.chest_hover": "The order of items in chests does not matter, as long as all items are in their respective chests.",
 	"unstable.jei.tooltip.all_nbt": "All NBT Must Match",
 	"unstable.jei.tooltip.partial_nbt": "Parts of NBT Must Match",
-	"unstable.jei.tooltip.shift_nbt": "Hold §eShift §rfor NBT Requirements",
-	"unstable.pseudo_inversion_ritual.correct_setup": "Everything is correct, now sacrifice the protector of villages.",
-	"unstable.pseudo_inversion_ritual.not_activated": "You must first perform the Activation Ritual before performing the Pseudo-Inversion Ritual",
-	"unstable.pseudo_inversion_ritual.already_stable": "Sigil is already Stable",
-	"unstable.pseudo_inversion_ritual.multiple_sigil": "There can only be one Pseudo-Inversion Ritual active at any given time",
-	"unstable.pseudo_inversion_ritual.siege_started": "The Siege in 'The End' has begun",
-	"unstable.pseudo_inversion_ritual.siege_kills": "Kills: %s"
+	"unstable.jei.tooltip.shift_nbt": "Hold §eShift §rfor NBT Requirements"
 }
