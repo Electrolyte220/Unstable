@@ -6,8 +6,8 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class UnstableConfig {
 
-    public static ForgeConfigSpec CLIENT_CONFIG;
-    public static ForgeConfigSpec SERVER_CONFIG;
+    public static final ForgeConfigSpec CLIENT_CONFIG;
+    public static final ForgeConfigSpec SERVER_CONFIG;
 
     public static ForgeConfigSpec.BooleanValue CURSED_EARTH_PARTICLES;
     public static ForgeConfigSpec.IntValue ACTIVATED_DURABILITY;
@@ -16,8 +16,6 @@ public class UnstableConfig {
     public static ForgeConfigSpec.ConfigValue<String> ACTIVATION_BLOCK;
     public static ForgeConfigSpec.IntValue MIN_SPAWN_DELAY;
     public static ForgeConfigSpec.IntValue MAX_SPAWN_DELAY;
-    public static ForgeConfigSpec.IntValue MIN_MOBS_PIR;
-    public static ForgeConfigSpec.IntValue MAX_MOBS_PIR;
     public static ForgeConfigSpec.IntValue MOB_SPAWN_RAGE_PIR;
     public static ForgeConfigSpec.BooleanValue SOUL_RESET_DEATH;
 
@@ -41,28 +39,22 @@ public class UnstableConfig {
 
             SERVER_BUILDER.comment("Cursed Earth").push("Settings for Cursed Earth");
             MIN_SPAWN_DELAY = SERVER_BUILDER
-                    .comment("Minimum amount of time to wait before cursed earth attempts to spawn a mob.")
-                    .defineInRange("minSpawnDelay", 600, 0, Integer.MAX_VALUE);
+                    .comment("Minimum amount of time to wait (in ticks) before cursed earth attempts to spawn a mob.")
+                    .defineInRange("minSpawnDelay", 300, 0, Integer.MAX_VALUE);
             MAX_SPAWN_DELAY = SERVER_BUILDER
-                .comment("Minimum amount of time to wait before cursed earth attempts to spawn a mob.")
-                .defineInRange("maxSpawnDelay", 1200, 0, Integer.MAX_VALUE);
+                .comment("Maximum amount of time to wait (in ticks) before cursed earth attempts to spawn a mob.")
+                .defineInRange("maxSpawnDelay", 1200, 1, Integer.MAX_VALUE);
             SERVER_BUILDER.pop();
 
-            SERVER_BUILDER.comment("Misc Settings").push("Settings that do not belong to a specific category");
+            SERVER_BUILDER.comment("Activated Division Sigil").push("Settings related to the Activated Division Sigil");
             ACTIVATED_DURABILITY = SERVER_BUILDER
                 .comment("Durability of the Activated Division Sigil")
                 .defineInRange("activatedDurability", 256, 1, Integer.MAX_VALUE);
             SERVER_BUILDER.pop();
 
             SERVER_BUILDER.comment("Pseudo Inversion Ritual").push("Settings related to the Pseudo-Inversion Ritual");
-            MIN_MOBS_PIR = SERVER_BUILDER
-                    .comment("Minimum amount of mobs that will spawn in a group during the ritual.")
-                    .defineInRange("minMobsPir", 1, 1, Integer.MAX_VALUE);
-            MAX_MOBS_PIR = SERVER_BUILDER
-                    .comment("Maximum amount of mobs that will spawn in a group during the ritual.")
-                    .defineInRange("maxMobsPir", 4, 1, Integer.MAX_VALUE);
             MAX_MOBS = SERVER_BUILDER
-                .comment("Maximum number of mobs allowed during the Psudeo Inversion Ritual.")
+                .comment("What should the entity cap be during the Pseudo Inversion Ritual? (Once this limit is reached, no new mobs will spawn until current mobs are killed).")
                 .defineInRange("maximumMobs", 250, 1, Integer.MAX_VALUE);
             MOB_SPAWN_RAGE_PIR = SERVER_BUILDER
                 .comment("Maximum range mobs can spawn from the player during the pseudo inversion ritual.")
@@ -72,7 +64,7 @@ public class UnstableConfig {
                 .defineInRange("neededMobs", 100, 1, Integer.MAX_VALUE);
             SERVER_BUILDER.pop();
 
-            SERVER_BUILDER.comment("Soul Fragment").push("Settings related to Soul Fragment");
+            SERVER_BUILDER.comment("Soul Fragment").push("Settings related to the Soul Fragment");
             SOUL_RESET_DEATH = SERVER_BUILDER
                 .comment("Should the soul drain from the player's health reset when they die?")
                 .define("soulResetDeath", false);
