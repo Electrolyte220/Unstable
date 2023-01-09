@@ -26,60 +26,60 @@ public class UnstableConfig {
         ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
         ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
 
-        CLIENT_BUILDER.comment("Client Settings").push("clientSettings");
+        CLIENT_BUILDER.comment("Client Settings").push("client_settings");
         CURSED_EARTH_PARTICLES = CLIENT_BUILDER
                 .comment("Should Cursed Earth emit particles?")
-                .define("cursedEarthParticles", true);
+                .define("cursed_earth_particles", true);
         CLIENT_BUILDER.pop();
         CLIENT_CONFIG = CLIENT_BUILDER.build();
 
-        SERVER_BUILDER.comment("Server-side Settings").push("serverSettings");
-            SERVER_BUILDER.comment("Activation Ritual").push("Settings for the Activation Ritual");
+        SERVER_BUILDER.comment("Server Settings").push("server_settings");
+            SERVER_BUILDER.comment("Activation Ritual").push("activation_ritual");
             ACTIVATION_BLOCK = SERVER_BUILDER
                 .comment("Block that natural earth is changed to when the activation ritual is successful.")
-                .define("activationBlock", "unstable:cursed_earth");
+                .define("activation_block", "unstable:cursed_earth");
             SERVER_BUILDER.pop();
 
-            SERVER_BUILDER.comment("Cursed Earth").push("Settings for Cursed Earth");
+            SERVER_BUILDER.comment("Cursed Earth").push("cursed_earth");
             MIN_SPAWN_DELAY = SERVER_BUILDER
                     .comment("Minimum amount of time to wait (in ticks) before cursed earth attempts to spawn a mob.")
-                    .defineInRange("minSpawnDelay", 300, 0, Integer.MAX_VALUE);
+                    .defineInRange("min_spawn_delay", 300, 0, Integer.MAX_VALUE);
             MAX_SPAWN_DELAY = SERVER_BUILDER
                 .comment("Maximum amount of time to wait (in ticks) before cursed earth attempts to spawn a mob.")
-                .defineInRange("maxSpawnDelay", 1200, 1, Integer.MAX_VALUE);
+                .defineInRange("max_spawn_delay", 1200, 1, Integer.MAX_VALUE);
             SERVER_BUILDER.pop();
 
-            SERVER_BUILDER.comment("Activated Division Sigil").push("Settings related to the Activated Division Sigil");
+            SERVER_BUILDER.comment("Activated Division Sigil").push("activated_division_sigil");
             ACTIVATED_DURABILITY = SERVER_BUILDER
                 .comment("Durability of the Activated Division Sigil")
-                .defineInRange("activatedDurability", 256, 1, Integer.MAX_VALUE);
+                .defineInRange("activated_durability", 256, 1, Integer.MAX_VALUE);
             SERVER_BUILDER.pop();
 
-            SERVER_BUILDER.comment("Pseudo Inversion Ritual").push("Settings related to the Pseudo-Inversion Ritual");
+            SERVER_BUILDER.comment("Pseudo Inversion Ritual").push("pseudo_inversion_ritual");
             MAX_MOBS = SERVER_BUILDER
                 .comment("What should the entity cap be during the Pseudo Inversion Ritual? (Once this limit is reached, no new mobs will spawn until current mobs are killed).")
-                .defineInRange("maximumMobs", 250, 1, Integer.MAX_VALUE);
+                .defineInRange("maximum_mobs", 250, 1, Integer.MAX_VALUE);
             MOB_SPAWN_RAGE_PIR = SERVER_BUILDER
                 .comment("Maximum range mobs can spawn from the player during the pseudo inversion ritual.")
-                .defineInRange("mobSpawnRagePir", 75, 1, 128);
+                .defineInRange("mob_spawning_range_pir", 75, 1, 128);
             NEEDED_MOBS = SERVER_BUILDER
                 .comment("During the Psudeo Inversion Ritual, how many mob kills are needed to obtain a stable sigil?")
-                .defineInRange("neededMobs", 100, 1, Integer.MAX_VALUE);
+                .defineInRange("needed_mobs", 100, 1, Integer.MAX_VALUE);
             SERVER_BUILDER.pop();
 
-            SERVER_BUILDER.comment("Soul Fragment").push("Settings related to the Soul Fragment");
+            SERVER_BUILDER.comment("Soul Fragment").push("soul_fragment");
             SOUL_RESET_DEATH = SERVER_BUILDER
                 .comment("Should the soul drain from the player's health reset when they die?")
-                .define("soulResetDeath", false);
+                .define("soul_reset_death", false);
             SERVER_BUILDER.pop();
 
-            SERVER_BUILDER.comment("Healing Axe").push("Settings Related to the Healing Axe");
+            SERVER_BUILDER.comment("Healing Axe").push("healing_axe");
             HEALING_AXE_OFFHAND = SERVER_BUILDER
                 .comment("Should the Healing Axe be able to restore hunger when held in the offhand?")
-                .define("healingAxeOffhand", false);
+                .define("healing_axe_offhand", false);
             HEALING_AXE_HEAL_RATE = SERVER_BUILDER
                  .comment("Rate (in ticks) at which 1 haunch is restored to the player")
-                 .defineInRange("healingAxeHealRate", 40L, 1L, Long.MAX_VALUE);
+                 .defineInRange("healing_axe_heal_rate", 40L, 1L, Long.MAX_VALUE);
             SERVER_BUILDER.pop();
 
         SERVER_BUILDER.pop();
