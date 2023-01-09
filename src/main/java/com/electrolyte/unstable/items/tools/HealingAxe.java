@@ -1,6 +1,7 @@
 package com.electrolyte.unstable.items.tools;
 
 import com.electrolyte.unstable.Unstable;
+import com.electrolyte.unstable.UnstableConfig;
 import com.electrolyte.unstable.damagesource.HealingAxeDamageSource;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
@@ -34,9 +35,11 @@ public class HealingAxe extends AxeItem {
 
     @Override
     public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        if(isSelected && entityIn instanceof ServerPlayer player && worldIn.getGameTime() % 40L == 0L) {
-            player.getFoodData().setFoodLevel(player.getFoodData().getFoodLevel() + 1);
-            player.getFoodData().setSaturation(player.getFoodData().getSaturationLevel() + 0.1F);
+        if(entityIn instanceof ServerPlayer player && worldIn.getGameTime() % UnstableConfig.HEALING_AXE_HEAL_RATE.get() == 0L) {
+            if(player.getMainHandItem().equals(stack) || (player.getOffhandItem().equals(stack) && UnstableConfig.HEALING_AXE_OFFHAND.get())) {
+                player.getFoodData().setFoodLevel(player.getFoodData().getFoodLevel() + 1);
+                player.getFoodData().setSaturation(player.getFoodData().getSaturationLevel() + 0.1F);
+            }
         }
     }
 

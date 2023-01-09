@@ -19,6 +19,9 @@ public class UnstableConfig {
     public static ForgeConfigSpec.IntValue MOB_SPAWN_RAGE_PIR;
     public static ForgeConfigSpec.BooleanValue SOUL_RESET_DEATH;
 
+    public static ForgeConfigSpec.BooleanValue HEALING_AXE_OFFHAND;
+    public static ForgeConfigSpec.LongValue HEALING_AXE_HEAL_RATE;
+
     static {
         ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
         ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
@@ -68,6 +71,15 @@ public class UnstableConfig {
             SOUL_RESET_DEATH = SERVER_BUILDER
                 .comment("Should the soul drain from the player's health reset when they die?")
                 .define("soulResetDeath", false);
+            SERVER_BUILDER.pop();
+
+            SERVER_BUILDER.comment("Healing Axe").push("Settings Related to the Healing Axe");
+            HEALING_AXE_OFFHAND = SERVER_BUILDER
+                .comment("Should the Healing Axe be able to restore hunger when held in the offhand?")
+                .define("healingAxeOffhand", false);
+            HEALING_AXE_HEAL_RATE = SERVER_BUILDER
+                 .comment("Rate (in ticks) at which 1 haunch is restored to the player")
+                 .defineInRange("healingAxeHealRate", 40L, 1L, Long.MAX_VALUE);
             SERVER_BUILDER.pop();
 
         SERVER_BUILDER.pop();
