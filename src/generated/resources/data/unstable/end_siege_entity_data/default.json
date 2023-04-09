@@ -1,10 +1,4 @@
 {
-  "spawnCount": [
-    {
-      "min": 2,
-      "max": 5
-    }
-  ],
   "entities": [
     "minecraft:zombie",
     "minecraft:witch",

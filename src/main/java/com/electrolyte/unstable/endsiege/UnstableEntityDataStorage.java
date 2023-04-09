@@ -12,8 +12,6 @@ import java.util.Map;
 
 public record UnstableEntityDataStorage(
         EntityType<?> entity,
-        int minCount,
-        int maxCount,
         List<MobEffectInstance> effects,
         List<Map<InteractionHand, ItemStack>> equipment,
         List<Map<EquipmentSlot, ItemStack>> armor) {

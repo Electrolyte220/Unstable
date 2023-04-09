@@ -38,28 +38,17 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
         }
         Unstable.LOGGER.info("Setting up End Siege Entity Data...");
         object.forEach((location, jsonElement) -> {
-            JsonArray spawnCount = jsonElement.getAsJsonObject().get("spawnCount").getAsJsonArray();
             JsonArray entities = jsonElement.getAsJsonObject().get("entities").getAsJsonArray();
             JsonArray effects = jsonElement.getAsJsonObject().get("effects").getAsJsonArray();
             JsonArray equipment = jsonElement.getAsJsonObject().get("equipment").getAsJsonArray();
             JsonArray armor = jsonElement.getAsJsonObject().get("armor").getAsJsonArray();
-            int[] spawnCountArray = validateSpawnCount(spawnCount);
             List<EntityType<?>> entityList = validateAndConvertEntities(entities);
             List<MobEffectInstance> effectList = validateAndConvertEffects(effects);
             List<Map<InteractionHand, ItemStack>> equipmentList = validateAndConvertEquipment(equipment);
             List<Map<EquipmentSlot, ItemStack>> armorList = validateAndConvertArmor(armor);
-            entityList.forEach(entity -> UnstableEntityDataStorage.addEntries(new UnstableEntityDataStorage(entity, spawnCountArray[0], spawnCountArray[1], effectList, equipmentList, armorList)));
+            entityList.forEach(entity -> UnstableEntityDataStorage.addEntries(new UnstableEntityDataStorage(entity, effectList, equipmentList, armorList)));
         });
         Unstable.LOGGER.info("Finished Setting up End Siege Entity Data.");
-    }
-
-    private int[] validateSpawnCount(JsonArray input) {
-        int[] spawnCount = new int[2];
-        if(input.getAsJsonArray().get(0).getAsJsonObject().get("min") == null) spawnCount[0] = 1;
-        else spawnCount[0] = input.getAsJsonArray().get(0).getAsJsonObject().get("min").getAsInt();
-        if(input.getAsJsonArray().get(0).getAsJsonObject().get("max") == null) spawnCount[1] = 5;
-        else spawnCount[1] = input.getAsJsonArray().get(0).getAsJsonObject().get("max").getAsInt();
-        return spawnCount;
     }
 
     private List<EntityType<?>> validateAndConvertEntities(JsonArray input) {
@@ -86,7 +75,7 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
                 int duration = jsonObject.has("duration") ? jsonObject.get("duration").getAsInt() : 100;
                 boolean ambient = !jsonObject.has("ambient") || jsonObject.get("ambient").getAsBoolean();
                 boolean visible = !jsonObject.has("visible") || jsonObject.get("visible").getAsBoolean();
-                mobEffects.add(new MobEffectInstance(effect, amplifier, duration, ambient, visible));
+                mobEffects.add(new MobEffectInstance(effect, duration, amplifier, ambient, visible));
             }
         }
         return mobEffects;

@@ -33,7 +33,7 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
 
     @Override
     public void run(HashCache cache) {
-        buildEntityData(cache, "default", 2, 5, List.of(EntityType.ZOMBIE, EntityType.WITCH, EntityType.SILVERFISH, EntityType.SPIDER, EntityType.CAVE_SPIDER, EntityType.SKELETON, EntityType.WITHER_SKELETON, EntityType.CREEPER, EntityType.BLAZE, EntityType.ZOMBIFIED_PIGLIN,
+        buildEntityData(cache, "default", List.of(EntityType.ZOMBIE, EntityType.WITCH, EntityType.SILVERFISH, EntityType.SPIDER, EntityType.CAVE_SPIDER, EntityType.SKELETON, EntityType.WITHER_SKELETON, EntityType.CREEPER, EntityType.BLAZE, EntityType.ZOMBIFIED_PIGLIN,
                         EntityType.PHANTOM, EntityType.EVOKER, EntityType.PILLAGER, EntityType.VINDICATOR, EntityType.ILLUSIONER),
                 Optional.of(List.of(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 6000, 1, true, true),
                         new MobEffectInstance(MobEffects.DAMAGE_BOOST, 6000, 0, true, true),
@@ -58,15 +58,9 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
                 Ingredient.of(Items.MUSIC_DISC_STRAD), Ingredient.of(Items.MUSIC_DISC_WAIT), Ingredient.of(Items.MUSIC_DISC_WARD)), Optional.of(UnstableEnums.NBT_TYPE.IGNORE_NBT));
     }
 
-    private void buildEntityData(HashCache cache, String fileName, int minCount, int maxCount, List<EntityType<?>> entities, Optional<List<MobEffectInstance>> effects, Optional<List<Map<InteractionHand, ItemStack>>> equipment, Optional<List<Map<EquipmentSlot, ItemStack>>> armor) {
+    private void buildEntityData(HashCache cache, String fileName, List<EntityType<?>> entities, Optional<List<MobEffectInstance>> effects, Optional<List<Map<InteractionHand, ItemStack>>> equipment, Optional<List<Map<EquipmentSlot, ItemStack>>> armor) {
         Path file = this.gen.getOutputFolder().resolve("data/unstable/end_siege_entity_data/" + fileName + ".json");
         JsonObject jsonObject = new JsonObject();
-        JsonArray spawnCountArray = new JsonArray();
-        JsonObject spawnCount = new JsonObject();
-        spawnCount.addProperty("min", minCount);
-        spawnCount.addProperty("max", maxCount);
-        spawnCountArray.add(spawnCount);
-        jsonObject.add("spawnCount", spawnCountArray);
         JsonArray entityArray = new JsonArray();
         for (EntityType<?> entity : entities) {
             entityArray.add(entity.getRegistryName().toString());
