@@ -1,11 +1,10 @@
 package com.electrolyte.unstable.helper;
 
+import com.electrolyte.unstable.UnstableConfig;
 import com.electrolyte.unstable.UnstableEnums;
 import com.electrolyte.unstable.endsiege.UnstableChestDataStorage;
 import com.electrolyte.unstable.savedata.UnstableSavedData;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -16,6 +15,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -246,11 +246,9 @@ public class PseudoInversionRitualHelper {
     //TODO: Make sure this only sends kills messages to players participating in the end siege.
     public static void sendSiegeMessage(MutableComponent translateKey, Level level, UnstableSavedData data) {
         level.getServer().getLevel(Level.END).players().forEach(player -> {
-            for(Tag tag : data.getPlayersWithActivationSigil()) {
-                CompoundTag tag1 = (CompoundTag) tag;
-                if(tag1.getUUID("playerUUID").equals(player.getUUID())) {
-                    player.displayClientMessage(translateKey, true);
-                }
+            AABB aabb = new AABB(new BlockPos(data.getStartingLocation()[0], data.getStartingLocation()[1], data.getStartingLocation()[2])).inflate(UnstableConfig.MOB_SPAWN_RAGE_PIR.get());
+            if(aabb.intersects(player.getBoundingBox())) {
+                player.displayClientMessage(translateKey, true);
             }
         });
     }

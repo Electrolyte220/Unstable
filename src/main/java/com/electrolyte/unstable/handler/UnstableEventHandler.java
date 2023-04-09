@@ -16,13 +16,12 @@ import com.google.gson.Gson;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.IronGolem;
@@ -179,20 +178,12 @@ public class UnstableEventHandler {
                                 if (playerIn.level.dimension().location().equals(DimensionType.END_LOCATION.location())) {
                                     playerIn.displayClientMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_started").withStyle(ChatFormatting.WHITE), true);
                                     players.getAndIncrement();
-                                    ListTag listTag = new ListTag();
-                                    if (playerIn.getInventory().contains(stack)) {
-                                        CompoundTag tag = new CompoundTag();
-                                        tag.putUUID("playerUUID", playerIn.getUUID());
-                                        listTag.addAll(data.getPlayersWithActivationSigil());
-                                        listTag.add(tag);
-                                        data.setPlayersWithActivationSigil(listTag);
-                                        playerIn.getInventory().removeItem(stack);
-                                    }
                                 }
                             });
                             data.setEndSiegeOccurring(true);
                             //data.setStartingLocation(new int[]{pos1.getX(), pos1.below(2).getY(), pos1.getZ()});
                             data.setPlayersParticipating(players.get());
+                            player.getInventory().removeItem(stack);
                         }
                     }
                 }
@@ -204,18 +195,7 @@ public class UnstableEventHandler {
                 }
                 if (data.getTotalKills() >= UnstableConfig.NEEDED_MOBS.get()) {
                     PseudoInversionRitualHelper.sendSiegeMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.siege_ended").withStyle(ChatFormatting.WHITE), event.getEntity().getLevel(), data);
-                    player.level.players().forEach(playerIn -> {
-                        for(Tag tag : data.getPlayersWithActivationSigil()) {
-                            CompoundTag tag1 = (CompoundTag) tag;
-                            if(tag1.getUUID("playerUUID").equals(playerIn.getUUID())) {
-                                for (int i = 0; i < playerIn.getInventory().getContainerSize(); i++) {
-                                    if (playerIn.getInventory().getItem(i).getItem() == ModItems.DIVISION_SIGIL_ACTIVATED.get()) {
-                                        playerIn.getInventory().setItem(i, new ItemStack(ModItems.DIVISION_SIGIL_STABLE.get()));
-                                   }
-                                }
-                            }
-                        }
-                    });
+                    player.getInventory().add(player.getInventory().getFreeSlot(), new ItemStack(ModItems.DIVISION_SIGIL_STABLE.get()));
                     data.resetData();
                 }
             }
@@ -245,11 +225,21 @@ public class UnstableEventHandler {
         if (event.phase == TickEvent.Phase.START && event.world.dimension() == Level.END) {
             ServerLevel level = event.world.getServer().getLevel(Level.END);
             UnstableSavedData data = UnstableSavedData.get(level);
+            if(level.getServer().getTickCount() % 10 == 0) {
+                for (ServerPlayer player : level.getPlayers(p -> p.getAbilities().flying)) {
+                    player.getAbilities().flying = false;
+                    player.hurt(DamageSource.OUT_OF_WORLD, 0.5f);
+                }
+            }
             if (data.isEndSiegeOccurring()) {
                 int playersParticipating = level.players().size();
                 data.setPlayersParticipating(playersParticipating);
                 int maxSpawningRange = UnstableConfig.MOB_SPAWN_RAGE_PIR.get();
                 if(level.getServer().getTickCount() % 10 == 0) {
+                    for(Player player : level.getPlayers(p -> p.getAbilities().flying)) {
+                        player.getAbilities().flying = false;
+                        player.hurt(DamageSource.OUT_OF_WORLD, 0.5f);
+                    }
                     AABB spawnableLocations = new AABB(-maxSpawningRange, 55, -maxSpawningRange, maxSpawningRange, 75, maxSpawningRange);
                     if (data.getTotalKills() < UnstableConfig.NEEDED_MOBS.get()) {
                         int mobCount = level.getEntities(null, spawnableLocations).size();

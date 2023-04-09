@@ -1,7 +1,6 @@
 package com.electrolyte.unstable.savedata;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
@@ -16,7 +15,7 @@ public class UnstableSavedData extends SavedData {
     private int totalKills;
     private int[] startingLocation;
 
-    private ListTag playersWithActivationSigil;
+    private String playerWithActivationSigil;
 
     @Nonnull
     public static UnstableSavedData get(Level level) {
@@ -31,7 +30,7 @@ public class UnstableSavedData extends SavedData {
         this.isEndSiegeOccurring = tag.getBoolean("isEndSiegeOccurring");
         this.playersParticipating = tag.getInt("playersParticipating");
         this.totalKills = tag.getInt("totalKills");
-        this.playersWithActivationSigil = tag.getList("playersWithActivationSigil",9);
+        this.playerWithActivationSigil = tag.getString("playerWithActivationSigil");
         this.startingLocation = tag.getIntArray("startingLocation");
     }
 
@@ -40,7 +39,7 @@ public class UnstableSavedData extends SavedData {
         pCompoundTag.putBoolean("isEndSiegeOccurring", this.isEndSiegeOccurring);
         pCompoundTag.putInt("playersParticipating", this.playersParticipating);
         pCompoundTag.putInt("totalKills", this.totalKills);
-        pCompoundTag.put("playersWithActivationSigil", this.playersWithActivationSigil);
+        pCompoundTag.putString("playersWithActivationSigil", this.playerWithActivationSigil);
         pCompoundTag.putIntArray("startingLocation", this.startingLocation);
         return pCompoundTag;
     }
@@ -54,7 +53,7 @@ public class UnstableSavedData extends SavedData {
         this.setDirty();
     }
 
-    public int getPlayersParticipating() {
+    public int getPlayerParticipating() {
         return playersParticipating;
     }
 
@@ -72,12 +71,12 @@ public class UnstableSavedData extends SavedData {
         this.setDirty();
     }
 
-    public ListTag getPlayersWithActivationSigil() {
-        return playersWithActivationSigil;
+    public String getPlayerWithActivationSigil() {
+        return playerWithActivationSigil;
     }
 
-    public void setPlayersWithActivationSigil(ListTag playersWithActivationSigil) {
-        this.playersWithActivationSigil = playersWithActivationSigil;
+    public void setPlayerWithActivationSigil(String playerWithActivationSigil) {
+        this.playerWithActivationSigil = playerWithActivationSigil;
         this.setDirty();
     }
 
@@ -94,7 +93,7 @@ public class UnstableSavedData extends SavedData {
         this.isEndSiegeOccurring = false;
         this.totalKills = 0;
         this.playersParticipating = 0;
-        this.playersWithActivationSigil = new ListTag();
+        this.playerWithActivationSigil = "";
         this.startingLocation = new int[3];
         this.setDirty();
     }
