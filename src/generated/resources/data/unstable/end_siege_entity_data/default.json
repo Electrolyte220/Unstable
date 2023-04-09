@@ -19,14 +19,14 @@
   "effects": [
     {
       "mobEffect": "minecraft:speed",
-      "amplifier": 1,
+      "amplifier": 0,
       "duration": 6000,
       "ambient": true,
       "visible": true
     },
     {
       "mobEffect": "minecraft:strength",
-      "amplifier": 0,
+      "amplifier": 1,
       "duration": 6000,
       "ambient": true,
       "visible": true

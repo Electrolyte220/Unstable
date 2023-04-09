@@ -22,6 +22,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.IronGolem;
@@ -31,6 +32,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.ElderGuardian;
 import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.Vex;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.inventory.Slot;
@@ -73,6 +75,20 @@ public class UnstableEventHandler {
     public static void onBossKilled(LivingDropsEvent event) {
         if (event.getEntity() instanceof ElderGuardian || event.getEntity() instanceof EnderDragon || event.getEntity() instanceof WitherBoss) {
             event.getDrops().add(new ItemEntity(event.getEntity().level, event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(), new ItemStack(ModItems.DIVISION_SIGIL.get(), 1)));
+        }
+    }
+
+    @SubscribeEvent
+    public static void tagVex(LivingSpawnEvent event) {
+        if(event.getEntity().level.isClientSide) return;
+        ServerLevel level = event.getEntity().level.getServer().getLevel(Level.END);
+        UnstableSavedData data = UnstableSavedData.get(level);
+        if(data.isEndSiegeOccurring() && event.getEntity() instanceof Vex vex) {
+            if(!vex.getTags().contains("spawnedBySiege")) {
+                CompoundTag tag = new CompoundTag();
+                tag.putBoolean("spawnedBySiege", true);
+                vex.addTag(tag.toString());
+            }
         }
     }
 
@@ -123,9 +139,8 @@ public class UnstableEventHandler {
             BlockPos pos2 = new BlockPos(event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ());
             Block enchantBlock = event.getEntity().getLevel().getBlockState(pos1.below()).getBlock();
             Block beaconBlock = event.getEntity().getLevel().getBlockState(pos1.below(2)).getBlock();
-            if (!(event.getSource().getDirectEntity() instanceof Player))
-                return;
-            ServerPlayer player = (ServerPlayer) event.getSource().getDirectEntity();
+            if (!(event.getSource().getEntity() instanceof Player)) return;
+            ServerPlayer player = (ServerPlayer) event.getSource().getEntity();
             ResourceLocation playerDim = player.level.dimension().location();
             if (enchantBlock == Blocks.ENCHANTING_TABLE) {
                 for (Slot slot : player.inventoryMenu.slots) {
@@ -154,6 +169,7 @@ public class UnstableEventHandler {
             }
             UnstableSavedData data = UnstableSavedData.get(player.level);
             if (beaconBlock == Blocks.BEACON && event.getEntity() instanceof IronGolem) {
+                if (!(event.getSource().getDirectEntity() instanceof Player)) return;
                 for(Slot slot : player.inventoryMenu.slots) {
                     ItemStack stack = slot.getItem();
                     if (stack.getItem() == ModItems.DIVISION_SIGIL.get()) {
@@ -262,7 +278,7 @@ public class UnstableEventHandler {
                                     mob.setPos(genXOrZ(), genY(), genXOrZ());
                                 }
                                 if (!entityData.effects().isEmpty()) {
-                                    entityData.effects().forEach(mob::addEffect);
+                                    entityData.effects().forEach(effect -> mob.addEffect(new MobEffectInstance(effect.getEffect(), effect.getDuration(), effect.getAmplifier(), effect.isAmbient(), effect.isVisible())));
                                 }
                                 if (!entityData.equipment().isEmpty()) {
                                     entityData.equipment().forEach(equipmentList -> equipmentList.forEach((interactionHand, stack) ->

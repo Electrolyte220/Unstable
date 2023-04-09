@@ -35,8 +35,8 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
     public void run(HashCache cache) {
         buildEntityData(cache, "default", List.of(EntityType.ZOMBIE, EntityType.WITCH, EntityType.SILVERFISH, EntityType.SPIDER, EntityType.CAVE_SPIDER, EntityType.SKELETON, EntityType.WITHER_SKELETON, EntityType.CREEPER, EntityType.BLAZE, EntityType.ZOMBIFIED_PIGLIN,
                         EntityType.PHANTOM, EntityType.EVOKER, EntityType.PILLAGER, EntityType.VINDICATOR, EntityType.ILLUSIONER),
-                Optional.of(List.of(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 6000, 1, true, true),
-                        new MobEffectInstance(MobEffects.DAMAGE_BOOST, 6000, 0, true, true),
+                Optional.of(List.of(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 6000, 0, true, true),
+                        new MobEffectInstance(MobEffects.DAMAGE_BOOST, 6000, 1, true, true),
                         new MobEffectInstance(MobEffects.REGENERATION, 6000, 0, true, true),
                         new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 6000, 0, true, true))),
                 Optional.empty(), Optional.empty());
