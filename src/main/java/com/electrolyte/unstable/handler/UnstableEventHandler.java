@@ -225,19 +225,14 @@ public class UnstableEventHandler {
         if (event.phase == TickEvent.Phase.START && event.world.dimension() == Level.END) {
             ServerLevel level = event.world.getServer().getLevel(Level.END);
             UnstableSavedData data = UnstableSavedData.get(level);
-            if(level.getServer().getTickCount() % 10 == 0) {
-                for (ServerPlayer player : level.getPlayers(p -> p.getAbilities().flying)) {
-                    player.getAbilities().flying = false;
-                    player.hurt(DamageSource.OUT_OF_WORLD, 0.5f);
-                }
-            }
             if (data.isEndSiegeOccurring()) {
                 int playersParticipating = level.players().size();
                 data.setPlayersParticipating(playersParticipating);
                 int maxSpawningRange = UnstableConfig.MOB_SPAWN_RAGE_PIR.get();
                 if(level.getServer().getTickCount() % 10 == 0) {
-                    for(Player player : level.getPlayers(p -> p.getAbilities().flying)) {
+                    for (ServerPlayer player : level.getPlayers(p -> p.getAbilities().flying)) {
                         player.getAbilities().flying = false;
+                        player.onUpdateAbilities();
                         player.hurt(DamageSource.OUT_OF_WORLD, 0.5f);
                     }
                     AABB spawnableLocations = new AABB(-maxSpawningRange, 55, -maxSpawningRange, maxSpawningRange, 75, maxSpawningRange);
