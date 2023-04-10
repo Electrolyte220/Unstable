@@ -84,29 +84,29 @@ public class DivisionSigilActivated extends Item {
                 } else if(!PseudoInversionRitualHelper.checkEndBlocks(context.getLevel(), context.getClickedPos())) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.area_fail"), context.getPlayer().getUUID());
                     everythingCorrect = false;
-                } if(PseudoInversionRitualHelper.checkChests(context.getLevel(), context.getClickedPos())) {
+                } if(PseudoInversionRitualHelper.checkChestsPos(context.getLevel(), context.getClickedPos())) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.chest").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-                } else if(!PseudoInversionRitualHelper.checkChests(context.getLevel(), context.getClickedPos())) {
+                } else if(!PseudoInversionRitualHelper.checkChestsPos(context.getLevel(), context.getClickedPos())) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.chest_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
                     everythingCorrect = false;
-                } if(PseudoInversionRitualHelper.checkChestContents(context.getLevel(), context.getClickedPos().north(5), UnstableEnums.CHEST_LOCATION.NORTH)) {
+                } if(PseudoInversionRitualHelper.checkIndividualChestContents(context.getLevel(), context.getClickedPos().north(5), UnstableEnums.CHEST_LOCATION.NORTH)) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.north_chest").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-                } else if(!PseudoInversionRitualHelper.checkChestContents(context.getLevel(), context.getClickedPos().north(5), UnstableEnums.CHEST_LOCATION.NORTH)) {
+                } else if(!PseudoInversionRitualHelper.checkIndividualChestContents(context.getLevel(), context.getClickedPos().north(5), UnstableEnums.CHEST_LOCATION.NORTH)) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.north_chest_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
                     everythingCorrect = false;
-                } if(PseudoInversionRitualHelper.checkChestContents(context.getLevel(), context.getClickedPos().south(5), UnstableEnums.CHEST_LOCATION.SOUTH)) {
+                } if(PseudoInversionRitualHelper.checkIndividualChestContents(context.getLevel(), context.getClickedPos().south(5), UnstableEnums.CHEST_LOCATION.SOUTH)) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.south_chest").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-                } else if(!PseudoInversionRitualHelper.checkChestContents(context.getLevel(), context.getClickedPos().south(5), UnstableEnums.CHEST_LOCATION.SOUTH)) {
+                } else if(!PseudoInversionRitualHelper.checkIndividualChestContents(context.getLevel(), context.getClickedPos().south(5), UnstableEnums.CHEST_LOCATION.SOUTH)) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.south_chest_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
                     everythingCorrect = false;
-                } if(PseudoInversionRitualHelper.checkChestContents(context.getLevel(), context.getClickedPos().east(5), UnstableEnums.CHEST_LOCATION.EAST)) {
+                } if(PseudoInversionRitualHelper.checkIndividualChestContents(context.getLevel(), context.getClickedPos().east(5), UnstableEnums.CHEST_LOCATION.EAST)) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.east_chest").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-                } else if(!PseudoInversionRitualHelper.checkChestContents(context.getLevel(), context.getClickedPos().east(5), UnstableEnums.CHEST_LOCATION.EAST)) {
+                } else if(!PseudoInversionRitualHelper.checkIndividualChestContents(context.getLevel(), context.getClickedPos().east(5), UnstableEnums.CHEST_LOCATION.EAST)) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.east_chest_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
                     everythingCorrect = false;
-                } if(PseudoInversionRitualHelper.checkChestContents(context.getLevel(), context.getClickedPos().west(5), UnstableEnums.CHEST_LOCATION.WEST)) {
+                } if(PseudoInversionRitualHelper.checkIndividualChestContents(context.getLevel(), context.getClickedPos().west(5), UnstableEnums.CHEST_LOCATION.WEST)) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.west_chest").withStyle(ChatFormatting.WHITE), context.getPlayer().getUUID());
-                } else if(!PseudoInversionRitualHelper.checkChestContents(context.getLevel(), context.getClickedPos().west(5), UnstableEnums.CHEST_LOCATION.WEST)) {
+                } else if(!PseudoInversionRitualHelper.checkIndividualChestContents(context.getLevel(), context.getClickedPos().west(5), UnstableEnums.CHEST_LOCATION.WEST)) {
                     context.getPlayer().sendMessage(new TranslatableComponent("unstable.pseudo_inversion_ritual.west_chest_fail").withStyle(ChatFormatting.RED), context.getPlayer().getUUID());
                     everythingCorrect = false;
                 } if(PseudoInversionRitualHelper.checkRedstoneAndString(context.getLevel(), context.getClickedPos())) {

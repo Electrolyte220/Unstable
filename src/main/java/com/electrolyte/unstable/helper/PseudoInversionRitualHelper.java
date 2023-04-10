@@ -119,12 +119,12 @@ public class PseudoInversionRitualHelper {
         return level.getBlockState(topLeft8.east(8)).getBlock() == Blocks.REDSTONE_WIRE;
     }
 
-    public static boolean checkChests(Level level, BlockPos pos) {
+    public static boolean checkChestsPos(Level level, BlockPos pos) {
         return level.getBlockState(pos.north(5)).getBlock() == Blocks.CHEST && level.getBlockState(pos.south(5)).getBlock() == Blocks.CHEST &&
                 level.getBlockState(pos.east(5)).getBlock() == Blocks.CHEST && level.getBlockState(pos.west(5)).getBlock() == Blocks.CHEST;
     }
 
-    public static boolean checkChestContents(Level level, BlockPos pos, UnstableEnums.CHEST_LOCATION location) {
+    public static boolean checkIndividualChestContents(Level level, BlockPos pos, UnstableEnums.CHEST_LOCATION location) {
         AtomicBoolean prevItemFound = new AtomicBoolean(true);
         BlockEntity te = level.getBlockEntity(pos);
         if (te instanceof ChestBlockEntity) {
@@ -149,6 +149,13 @@ public class PseudoInversionRitualHelper {
             });
         }
         return prevItemFound.get();
+    }
+
+    public static boolean checkAllChestContents(Level level, BlockPos pos) {
+        return PseudoInversionRitualHelper.checkIndividualChestContents(level, pos.below().north(5), UnstableEnums.CHEST_LOCATION.NORTH) &&
+                PseudoInversionRitualHelper.checkIndividualChestContents(level, pos.below().south(5), UnstableEnums.CHEST_LOCATION.SOUTH) &&
+                PseudoInversionRitualHelper.checkIndividualChestContents(level, pos.below().east(5), UnstableEnums.CHEST_LOCATION.EAST) &&
+                PseudoInversionRitualHelper.checkIndividualChestContents(level, pos.below().west(5), UnstableEnums.CHEST_LOCATION.WEST);
     }
 
     private static boolean checkItem(Ingredient ingredient, ArrayList<ItemStack> chestItems, UnstableEnums.NBT_TYPE nbtType) {
@@ -182,10 +189,10 @@ public class PseudoInversionRitualHelper {
     }
 
     public static void destroyBeaconAndChests(Level level, BlockPos pos) {
-        BlockPos northChest = pos.below().north(5);
-        BlockPos southChest = pos.below().south(5);
-        BlockPos eastChest = pos.below().east(5);
-        BlockPos westChest = pos.below().west(5);
+        BlockPos northChest = pos.north(5);
+        BlockPos southChest = pos.south(5);
+        BlockPos eastChest = pos.east(5);
+        BlockPos westChest = pos.west(5);
 
         ChestBlockEntity northChestTE = (ChestBlockEntity) level.getBlockEntity(northChest);
         ChestBlockEntity southChestTE = (ChestBlockEntity) level.getBlockEntity(southChest);

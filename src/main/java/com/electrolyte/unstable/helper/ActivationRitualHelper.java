@@ -84,4 +84,12 @@ public class ActivationRitualHelper {
         }
         return true;
     }
+
+    public static boolean checkConditions(Level level, BlockPos pos) {
+        return ActivationRitualHelper.checkTime(level.getDayTime()) &&
+                ActivationRitualHelper.checkNatural(level, pos) &&
+                ActivationRitualHelper.checkRedstone(level, pos) &&
+                ActivationRitualHelper.checkLight(level, pos) &&
+                ActivationRitualHelper.checkSky(level, pos);
+    }
 }
