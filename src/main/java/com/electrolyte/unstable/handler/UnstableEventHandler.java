@@ -192,7 +192,7 @@ public class UnstableEventHandler {
                     }
                 });
                 data.setEndSiegeOccurring(true);
-                //data.setStartingLocation(new int[]{pos1.getX(), pos1.below(2).getY(), pos1.getZ()});
+                data.setStartingLocation(new int[]{pos.getX(), pos.getY(), pos.getZ()});
                 data.setPlayersParticipating(players.get());
                 player.getInventory().removeItem(player.getInventory().findSlotMatchingItem(ModItems.DIVISION_SIGIL_ACTIVATED.get().getDefaultInstance()), 1);
             }
@@ -249,7 +249,7 @@ public class UnstableEventHandler {
                         player.onUpdateAbilities();
                         player.hurt(DamageSource.OUT_OF_WORLD, 0.5f);
                     }
-                    AABB spawnableLocations = new AABB(-maxSpawningRange, 55, -maxSpawningRange, maxSpawningRange, 75, maxSpawningRange);
+                    AABB spawnableLocations = new AABB(new BlockPos(data.getStartingLocation()[0], data.getStartingLocation()[1], data.getStartingLocation()[2])).inflate(maxSpawningRange);
                     if (data.getTotalKills() < UnstableConfig.NEEDED_MOBS.get()) {
                         int mobCount = level.getEntities(null, spawnableLocations).size();
                         if (mobCount < UnstableConfig.MAX_MOBS.get()) {
@@ -271,9 +271,9 @@ public class UnstableEventHandler {
                                 if(mob instanceof Creeper creeper) {
                                     creeper.addTag("noLingeringEffects");
                                 }
-                                mob.setPos(genXOrZ(), genY(), genXOrZ());
+                                mob.setPos(genXOrZ(data.getStartingLocation()[0]), genY(data.getStartingLocation()[1]), genXOrZ(data.getStartingLocation()[2]));
                                 while (!NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, level, mob.getOnPos(), entityType)) {
-                                    mob.setPos(genXOrZ(), genY(), genXOrZ());
+                                    mob.setPos(genXOrZ(data.getStartingLocation()[0]), genY(data.getStartingLocation()[1]), genXOrZ(data.getStartingLocation()[2]));
                                 }
                                 if (!entityData.effects().isEmpty()) {
                                     entityData.effects().forEach(effect -> mob.addEffect(new MobEffectInstance(effect.getEffect(), effect.getDuration(), effect.getAmplifier(), effect.isAmbient(), effect.isVisible())));
@@ -296,12 +296,12 @@ public class UnstableEventHandler {
         }
     }
 
-    private static int genXOrZ(/*int relPos*/) {
-        return /*relPos + */ (int) (Math.random()  * UnstableConfig.MOB_SPAWN_RAGE_PIR.get() * (Math.random() > 0.5 ? 1 : -1));
+    private static int genXOrZ(int relPos) {
+        return relPos + (int) (Math.random()  * UnstableConfig.MOB_SPAWN_RAGE_PIR.get() * (Math.random() > 0.5 ? 1 : -1));
     }
 
-    private static int genY() {
-        return (int) (Math.random() * 10) + 55;
+    private static int genY(int relY) {
+        return relY + (int) (Math.random() * 10);
     }
 
     @SubscribeEvent

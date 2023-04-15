@@ -60,8 +60,8 @@ public class UnstableConfig {
                 .comment("What should the entity cap be during the Pseudo Inversion Ritual? (Once this limit is reached, no new mobs will spawn until current mobs are killed).")
                 .defineInRange("maximum_mobs", 250, 1, Integer.MAX_VALUE);
             MOB_SPAWN_RAGE_PIR = SERVER_BUILDER
-                .comment("Maximum range mobs can spawn from the player during the pseudo inversion ritual.")
-                .defineInRange("mob_spawning_range_pir", 75, 1, 128);
+                .comment("Maximum range mobs can spawn from the center during the Pseudo Inversion Ritual. (The center is defined as where the beacon was before it was destroyed).")
+                .defineInRange("mob_spawning_range_pir", 64, 1, 256);
             NEEDED_MOBS = SERVER_BUILDER
                 .comment("During the Psudeo Inversion Ritual, how many mob kills are needed to obtain a stable sigil?")
                 .defineInRange("needed_mobs", 100, 1, Integer.MAX_VALUE);

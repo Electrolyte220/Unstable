@@ -15,8 +15,6 @@ public class UnstableSavedData extends SavedData {
     private int totalKills;
     private int[] startingLocation;
 
-    private String playerWithActivationSigil;
-
     @Nonnull
     public static UnstableSavedData get(Level level) {
         if(level.isClientSide) throw new RuntimeException("Don't access this from the client-side!");
@@ -30,7 +28,6 @@ public class UnstableSavedData extends SavedData {
         this.isEndSiegeOccurring = tag.getBoolean("isEndSiegeOccurring");
         this.playersParticipating = tag.getInt("playersParticipating");
         this.totalKills = tag.getInt("totalKills");
-        this.playerWithActivationSigil = tag.getString("playerWithActivationSigil");
         this.startingLocation = tag.getIntArray("startingLocation");
     }
 
@@ -39,7 +36,6 @@ public class UnstableSavedData extends SavedData {
         pCompoundTag.putBoolean("isEndSiegeOccurring", this.isEndSiegeOccurring);
         pCompoundTag.putInt("playersParticipating", this.playersParticipating);
         pCompoundTag.putInt("totalKills", this.totalKills);
-        pCompoundTag.putString("playersWithActivationSigil", this.playerWithActivationSigil);
         pCompoundTag.putIntArray("startingLocation", this.startingLocation);
         return pCompoundTag;
     }
@@ -71,15 +67,6 @@ public class UnstableSavedData extends SavedData {
         this.setDirty();
     }
 
-    public String getPlayerWithActivationSigil() {
-        return playerWithActivationSigil;
-    }
-
-    public void setPlayerWithActivationSigil(String playerWithActivationSigil) {
-        this.playerWithActivationSigil = playerWithActivationSigil;
-        this.setDirty();
-    }
-
     public int[] getStartingLocation() {
         return startingLocation;
     }
@@ -93,7 +80,6 @@ public class UnstableSavedData extends SavedData {
         this.isEndSiegeOccurring = false;
         this.totalKills = 0;
         this.playersParticipating = 0;
-        this.playerWithActivationSigil = "";
         this.startingLocation = new int[3];
         this.setDirty();
     }
