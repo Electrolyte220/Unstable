@@ -1,7 +1,7 @@
 package com.electrolyte.unstable.listener;
 
 import com.electrolyte.unstable.Unstable;
-import com.electrolyte.unstable.endsiege.UnstableEntityDataStorage;
+import com.electrolyte.unstable.datastorage.endsiege.EntityDataStorage;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -33,9 +33,7 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> object, ResourceManager resourceManager, ProfilerFiller profilerFiller) {
-        if(!UnstableEntityDataStorage.getMasterStorage().isEmpty()) {
-            UnstableEntityDataStorage.getMasterStorage().clear();
-        }
+        EntityDataStorage.getMasterStorage().clear();
         Unstable.LOGGER.info("Setting up End Siege Entity Data...");
         object.forEach((location, jsonElement) -> {
             JsonArray entities = jsonElement.getAsJsonObject().get("entities").getAsJsonArray();
@@ -46,7 +44,7 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
             List<MobEffectInstance> effectList = validateAndConvertEffects(effects);
             List<Map<InteractionHand, ItemStack>> equipmentList = validateAndConvertEquipment(equipment);
             List<Map<EquipmentSlot, ItemStack>> armorList = validateAndConvertArmor(armor);
-            entityList.forEach(entity -> UnstableEntityDataStorage.addEntries(new UnstableEntityDataStorage(entity, effectList, equipmentList, armorList)));
+            entityList.forEach(entity -> EntityDataStorage.addEntries(new EntityDataStorage(entity, effectList, equipmentList, armorList)));
         });
         Unstable.LOGGER.info("Finished Setting up End Siege Entity Data.");
     }
@@ -94,7 +92,7 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
                     try {
                         CompoundTag tag = NbtUtils.snbtToStructure(jsonObject.get("nbt").getAsString());
                         stack.setTag(tag);
-                    } catch (CommandSyntaxException e) { Unstable.LOGGER.error("Unable to get nbt for item {}.", jsonObject.get("item").getAsString(), e); }
+                    } catch (CommandSyntaxException e) { Unstable.LOGGER.error("Unable to get nbt for item {}.", jsonObject.get("item").getAsString()); }
                 }
                 equipment.add(Map.of(hand, stack));
             }
@@ -115,7 +113,7 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
                     try {
                         CompoundTag tag = NbtUtils.snbtToStructure(jsonObject.get("nbt").getAsString());
                         stack.setTag(tag);
-                    } catch (CommandSyntaxException e) {Unstable.LOGGER.error("Unable to get nbt for armor item {}.", jsonObject.get("item").getAsString(), e);}
+                    } catch (CommandSyntaxException e) { Unstable.LOGGER.error("Unable to get nbt for armor item {}.", jsonObject.get("item").getAsString()); }
                 }
                 armor.add(Map.of(slot, stack));
             }

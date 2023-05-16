@@ -1,10 +1,10 @@
 package com.electrolyte.unstable.helper;
 
-import com.electrolyte.unstable.UnstableConfig;
 import com.electrolyte.unstable.UnstableEnums;
-import com.electrolyte.unstable.endsiege.UnstableChestDataStorage;
+import com.electrolyte.unstable.datastorage.endsiege.ChestDataStorage;
 import com.electrolyte.unstable.savedata.UnstableSavedData;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -15,10 +15,10 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.dimension.DimensionType;
-import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PseudoInversionRitualHelper {
@@ -134,7 +134,7 @@ public class PseudoInversionRitualHelper {
                     chestItems.add(((ChestBlockEntity) te).getItem(i));
                 }
             }
-            UnstableChestDataStorage.getMasterStorage().forEach(dataStorage -> {
+            ChestDataStorage.getMasterStorage().forEach(dataStorage -> {
                 if (dataStorage.chestLocation().equals(location)) {
                     for (Map<UnstableEnums.NBT_TYPE, Ingredient> map : dataStorage.chestContents()) {
                         if (prevItemFound.get()) {
@@ -198,42 +198,12 @@ public class PseudoInversionRitualHelper {
         ChestBlockEntity southChestTE = (ChestBlockEntity) level.getBlockEntity(southChest);
         ChestBlockEntity eastChestTE = (ChestBlockEntity) level.getBlockEntity(eastChest);
         ChestBlockEntity westChestTE = (ChestBlockEntity) level.getBlockEntity(westChest);
-        if (level.getBlockState(northChest).getBlock() == Blocks.CHEST) {
-            for (int i = 0; i < northChestTE.getContainerSize(); i++) {
-                ItemStack stack = northChestTE.getItem(i);
-                if (stack != ItemStack.EMPTY && stack.getCount() > 0) {
-                    stack.shrink(1);
-                }
-            }
-            level.setBlock(northChest, Blocks.AIR.defaultBlockState(), 2);
-        }
-        if (level.getBlockState(southChest).getBlock() == Blocks.CHEST) {
-            for (int i = 0; i < southChestTE.getContainerSize(); i++) {
-                ItemStack stack = southChestTE.getItem(i);
-                if (stack != ItemStack.EMPTY && stack.getCount() > 0) {
-                    stack.shrink(1);
-                }
-            }
-            level.setBlock(southChest, Blocks.AIR.defaultBlockState(), 2);
-        }
-        if (level.getBlockState(eastChest).getBlock() == Blocks.CHEST) {
-            for (int i = 0; i < eastChestTE.getContainerSize(); i++) {
-                ItemStack stack = eastChestTE.getItem(i);
-                if (stack != ItemStack.EMPTY && stack.getCount() > 0) {
-                    stack.shrink(1);
-                }
-            }
-            level.setBlock(eastChest, Blocks.AIR.defaultBlockState(), 2);
-        }
-        if (level.getBlockState(westChest).getBlock() == Blocks.CHEST) {
-            for (int i = 0; i < westChestTE.getContainerSize(); i++) {
-                ItemStack stack = westChestTE.getItem(i);
-                if (stack != ItemStack.EMPTY && stack.getCount() > 0) {
-                    stack.shrink(1);
-                }
-            }
-            level.setBlock(westChest, Blocks.AIR.defaultBlockState(),2);
-        }
+
+        northChestTE.clearContent();
+        southChestTE.clearContent();
+        eastChestTE.clearContent();
+        westChestTE.clearContent();
+
         level.setBlock(pos.below(), Blocks.AIR.defaultBlockState(), 2);
         level.explode(null, pos.getX(), pos.getY(), pos.getZ(), 2.5F, Explosion.BlockInteraction.DESTROY);
 
@@ -252,11 +222,7 @@ public class PseudoInversionRitualHelper {
 
     //TODO: Make sure this only sends kills messages to players participating in the end siege.
     public static void sendSiegeMessage(MutableComponent translateKey, Level level, UnstableSavedData data) {
-        level.getServer().getLevel(Level.END).players().forEach(player -> {
-            AABB aabb = new AABB(new BlockPos(data.getStartingLocation()[0], data.getStartingLocation()[1], data.getStartingLocation()[2])).inflate(UnstableConfig.MOB_SPAWN_RAGE_PIR.get());
-            if(aabb.intersects(player.getBoundingBox())) {
-                player.displayClientMessage(translateKey, true);
-            }
-        });
+        ListTag listTag = data.getPlayersParticipating();
+        listTag.forEach(uuid -> level.getPlayerByUUID(UUID.fromString(uuid.getAsString())).displayClientMessage(translateKey, true));
     }
 }

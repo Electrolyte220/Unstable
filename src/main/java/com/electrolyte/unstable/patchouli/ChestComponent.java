@@ -1,6 +1,6 @@
 package com.electrolyte.unstable.patchouli;
 
-import com.electrolyte.unstable.endsiege.UnstableChestDataStorage;
+import com.electrolyte.unstable.datastorage.endsiege.ChestDataStorage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiComponent;
@@ -28,7 +28,7 @@ public class ChestComponent implements ICustomComponent {
         xPos.set(2);
         yPos.set(14);
         count.getAndIncrement();
-        UnstableChestDataStorage.getMasterStorage().forEach(dataStorage -> {
+        ChestDataStorage.getMasterStorage().forEach(dataStorage -> {
             if(dataStorage.chestLocation().toString().equals(chestLocation.toUpperCase())) {
                 dataStorage.chestContents().forEach(ingredientMap -> ingredientMap.forEach((nbtType, ingredient) -> {
                     RenderSystem.enableBlend();

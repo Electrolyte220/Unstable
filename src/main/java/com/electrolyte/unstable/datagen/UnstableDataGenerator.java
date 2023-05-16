@@ -17,6 +17,7 @@ public class UnstableDataGenerator {
 
         if(event.includeServer()) {
             gen.addProvider(new EndSiegeDataGenerator(gen));
+            gen.addProvider(new ReversingHoeDataGenerator(gen));
         }
     }
 }

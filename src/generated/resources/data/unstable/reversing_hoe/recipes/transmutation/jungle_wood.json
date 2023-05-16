@@ -1,0 +1,6 @@
+{
+  "input": {
+    "item": "minecraft:stripped_jungle_wood"
+  },
+  "output": "minecraft:jungle_wood"
+}

@@ -1,0 +1,6 @@
+{
+  "input": {
+    "item": "minecraft:blue_concrete"
+  },
+  "output": "minecraft:blue_concrete_powder"
+}

@@ -144,6 +144,6 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
 
     @Override
     public String getName() {
-        return Unstable.MOD_ID;
+        return Unstable.MOD_ID + ":end_siege_gen";
     }
 }

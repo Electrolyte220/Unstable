@@ -73,13 +73,16 @@
 	"unstable.pseudo_inversion_ritual.siege_started": "The Siege in 'The End' has begun",
 	"unstable.pseudo_inversion_ritual.siege_kills": "Kills: %s",
 
-	"unstable.jei.title": "Required Items for End Siege",
-	"unstable.jei.chest_north": "North Chest",
-	"unstable.jei.chest_south": "South Chest",
-	"unstable.jei.chest_east": "East Chest",
-	"unstable.jei.chest_west": "West Chest",
-	"unstable.jei.tooltip.chest_hover": "The order of items in chests does not matter, as long as all items are in their respective chests.",
-	"unstable.jei.tooltip.all_nbt": "All NBT Must Match",
-	"unstable.jei.tooltip.partial_nbt": "Parts of NBT Must Match",
-	"unstable.jei.tooltip.shift_nbt": "Hold §eShift §rfor NBT Requirements"
+	"unstable.jei.end_siege.title": "Required Items for End Siege",
+	"unstable.jei.end_siege.chest_north": "North Chest",
+	"unstable.jei.end_siege.chest_south": "South Chest",
+	"unstable.jei.end_siege.chest_east": "East Chest",
+	"unstable.jei.end_siege.chest_west": "West Chest",
+	"unstable.jei.end_siege.tooltip.chest_hover": "The order of items in chests does not matter, as long as all items are in their respective chests.",
+	"unstable.jei.end_siege.tooltip.all_nbt": "All NBT Must Match",
+	"unstable.jei.end_siege.tooltip.partial_nbt": "Parts of NBT Must Match",
+	"unstable.jei.end_siege.tooltip.shift_nbt": "Hold §eShift §rfor NBT Requirements",
+
+	"unstable.jei.transmutation.title": "Reversing Hoe Transmutations",
+	"unstable.jei.property_regression.title": "Property Regression"
 }

@@ -1,0 +1,6 @@
+{
+  "input": {
+    "item": "minecraft:stripped_dark_oak_log"
+  },
+  "output": "minecraft:dark_oak_log"
+}

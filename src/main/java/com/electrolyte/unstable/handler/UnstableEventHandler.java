@@ -3,18 +3,22 @@ package com.electrolyte.unstable.handler;
 import com.electrolyte.unstable.Unstable;
 import com.electrolyte.unstable.UnstableConfig;
 import com.electrolyte.unstable.damagesource.DivideByDiamondDamageSource;
-import com.electrolyte.unstable.endsiege.UnstableEntityDataStorage;
+import com.electrolyte.unstable.datastorage.endsiege.EntityDataStorage;
 import com.electrolyte.unstable.helper.ActivationRitualHelper;
 import com.electrolyte.unstable.helper.PseudoInversionRitualHelper;
 import com.electrolyte.unstable.init.ModItems;
 import com.electrolyte.unstable.init.ModSounds;
 import com.electrolyte.unstable.listener.EndSiegeChestDataReloadListener;
 import com.electrolyte.unstable.listener.EntityDataReloadListener;
+import com.electrolyte.unstable.listener.PropertyRegressionReloadListener;
+import com.electrolyte.unstable.listener.TransmutationReloadListener;
 import com.electrolyte.unstable.savedata.UnstableSavedData;
 import com.google.gson.Gson;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -53,6 +57,7 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -64,6 +69,8 @@ public class UnstableEventHandler {
     public static void onDatapackReload(AddReloadListenerEvent event) {
         event.addListener(new EntityDataReloadListener(new Gson(), "end_siege_entity_data"));
         event.addListener(new EndSiegeChestDataReloadListener(new Gson(), "end_siege_chest_data"));
+        event.addListener(new TransmutationReloadListener(new Gson(), "reversing_hoe/recipes/transmutation"));
+        event.addListener(new PropertyRegressionReloadListener(new Gson(), "reversing_hoe/recipes/property_regression"));
     }
 
     @SubscribeEvent
@@ -193,7 +200,6 @@ public class UnstableEventHandler {
                 });
                 data.setEndSiegeOccurring(true);
                 data.setStartingLocation(new int[]{pos.getX(), pos.getY(), pos.getZ()});
-                data.setPlayersParticipating(players.get());
                 player.getInventory().removeItem(player.getInventory().findSlotMatchingItem(ModItems.DIVISION_SIGIL_ACTIVATED.get().getDefaultInstance()), 1);
             }
         }
@@ -238,57 +244,61 @@ public class UnstableEventHandler {
         if (event.phase == TickEvent.Phase.START && event.world.dimension() == Level.END) {
             ServerLevel level = event.world.getServer().getLevel(Level.END);
             UnstableSavedData data = UnstableSavedData.get(level);
-            if (data.isEndSiegeOccurring()) {
-                int playersParticipating = level.players().size();
-                data.setPlayersParticipating(playersParticipating);
-                int maxSpawningRange = UnstableConfig.MOB_SPAWN_RAGE_PIR.get();
-                if(level.getServer().getTickCount() % 10 == 0) {
-                    //TODO: Don't disable flying for the entire end, only in range of the siege
-                    for (ServerPlayer player : level.getPlayers(p -> p.getAbilities().flying)) {
-                        player.getAbilities().flying = false;
-                        player.onUpdateAbilities();
-                        player.hurt(DamageSource.OUT_OF_WORLD, 0.5f);
-                    }
-                    AABB spawnableLocations = new AABB(new BlockPos(data.getStartingLocation()[0], data.getStartingLocation()[1], data.getStartingLocation()[2])).inflate(maxSpawningRange);
-                    if (data.getTotalKills() < UnstableConfig.NEEDED_MOBS.get()) {
-                        int mobCount = level.getEntities(null, spawnableLocations).size();
-                        if (mobCount < UnstableConfig.MAX_MOBS.get()) {
-                            for (int i = 0; i < playersParticipating; i++) {
-                                int spawnedMobInt = new Random().nextInt(UnstableEntityDataStorage.getMasterStorage().size());
-                                UnstableEntityDataStorage entityData = UnstableEntityDataStorage.getMasterStorage().get(spawnedMobInt);
-                                Optional<EntityType<?>> exists = EntityType.byString(entityData.entity().getRegistryName().toString());
-                                while (exists.isEmpty()) {
-                                    Unstable.LOGGER.error("Mob " + '\'' + entityData.entity().getRegistryName().toString() + '\'' + " cannot be spawned as it does not exist in the registry.");
-                                    spawnedMobInt = new Random().nextInt(UnstableEntityDataStorage.getMasterStorage().size());
-                                    entityData = UnstableEntityDataStorage.getMasterStorage().get(spawnedMobInt);
-                                    exists = EntityType.byString(entityData.entity().getRegistryName().toString());
-                                }
-                                EntityType<?> entityType = exists.get();
-                                Mob mob = (Mob) entityType.create(level);
-                                CompoundTag tag = new CompoundTag();
-                                tag.putBoolean("spawnedBySiege", true);
-                                mob.addTag(tag.toString());
-                                if(mob instanceof Creeper creeper) {
-                                    creeper.addTag("noLingeringEffects");
-                                }
-                                mob.setPos(genXOrZ(data.getStartingLocation()[0]), genY(data.getStartingLocation()[1]), genXOrZ(data.getStartingLocation()[2]));
-                                while (!NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, level, mob.getOnPos(), entityType)) {
-                                    mob.setPos(genXOrZ(data.getStartingLocation()[0]), genY(data.getStartingLocation()[1]), genXOrZ(data.getStartingLocation()[2]));
-                                }
-                                if (!entityData.effects().isEmpty()) {
-                                    entityData.effects().forEach(effect -> mob.addEffect(new MobEffectInstance(effect.getEffect(), effect.getDuration(), effect.getAmplifier(), effect.isAmbient(), effect.isVisible())));
-                                }
-                                if (!entityData.equipment().isEmpty()) {
-                                    entityData.equipment().forEach(equipmentList -> equipmentList.forEach((interactionHand, stack) ->
-                                            //Apparently we have to copy the stack because totems are dumb
-                                            mob.setItemInHand(interactionHand, stack.copy())));
-                                }
-                                if (!entityData.armor().isEmpty()) {
-                                    entityData.armor().forEach(armorList -> armorList.forEach(mob::setItemSlot));
-                                }
-                                mob.finalizeSpawn(level, level.getCurrentDifficultyAt(new BlockPos(mob.getX(), mob.getY(), mob.getZ())), MobSpawnType.NATURAL, null, null);
-                                level.addFreshEntity(mob);
+            if (!data.isEndSiegeOccurring()) return;
+            AABB noFlightZone = new AABB(new BlockPos(data.getStartingLocation()[0], data.getStartingLocation()[1], data.getStartingLocation()[2])).inflate(256);
+            List<ServerPlayer> playersParticipating = level.getPlayers(p -> p.getBoundingBox().intersects(noFlightZone));
+            ListTag playersParticipatingTag = data.getPlayersParticipating();
+            for(ServerPlayer player : playersParticipating) {
+                if(!playersParticipatingTag.contains(StringTag.valueOf(player.getStringUUID()))) {
+                    playersParticipatingTag.add(StringTag.valueOf(player.getStringUUID()));
+                }
+                if(player.getAbilities().flying) {
+                    player.getAbilities().flying = false;
+                    player.onUpdateAbilities();
+                    player.hurt(DamageSource.OUT_OF_WORLD, 0.5f);
+                }
+            }
+            data.setPlayersParticipating(playersParticipatingTag);
+            if(level.getServer().getTickCount() % 10 == 0) {
+                AABB spawnableLocations = new AABB(new BlockPos(data.getStartingLocation()[0], data.getStartingLocation()[1], data.getStartingLocation()[2])).inflate(UnstableConfig.MOB_SPAWN_RAGE_PIR.get());
+                if (data.getTotalKills() < UnstableConfig.NEEDED_MOBS.get()) {
+                    int mobCount = level.getEntities(null, spawnableLocations).size();
+                    if (mobCount < UnstableConfig.MAX_MOBS.get()) {
+                        for (int i = 0; i < data.getPlayersParticipating().size(); i++) {
+                            int spawnedMobInt = new Random().nextInt(EntityDataStorage.getMasterStorage().size());
+                            EntityDataStorage entityData = EntityDataStorage.getMasterStorage().get(spawnedMobInt);
+                            Optional<EntityType<?>> exists = EntityType.byString(entityData.entity().getRegistryName().toString());
+                            while (exists.isEmpty()) {
+                                Unstable.LOGGER.error("Mob " + '\'' + entityData.entity().getRegistryName().toString() + '\'' + " cannot be spawned as it does not exist in the registry.");
+                                spawnedMobInt = new Random().nextInt(EntityDataStorage.getMasterStorage().size());
+                                entityData = EntityDataStorage.getMasterStorage().get(spawnedMobInt);
+                                exists = EntityType.byString(entityData.entity().getRegistryName().toString());
                             }
+                            EntityType<?> entityType = exists.get();
+                            Mob mob = (Mob) entityType.create(level);
+                            CompoundTag tag = new CompoundTag();
+                            tag.putBoolean("spawnedBySiege", true);
+                            mob.addTag(tag.toString());
+                            if(mob instanceof Creeper creeper) {
+                                creeper.addTag("noLingeringEffects");
+                            }
+                            mob.setPos(genXOrZ(data.getStartingLocation()[0]), genY(data.getStartingLocation()[1]), genXOrZ(data.getStartingLocation()[2]));
+                            while (!NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, level, mob.getOnPos(), entityType)) {
+                                mob.setPos(genXOrZ(data.getStartingLocation()[0]), genY(data.getStartingLocation()[1]), genXOrZ(data.getStartingLocation()[2]));
+                            }
+                            if (!entityData.effects().isEmpty()) {
+                                entityData.effects().forEach(effect -> mob.addEffect(new MobEffectInstance(effect.getEffect(), effect.getDuration(), effect.getAmplifier(), effect.isAmbient(), effect.isVisible())));
+                            }
+                            if (!entityData.equipment().isEmpty()) {
+                                entityData.equipment().forEach(equipmentList -> equipmentList.forEach((interactionHand, stack) ->
+                                        //Apparently we have to copy the stack because totems are dumb
+                                        mob.setItemInHand(interactionHand, stack.copy())));
+                            }
+                            if (!entityData.armor().isEmpty()) {
+                                entityData.armor().forEach(armorList -> armorList.forEach(mob::setItemSlot));
+                            }
+                            mob.finalizeSpawn(level, level.getCurrentDifficultyAt(new BlockPos(mob.getX(), mob.getY(), mob.getZ())), MobSpawnType.NATURAL, null, null);
+                            level.addFreshEntity(mob);
                         }
                     }
                 }
