@@ -7,7 +7,6 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -38,7 +37,7 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
                         new MobEffectInstance(MobEffects.DAMAGE_BOOST, 6000, 1, true, true),
                         new MobEffectInstance(MobEffects.REGENERATION, 6000, 0, true, true),
                         new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 6000, 0, true, true))),
-                Optional.empty(), Optional.empty());
+                Optional.empty());
 
         buildChestData(cache, "north", List.of(Ingredient.of(Tags.Items.STONE), Ingredient.of(ItemTags.DIRT), Ingredient.of(Tags.Items.GRAVEL), Ingredient.of(Tags.Items.SAND), Ingredient.of(Tags.Items.GLASS), Ingredient.of(Items.CLAY),
                 Ingredient.of(ItemTags.TERRACOTTA), Ingredient.of(Tags.Items.DYES), Ingredient.of(ModTags.COOKED_MEAT), Ingredient.of(ItemTags.FOX_FOOD), Ingredient.of(ModTags.COOKED_FISH), Ingredient.of(Items.HONEY_BOTTLE), Ingredient.of(Tags.Items.ORES_COAL),
@@ -57,7 +56,7 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
                 Ingredient.of(Items.MUSIC_DISC_STRAD), Ingredient.of(Items.MUSIC_DISC_WAIT), Ingredient.of(Items.MUSIC_DISC_WARD)));
     }
 
-    private void buildEntityData(HashCache cache, String fileName, List<EntityType<?>> entities, Optional<List<MobEffectInstance>> effects, Optional<List<Map<InteractionHand, ItemStack>>> equipment, Optional<List<Map<EquipmentSlot, ItemStack>>> armor) {
+    private void buildEntityData(HashCache cache, String fileName, List<EntityType<?>> entities, Optional<List<MobEffectInstance>> effects, Optional<List<Map<EquipmentSlot, ItemStack>>> equipment) {
         Path file = this.gen.getOutputFolder().resolve("data/unstable/end_siege/entity_data/" + fileName + ".json");
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", "unstable:entity_data");
@@ -80,9 +79,9 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
         jsonObject.add("effects", mobEffectDetails);
 
         JsonArray equipmentArray = new JsonArray();
-        equipment.ifPresent(equipmentList -> equipmentList.forEach(equipmentItem -> equipmentItem.forEach((interactionHand, stack) -> {
+        equipment.ifPresent(equipmentList -> equipmentList.forEach(equipmentItem -> equipmentItem.forEach((equipmentSlot, stack) -> {
             JsonObject equipmentObject = new JsonObject();
-            equipmentObject.addProperty("hand", interactionHand.toString());
+            equipmentObject.addProperty("slot", equipmentSlot.toString());
             equipmentObject.addProperty("item", stack.getItem().getRegistryName().toString());
             if (stack.getTag() != null) {
                 equipmentObject.addProperty("nbt", stack.getTag().toString());
@@ -90,18 +89,6 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
             equipmentArray.add(equipmentObject);
         })));
         jsonObject.add("equipment", equipmentArray);
-
-        JsonArray armorArray = new JsonArray();
-        armor.ifPresent(armorList -> armorList.forEach(armorItem -> armorItem.forEach((equipmentSlot, stack) -> {
-            JsonObject armorObject = new JsonObject();
-            armorObject.addProperty("armor", equipmentSlot.toString());
-            armorObject.addProperty("item", stack.getItem().getRegistryName().toString());
-            if (stack.getTag() != null) {
-                armorObject.addProperty("nbt", stack.getTag().toString());
-            }
-            armorArray.add(armorObject);
-        })));
-        jsonObject.add("armor", armorArray);
         try {
             DataProvider.save(GSON, cache, GSON.toJsonTree(jsonObject), file);
         } catch (

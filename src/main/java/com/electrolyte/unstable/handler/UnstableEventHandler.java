@@ -294,10 +294,7 @@ public class UnstableEventHandler {
                                 entityData.effects().forEach(effect -> mob.addEffect(new MobEffectInstance(effect.getEffect(), effect.getDuration(), effect.getAmplifier(), effect.isAmbient(), effect.isVisible())));
                             }
                             if (!entityData.equipment().isEmpty()) {
-                                entityData.equipment().forEach(equipmentList -> equipmentList.forEach((interactionHand, stack) -> mob.setItemInHand(interactionHand, stack.copy())));
-                            }
-                            if (!entityData.armor().isEmpty()) {
-                                entityData.armor().forEach(armorList -> armorList.forEach((equipmentSlot, stack) -> mob.setItemSlot(equipmentSlot, stack.copy())));
+                                entityData.equipment().forEach(equipmentList -> equipmentList.forEach((equipmentSlot, stack) -> mob.setItemSlot(equipmentSlot, stack.copy())));
                             }
                             mob.finalizeSpawn(level, level.getCurrentDifficultyAt(new BlockPos(mob.getX(), mob.getY(), mob.getZ())), MobSpawnType.NATURAL, null, null);
                             level.addFreshEntity(mob);

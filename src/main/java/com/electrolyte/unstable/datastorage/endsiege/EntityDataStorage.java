@@ -1,6 +1,5 @@
 package com.electrolyte.unstable.datastorage.endsiege;
 
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -13,8 +12,7 @@ import java.util.Map;
 public record EntityDataStorage(
         EntityType<?> entity,
         List<MobEffectInstance> effects,
-        List<Map<InteractionHand, ItemStack>> equipment,
-        List<Map<EquipmentSlot, ItemStack>> armor) {
+        List<Map<EquipmentSlot, ItemStack>> equipment) {
 
     private static final ArrayList<EntityDataStorage> MASTER_STORAGE = new ArrayList<>();
 

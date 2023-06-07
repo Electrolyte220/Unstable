@@ -13,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
@@ -41,12 +40,10 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
                 JsonArray entities = jsonElement.getAsJsonObject().get("entities").getAsJsonArray();
                 JsonArray effects = jsonElement.getAsJsonObject().get("effects").getAsJsonArray();
                 JsonArray equipment = jsonElement.getAsJsonObject().get("equipment").getAsJsonArray();
-                JsonArray armor = jsonElement.getAsJsonObject().get("armor").getAsJsonArray();
                 List<EntityType<?>> entityList = validateAndConvertEntities(entities);
                 List<MobEffectInstance> effectList = validateAndConvertEffects(effects);
-                List<Map<InteractionHand, ItemStack>> equipmentList = validateAndConvertEquipment(equipment);
-                List<Map<EquipmentSlot, ItemStack>> armorList = validateAndConvertArmor(armor);
-                entityList.forEach(entity -> EntityDataStorage.getMasterStorage().add(new EntityDataStorage(entity, effectList, equipmentList, armorList)));
+                List<Map<EquipmentSlot, ItemStack>> equipmentList = validateAndConvertEquipment(equipment);
+                entityList.forEach(entity -> EntityDataStorage.getMasterStorage().add(new EntityDataStorage(entity, effectList, equipmentList)));
             }
         });
         Unstable.LOGGER.info("Finished Setting up End Siege Entity Data.");
@@ -82,14 +79,14 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
         return mobEffects;
     }
 
-    private List<Map<InteractionHand, ItemStack>> validateAndConvertEquipment(JsonArray input) {
-        List<Map<InteractionHand, ItemStack>> equipment = new ArrayList<>();
+    private List<Map<EquipmentSlot, ItemStack>> validateAndConvertEquipment(JsonArray input) {
+        List<Map<EquipmentSlot, ItemStack>> equipment = new ArrayList<>();
         for(int i = 0; i < input.size(); i++) {
             JsonObject jsonObject = input.get(i).getAsJsonObject();
             if (!ForgeRegistries.ITEMS.containsKey(new ResourceLocation(jsonObject.get("item").getAsString()))) {
                 Unstable.LOGGER.error("Error adding end siege data for equipment item {}", input.get(i).getAsString());
             } else {
-                InteractionHand hand = InteractionHand.valueOf(jsonObject.get("hand").getAsString());
+                EquipmentSlot slot = EquipmentSlot.valueOf(jsonObject.get("slot").getAsString());
                 ItemStack stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(jsonObject.get("item").getAsString())));
                 if(jsonObject.get("nbt") != null) {
                     try {
@@ -97,13 +94,13 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
                         stack.setTag(tag);
                     } catch (CommandSyntaxException e) { Unstable.LOGGER.error("Unable to get nbt for item {}.", jsonObject.get("item").getAsString()); }
                 }
-                equipment.add(Map.of(hand, stack));
+                equipment.add(Map.of(slot, stack));
             }
         }
         return equipment;
     }
 
-    private List<Map<EquipmentSlot, ItemStack>> validateAndConvertArmor(JsonArray input) {
+    /*private List<Map<EquipmentSlot, ItemStack>> validateAndConvertArmor(JsonArray input) {
         List<Map<EquipmentSlot, ItemStack>> armor = new ArrayList<>();
         for(int i = 0; i < input.size(); i++) {
             JsonObject jsonObject = input.get(i).getAsJsonObject();
@@ -122,5 +119,5 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
             }
         }
         return armor;
-    }
+    }*/
 }
