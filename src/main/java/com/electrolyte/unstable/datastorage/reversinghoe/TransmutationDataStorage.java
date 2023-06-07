@@ -5,13 +5,11 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.ArrayList;
 
-public record TransmutationDataStorage(Ingredient input, ItemStack output) {
+public record TransmutationDataStorage(
+        Ingredient input,
+        ItemStack output) {
 
     private static final ArrayList<TransmutationDataStorage> MASTER_STORAGE = new ArrayList<>();
-
-    public static void addEntries(TransmutationDataStorage dataStorage) {
-        MASTER_STORAGE.add(dataStorage);
-    }
 
     public static ArrayList<TransmutationDataStorage> getMasterStorage() {
         return MASTER_STORAGE;

@@ -1,6 +1,5 @@
 package com.electrolyte.unstable.recipes;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
@@ -25,18 +24,15 @@ import java.util.Set;
 
 public class UnstableIngotRecipe extends ShapedRecipe {
 
-
     public UnstableIngotRecipe(ResourceLocation pId, String pGroup, int pWidth, int pHeight, NonNullList<Ingredient> pRecipeItems, ItemStack pResult) {
         super(pId, pGroup, pWidth, pHeight, pRecipeItems, pResult);
     }
-
 
     @Override
     public boolean matches(CraftingContainer pCraftingInventory, Level level) {
         if(pCraftingInventory.getClass() != CraftingContainer.class) return false;
         return super.matches(pCraftingInventory, level);
     }
-
 
     static NonNullList<Ingredient> dissolvePattern(String[] pPattern, Map<String, Ingredient> pKeys, int pPatternWidth, int pPatternHeight) {
         NonNullList<Ingredient> nonnulllist = NonNullList.withSize(pPatternWidth * pPatternHeight, Ingredient.EMPTY);
@@ -63,7 +59,6 @@ public class UnstableIngotRecipe extends ShapedRecipe {
         }
     }
 
-    @VisibleForTesting
     static String[] shrink(String... pToShrink) {
         int i = Integer.MAX_VALUE;
         int j = 0;
@@ -104,7 +99,7 @@ public class UnstableIngotRecipe extends ShapedRecipe {
 
         for(Map.Entry<String, JsonElement> entry : pKeyEntry.entrySet()) {
             if (entry.getKey().length() != 1) {
-                throw new JsonSyntaxException("Invalid key entry: '" + (String)entry.getKey() + "' is an invalid symbol (must be 1 character only).");
+                throw new JsonSyntaxException("Invalid key entry: '" + entry.getKey() + "' is an invalid symbol (must be 1 character only).");
             }
 
             if (" ".equals(entry.getKey())) {

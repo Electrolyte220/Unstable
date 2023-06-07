@@ -4,9 +4,9 @@ import com.electrolyte.unstable.UnstableEnums;
 import com.electrolyte.unstable.datastorage.endsiege.ChestDataStorage;
 import com.electrolyte.unstable.savedata.UnstableSavedData;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Explosion;
@@ -14,7 +14,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
-import net.minecraft.world.level.dimension.DimensionType;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -23,22 +22,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PseudoInversionRitualHelper {
 
-    public static boolean checkDimension(ResourceLocation dimension) {
-        return dimension.equals(DimensionType.END_LOCATION.location());
-    }
-
     public static boolean checkBeacon(Level level, BlockPos pos) {
         return level.getBlockState(pos).getBlock() == Blocks.BEACON;
-    }
-
-    public static boolean checkEndBlocks(Level level, BlockPos pos) {
-        for(int x = -5; x <= 5; x++) {
-            for(int z = -5; z <= 5; z++) {
-                BlockPos pos1 = new BlockPos(pos.getX() + x, pos.below().getY(), pos.getZ() + z);
-                if(level.getBlockState(pos1).getBlock() == Blocks.AIR) return false;
-            }
-        }
-        return true;
     }
 
     public static boolean checkRedstoneAndString(Level level, BlockPos pos) {
@@ -204,7 +189,7 @@ public class PseudoInversionRitualHelper {
         eastChestTE.clearContent();
         westChestTE.clearContent();
 
-        level.setBlock(pos.below(), Blocks.AIR.defaultBlockState(), 2);
+        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
         level.explode(null, pos.getX(), pos.getY(), pos.getZ(), 2.5F, Explosion.BlockInteraction.DESTROY);
 
         level.setBlock(northChest, Blocks.AIR.defaultBlockState(), 2);
@@ -220,9 +205,12 @@ public class PseudoInversionRitualHelper {
         level.explode(null, westChest.getX(), westChest.getY(), westChest.getZ(), 2.5F, Explosion.BlockInteraction.DESTROY);
     }
 
-    //TODO: Make sure this only sends kills messages to players participating in the end siege.
-    public static void sendSiegeMessage(MutableComponent translateKey, Level level, UnstableSavedData data) {
-        ListTag listTag = data.getPlayersParticipating();
-        listTag.forEach(uuid -> level.getPlayerByUUID(UUID.fromString(uuid.getAsString())).displayClientMessage(translateKey, true));
+    public static void sendSiegeMessage(MutableComponent translateKey, PlayerList list, UnstableSavedData data) {
+        data.getPlayersParticipating().forEach(uuid -> {
+            ServerPlayer player = list.getPlayer(UUID.fromString(uuid.getAsString()));
+            if(player != null) {
+                player.displayClientMessage(translateKey, true);
+            }
+        });
     }
 }

@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
@@ -56,8 +57,11 @@ public class ReversingHoe extends DiggerItem {
                 } else {
                     level.setBlock(pos, newBlock.defaultBlockState(), 11);
                 }
-                level.addParticle(ParticleTypes.EXPLOSION, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0, 0);
-                level.playSound(player, pos, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 0.25F, 0.85F);
+                level.playSound(null, pos, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 0.25F, 0.85F);
+                if(!level.isClientSide) {
+                    ((ServerLevel) level).sendParticles(ParticleTypes.EXPLOSION, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0, 0, 0, 0);
+                    context.getItemInHand().hurtAndBreak(1, player, p -> p.broadcastBreakEvent(context.getHand()));
+                }
                 return InteractionResult.sidedSuccess(level.isClientSide);
             } else if (propertyRegressionOptional.isPresent()) {
                 if(state.getBlock().getStateDefinition().getProperty(propertyRegressionOptional.get().property()) != null) {
@@ -67,10 +71,9 @@ public class ReversingHoe extends DiggerItem {
                         if (!level.isClientSide) {
                             level.setBlock(pos, state.setValue((Property<Integer>) property, currentVal - 1), 2);
                             context.getItemInHand().hurtAndBreak(1, player, p -> p.broadcastBreakEvent(context.getHand()));
-                        } else {
-                            level.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0, 0);
-                            return InteractionResult.SUCCESS;
+                            ((ServerLevel) level).sendParticles(ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 0, 0, 0, 0);
                         }
+                        return InteractionResult.sidedSuccess(level.isClientSide);
                     }
                 }
             }

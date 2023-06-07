@@ -35,16 +35,19 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
     protected void apply(Map<ResourceLocation, JsonElement> object, ResourceManager resourceManager, ProfilerFiller profilerFiller) {
         EntityDataStorage.getMasterStorage().clear();
         Unstable.LOGGER.info("Setting up End Siege Entity Data...");
-        object.forEach((location, jsonElement) -> {
-            JsonArray entities = jsonElement.getAsJsonObject().get("entities").getAsJsonArray();
-            JsonArray effects = jsonElement.getAsJsonObject().get("effects").getAsJsonArray();
-            JsonArray equipment = jsonElement.getAsJsonObject().get("equipment").getAsJsonArray();
-            JsonArray armor = jsonElement.getAsJsonObject().get("armor").getAsJsonArray();
-            List<EntityType<?>> entityList = validateAndConvertEntities(entities);
-            List<MobEffectInstance> effectList = validateAndConvertEffects(effects);
-            List<Map<InteractionHand, ItemStack>> equipmentList = validateAndConvertEquipment(equipment);
-            List<Map<EquipmentSlot, ItemStack>> armorList = validateAndConvertArmor(armor);
-            entityList.forEach(entity -> EntityDataStorage.addEntries(new EntityDataStorage(entity, effectList, equipmentList, armorList)));
+        object.forEach((resourceLocation, jsonElement) -> {
+            String type = jsonElement.getAsJsonObject().get("type").getAsString();
+            if(type.equals("unstable:entity_data")) {
+                JsonArray entities = jsonElement.getAsJsonObject().get("entities").getAsJsonArray();
+                JsonArray effects = jsonElement.getAsJsonObject().get("effects").getAsJsonArray();
+                JsonArray equipment = jsonElement.getAsJsonObject().get("equipment").getAsJsonArray();
+                JsonArray armor = jsonElement.getAsJsonObject().get("armor").getAsJsonArray();
+                List<EntityType<?>> entityList = validateAndConvertEntities(entities);
+                List<MobEffectInstance> effectList = validateAndConvertEffects(effects);
+                List<Map<InteractionHand, ItemStack>> equipmentList = validateAndConvertEquipment(equipment);
+                List<Map<EquipmentSlot, ItemStack>> armorList = validateAndConvertArmor(armor);
+                entityList.forEach(entity -> EntityDataStorage.getMasterStorage().add(new EntityDataStorage(entity, effectList, equipmentList, armorList)));
+            }
         });
         Unstable.LOGGER.info("Finished Setting up End Siege Entity Data.");
     }

@@ -1,17 +1,17 @@
 modLoader="javafml"
 loaderVersion="[40,)"
 license="MIT"
-#issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/"
+issueTrackerURL="https://github.com/Electrolyte220/Unstable/issues"
 [[mods]]
 modId="unstable"
 version="${file.jarVersion}"
 displayName="Unstable"
 #updateJSONURL="https://change.me.example.invalid/updates.json"
-#displayURL="https://change.me.to.your.mods.homepage.example.invalid/"
+displayURL="https://curseforge.com/minecraft/mc-mods/unstable-mod"
 #logoFile="examplemod.png" #optional
 credits="RWTema for making Extra Utilities"
 authors="Electrolyte"
-description="Adds back the 2 division sigil rituals from extra utilties, alongside the unstable tools."
+description="Adds the Unstable Tools & Rituals from Extra Utilities 1."
 
 [[dependencies.unstable]]
     modId="forge"

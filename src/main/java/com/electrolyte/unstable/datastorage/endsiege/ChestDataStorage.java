@@ -12,10 +12,6 @@ public record ChestDataStorage(
         List<Map<UnstableEnums.NBT_TYPE, Ingredient>> chestContents) {
     private static final ArrayList<ChestDataStorage> MASTER_STORAGE = new ArrayList<>();
 
-    public static void addEntries(ChestDataStorage dataStorage) {
-        MASTER_STORAGE.add(dataStorage);
-    }
-
     public static ArrayList<ChestDataStorage> getMasterStorage() {
         return MASTER_STORAGE;
     }

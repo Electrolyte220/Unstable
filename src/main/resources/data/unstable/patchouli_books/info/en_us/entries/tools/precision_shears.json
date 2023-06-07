@@ -7,7 +7,7 @@
 			"type": "patchouli:spotlight",
 			"item": "unstable:precision_shears",
 			"title": "Precision Shears",
-			"text": "This tool can be used to harvest blocks that normal shears can, and can instantly harvest blocks that have a stone tier or lower mining level by shift right clicking the block. $(br2)Also, it cannot be repaired in an anvil."
+			"text": "This tool can be used to harvest blocks that normal shears can, and can instantly harvest blocks that have a stone or lower mining level by sneak right clicking the block. $(br2)Also, it cannot be repaired in an anvil."
 		},
 		{
 			"type": "patchouli:crafting",

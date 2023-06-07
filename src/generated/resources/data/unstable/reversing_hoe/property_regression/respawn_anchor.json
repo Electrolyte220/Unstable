@@ -1,0 +1,5 @@
+{
+  "type": "unstable:property_regression",
+  "block": "minecraft:respawn_anchor",
+  "property": "charges"
+}

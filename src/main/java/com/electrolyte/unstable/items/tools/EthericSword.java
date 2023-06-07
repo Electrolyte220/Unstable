@@ -44,7 +44,7 @@ public class EthericSword extends SwordItem {
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         ItemStack ethericSwordStack = pPlayer.getItemInHand(pUsedHand);
         ItemStack soulFragmentStack = new ItemStack(ModItems.SOUL_FRAGMENT.get());
-        if(pPlayer instanceof FakePlayer || !pPlayer.isCrouching() || pLevel.isClientSide) return InteractionResultHolder.pass(ethericSwordStack);
+        if(pPlayer instanceof FakePlayer || !pPlayer.isCrouching() || pLevel.isClientSide || ethericSwordStack.getDamageValue() != 0) return InteractionResultHolder.pass(ethericSwordStack);
         soulFragmentStack.getOrCreateTag().putUUID("playerUUID", pPlayer.getUUID());
         if (pPlayer.getHealth() > 2) {
             pPlayer.hurt(DamageSource.GENERIC, 2.0F);

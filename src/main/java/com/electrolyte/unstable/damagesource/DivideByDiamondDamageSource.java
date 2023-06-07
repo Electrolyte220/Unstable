@@ -19,6 +19,4 @@ public class DivideByDiamondDamageSource extends DamageSource {
     public Component getLocalizedDeathMessage(LivingEntity pLivingEntity) {
         return new TranslatableComponent(pLivingEntity.getDisplayName().getString() + " suffered a fatal 'java.lang.ArithmeticException: \\ by diamond'");
     }
-
-
 }

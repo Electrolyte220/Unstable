@@ -88,6 +88,7 @@ public record ReversingHoeDataGenerator(DataGenerator gen) implements DataProvid
 
     private void buildTransmutationBlock(HashCache cache, Block input, Block output) {
         JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("type", "unstable:transmutation");
         JsonObject itemObject = new JsonObject();
         itemObject.addProperty("item", input.getRegistryName().toString());
         jsonObject.add("input", itemObject);
@@ -97,6 +98,7 @@ public record ReversingHoeDataGenerator(DataGenerator gen) implements DataProvid
 
     private void buildTransmutationTag(HashCache cache, ResourceLocation input, Block output) {
         JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("type", "unstable:transmutation");
         JsonObject tagObject = new JsonObject();
         tagObject.addProperty("tag", input.toString());
         jsonObject.add("input", tagObject);
@@ -105,7 +107,7 @@ public record ReversingHoeDataGenerator(DataGenerator gen) implements DataProvid
     }
 
     private void buildTransmutationFile(HashCache cache, String fileName, JsonObject obj) {
-        Path file = this.gen.getOutputFolder().resolve("data/unstable/reversing_hoe/recipes/transmutation/" + fileName + ".json");
+        Path file = this.gen.getOutputFolder().resolve("data/unstable/reversing_hoe/transmutation/" + fileName + ".json");
         try {
             DataProvider.save(GSON, cache, GSON.toJsonTree(obj), file);
         } catch(IOException e) {
@@ -115,13 +117,14 @@ public record ReversingHoeDataGenerator(DataGenerator gen) implements DataProvid
 
     private void buildPropertyRegression(HashCache cache, Block block, String property) {
         JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("type", "unstable:property_regression");
         jsonObject.addProperty("block", block.getRegistryName().toString());
         jsonObject.addProperty("property", property);
         buildPropertyRegressionFile(cache, block.getRegistryName().toString().substring(10), jsonObject);
     }
 
     private void buildPropertyRegressionFile(HashCache cache, String fileName, JsonObject obj) {
-        Path file = this.gen.getOutputFolder().resolve("data/unstable/reversing_hoe/recipes/property_regression/" + fileName + ".json");
+        Path file = this.gen.getOutputFolder().resolve("data/unstable/reversing_hoe/property_regression/" + fileName + ".json");
         try {
             DataProvider.save(GSON, cache, GSON.toJsonTree(obj), file);
         } catch(IOException e) {

@@ -1,0 +1,5 @@
+{
+  "type": "unstable:property_regression",
+  "block": "minecraft:carrots",
+  "property": "age"
+}

@@ -24,16 +24,19 @@ public class PropertyRegressionReloadListener extends SimpleJsonResourceReloadLi
         PropertyRegressionDataStorage.getMasterStorage().clear();
         Unstable.LOGGER.info("Setting up Reversing Hoe Property Regression Recipes...");
         pObject.forEach((resourceLocation, jsonElement) -> {
-            JsonObject obj = jsonElement.getAsJsonObject();
-            if(!ForgeRegistries.BLOCKS.containsKey(new ResourceLocation(obj.get("block").getAsString()))) {
-                Unstable.LOGGER.error("Unable to find block {} in the block registry. This property regression recipe will be ignored.", obj.get("block"));
-            } else {
-            Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(obj.get("block").getAsString()));
-            if(!block.defaultBlockState().getProperties().contains(block.getStateDefinition().getProperty(obj.get("property").getAsString()))) {
-                Unstable.LOGGER.error("Unable to find property {} for block {}. This property regression recipe will be ignored.", obj.get("property"), obj.get("block"));
-            } else {
-                PropertyRegressionDataStorage.getMasterStorage().add(new PropertyRegressionDataStorage(block, obj.get("property").getAsString()));
-            }
+            String type = jsonElement.getAsJsonObject().get("type").getAsString();
+            if(type.equals("unstable:property_regression")) {
+                JsonObject obj = jsonElement.getAsJsonObject();
+                if (!ForgeRegistries.BLOCKS.containsKey(new ResourceLocation(obj.get("block").getAsString()))) {
+                    Unstable.LOGGER.error("Unable to find block {} in the block registry. This property regression recipe will be ignored.", obj.get("block"));
+                } else {
+                    Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(obj.get("block").getAsString()));
+                    if (!block.defaultBlockState().getProperties().contains(block.getStateDefinition().getProperty(obj.get("property").getAsString()))) {
+                        Unstable.LOGGER.error("Unable to find property {} for block {}. This property regression recipe will be ignored.", obj.get("property"), obj.get("block"));
+                    } else {
+                        PropertyRegressionDataStorage.getMasterStorage().add(new PropertyRegressionDataStorage(block, obj.get("property").getAsString()));
+                    }
+                }
             }
         });
         Unstable.LOGGER.info("Finished setting up Reversing Hoe Property Regression Recipes.");

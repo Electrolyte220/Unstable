@@ -126,7 +126,7 @@ public class CursedEarth extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return createTickerHelper(pBlockEntityType, ModBlocks.CURSED_EARTH_BE.get(), pLevel.isClientSide ? CursedEarthBlockEntity::clientTick : CursedEarthBlockEntity::serverTick);
+        return createTickerHelper(pBlockEntityType, ModBlocks.CURSED_EARTH_BE.get(), pLevel.isClientSide ? (level, pos, state, blockEntity) -> CursedEarthBlockEntity.clientTick() : CursedEarthBlockEntity::serverTick);
     }
 
     @Override

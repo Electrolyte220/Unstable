@@ -11,10 +11,6 @@ public class UnstableDataGenerator {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
         DataGenerator gen = event.getGenerator();
-        if(event.includeClient()) {
-
-        }
-
         if(event.includeServer()) {
             gen.addProvider(new EndSiegeDataGenerator(gen));
             gen.addProvider(new ReversingHoeDataGenerator(gen));

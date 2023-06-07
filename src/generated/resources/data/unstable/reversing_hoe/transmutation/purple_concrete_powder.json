@@ -1,0 +1,7 @@
+{
+  "type": "unstable:transmutation",
+  "input": {
+    "item": "minecraft:purple_concrete"
+  },
+  "output": "minecraft:purple_concrete_powder"
+}

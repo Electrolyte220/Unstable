@@ -50,8 +50,7 @@ public class ActivationRitualHelper {
     public static boolean checkRedstone(Level level, BlockPos pos) {
         for (int x = -1; x <= 1; x++) {
             for (int z = -1; z <= 1; z++) {
-                if (x == 0 && z == 0)
-                    continue;
+                if (x == 0 && z == 0) continue;
                 BlockPos pos1 = new BlockPos(pos.getX() + x, pos.getY(), pos.getZ() + z);
                 if (level.getBlockState(pos1).getBlock() != Blocks.REDSTONE_WIRE) return false;
             }

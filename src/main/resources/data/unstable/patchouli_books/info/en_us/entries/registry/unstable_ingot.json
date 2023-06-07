@@ -14,14 +14,14 @@
 			"type": "patchouli:crafting",
 			"recipe": "unstable:unstable_ingot",
 			"title": "Unstable Ingot",
-			"text": "$(4)Warning: Be sure you are ready to craft this item, otherwise you may be in for an explosive surprise. $()$(br2)Maybe there is a safer way to craft this?"
+			"text": "$(c)Warning: Be sure you are ready to craft this item, otherwise you may be in for an explosive surprise. $()$(br2)Maybe there is a safer way to craft this?"
 		},
 		{
 			"type": "patchouli:spotlight",
 			"x": 100,
 			"y": 50,
 			"item": "unstable:unstable_stable_ingot",
-			"text": "It seems using netherite ingots in place of iron ingots yields a more stable version of the Unstable Ingot."
+			"text": "It seems using netherite scrap in place of iron ingots yields a more stable version of the Unstable Ingot."
 		},
 		{
 			"type": "patchouli:crafting",

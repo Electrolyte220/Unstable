@@ -55,12 +55,6 @@ public class HealingAxe extends AxeItem {
                     stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(player.getUsedItemHand()));
                 }
                 return true;
-            } else if (mob.getType().getCategory() == MobCategory.MONSTER) {
-                mob.setHealth(mob.getHealth() - 3);
-                serverLevel.sendParticles(ParticleTypes.WITCH, (mob.getX() - 0.5) + new Random().nextDouble(1), (mob.getY() + 0.75) + new Random().nextDouble(1), (mob.getZ() - 0.5) + new Random().nextDouble(1), 5, 0, 0.5, 0, 0.25);
-                player.hurt(HealingAxeDamageSource.INSTANCE, 1.5F);
-                stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(player.getUsedItemHand()));
-                super.onLeftClickEntity(stack, player, entity);
             }
         }
         return false;

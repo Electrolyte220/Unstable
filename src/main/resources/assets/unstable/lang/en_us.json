@@ -49,8 +49,6 @@
 
 	"unstable.pseudo_inversion_ritual.dimension.overworld": "This dimension has too much natural earth.",
 	"unstable.pseudo_inversion_ritual.dimension.nether": "This dimension is too hot.",
-	"unstable.pseudo_inversion_ritual.area": "Area is clear",
-	"unstable.pseudo_inversion_ritual.area_fail": "Area is not clear",
 	"unstable.pseudo_inversion_ritual.chest": "Chests in correct location",
 	"unstable.pseudo_inversion_ritual.chest_fail": "Chests are not in the correct location",
 	"unstable.pseudo_inversion_ritual.north_chest": "North Chest Contents are correct",
@@ -66,7 +64,7 @@
 	"unstable.pseudo_inversion_ritual.death": "You cannot die whilst performing this ritual!",
 	"unstable.pseudo_inversion_ritual.changed_dimension": "You must be in The End whilst performing this ritual!",
 	"unstable.pseudo_inversion_ritual.siege_ended": "The Siege in 'The End' has ended.",
-	"unstable.pseudo_inversion_ritual.correct_setup": "Everything is correct, now sacrifice the protector of villages.",
+	"unstable.pseudo_inversion_ritual.correct_setup": "Everything is correct, now sacrifice the one who guards them all.",
 	"unstable.pseudo_inversion_ritual.not_activated": "You must first perform the Activation Ritual before performing the Pseudo-Inversion Ritual",
 	"unstable.pseudo_inversion_ritual.already_stable": "Sigil is already Stable",
 	"unstable.pseudo_inversion_ritual.multiple_sigil": "There can only be one Pseudo-Inversion Ritual active at any given time",
@@ -83,6 +81,6 @@
 	"unstable.jei.end_siege.tooltip.partial_nbt": "Parts of NBT Must Match",
 	"unstable.jei.end_siege.tooltip.shift_nbt": "Hold §eShift §rfor NBT Requirements",
 
-	"unstable.jei.transmutation.title": "Reversing Hoe Transmutations",
+	"unstable.jei.transmutation.title": "Block Transmutation",
 	"unstable.jei.property_regression.title": "Property Regression"
 }

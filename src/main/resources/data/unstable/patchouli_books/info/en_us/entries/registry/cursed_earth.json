@@ -8,7 +8,7 @@
       "x": 100,
       "y": 50,
       "item": "unstable:cursed_earth",
-      "text": "This seemingly mystical piece of dirt is made from the $(n)$(l:rituals/activation_ritual)Activation Ritual$(), and has various properties attached to it.$(br2)$(4)Warning: Mobs spawned from cursed earth are stronger than normal, so be prepared!"
+      "text": "This seemingly mystical piece of dirt is made from the $(n)$(l:rituals/activation_ritual)Activation Ritual$(), and has various properties attached to it.$(br2)$(c)Warning: Mobs spawned from cursed earth are stronger than normal, so be prepared!"
     },
     {
       "type": "patchouli:text",

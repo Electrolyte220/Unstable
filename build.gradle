@@ -20,7 +20,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '1.0.0'
+version = "${mc_version}-1.0.0"
 group = 'com.electrolyte.unstable'
 archivesBaseName = 'unstable'
 
@@ -130,10 +130,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.2.0'
-
-    //implementation fg.deobf("slimeknights.mantle:Mantle:1.18.2-1.9.28")
-    //implementation fg.deobf("slimeknights.tconstruct:TConstruct:1.18.2-3.5.1.32")
+    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
     compileOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.1.255:api")
     runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.1.255")

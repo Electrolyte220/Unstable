@@ -84,8 +84,7 @@ public class PrecisionShears extends Item {
        BlockPos pos = context.getClickedPos();
        BlockState state = level.getBlockState(pos);
        Block block = state.getBlock();
-       if(block instanceof GrowingPlantHeadBlock) {
-           GrowingPlantHeadBlock growingPlantHeadBlock = (GrowingPlantHeadBlock) block;
+       if(block instanceof GrowingPlantHeadBlock growingPlantHeadBlock) {
            if(!growingPlantHeadBlock.isMaxAge(state)) {
                if(player instanceof ServerPlayer) {
                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, context.getItemInHand());
@@ -95,17 +94,18 @@ public class PrecisionShears extends Item {
            }
            return InteractionResult.sidedSuccess(level.isClientSide);
        }
-       else if(player.isCrouching() && this.checkBlock(state, level, pos, player)) {
+       else if(player.isCrouching() && this.checkBlock(state, level, pos)) {
            if(!level.isClientSide && !level.restoringBlockSnapshots && !player.getCooldowns().isOnCooldown(this)) {
-               List<ItemStack> drops = Block.getDrops(state, (ServerLevel) level, pos, null);
+               List<ItemStack> drops = Block.getDrops(state, (ServerLevel) level, pos, null, player, this.getDefaultInstance());
                for (ItemStack drop : drops) {
                    player.addItem(drop);
                }
-               level.setBlock(pos, Blocks.AIR.defaultBlockState(), 1);
+               level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                player.getCooldowns().addCooldown(this, 40);
                context.getItemInHand().hurtAndBreak(1, player, e -> e.broadcastBreakEvent(context.getHand()));
+               ((ServerLevel) level).sendParticles(ParticleTypes.WITCH, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0, 0, 0,0 ,0);
                return InteractionResult.SUCCESS;
-           } level.addParticle(ParticleTypes.WITCH, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0, 0, 0);
+           }
        }
        return super.useOn(context);
     }
@@ -113,9 +113,7 @@ public class PrecisionShears extends Item {
     @Override
     public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pEntityLiving) {
         if (!pLevel.isClientSide && !pState.is(BlockTags.FIRE)) {
-            pStack.hurtAndBreak(1, pEntityLiving, (p_43076_) -> {
-                p_43076_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-            });
+            pStack.hurtAndBreak(1, pEntityLiving, entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
         }
         return pState.is(BlockTags.LEAVES) || pState.is(Blocks.COBWEB) || pState.is(Blocks.GRASS) || pState.is(Blocks.FERN) || pState.is(Blocks.DEAD_BUSH) || pState.is(Blocks.HANGING_ROOTS) || pState.is(Blocks.VINE) || pState.is(Blocks.TRIPWIRE) || pState.is(BlockTags.WOOL) || super.mineBlock(pStack, pLevel, pState, pPos, pEntityLiving);
     }
@@ -138,7 +136,7 @@ public class PrecisionShears extends Item {
         return state.is(Blocks.COBWEB) || state.is(Blocks.REDSTONE_WIRE) || state.is(Blocks.TRIPWIRE);
     }
 
-    private boolean checkBlock(BlockState state, Level level, BlockPos pos, Player player) {
+    private boolean checkBlock(BlockState state, Level level, BlockPos pos) {
         if (!level.isClientSide) {
             return TierSortingRegistry.isCorrectTierForDrops(Tiers.STONE, state) && state.getDestroySpeed(level, pos) != -1;
         }

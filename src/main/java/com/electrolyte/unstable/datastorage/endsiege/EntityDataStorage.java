@@ -18,10 +18,6 @@ public record EntityDataStorage(
 
     private static final ArrayList<EntityDataStorage> MASTER_STORAGE = new ArrayList<>();
 
-    public static void addEntries(EntityDataStorage dataStorage) {
-        MASTER_STORAGE.add(dataStorage);
-    }
-
     public static ArrayList<EntityDataStorage> getMasterStorage() {
         return MASTER_STORAGE;
     }

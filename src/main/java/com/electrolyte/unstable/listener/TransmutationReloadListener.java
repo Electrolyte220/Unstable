@@ -25,10 +25,13 @@ public class TransmutationReloadListener extends SimpleJsonResourceReloadListene
         TransmutationDataStorage.getMasterStorage().clear();
         Unstable.LOGGER.info("Setting up Reversing Hoe Transmutation Recipes...");
         pObject.forEach((resourceLocation, jsonElement) -> {
+            String type = jsonElement.getAsJsonObject().get("type").getAsString();
+            if(type.equals("unstable:transmutation")) {
             JsonObject obj = jsonElement.getAsJsonObject();
-            JsonObject inputObj = obj.get("input").getAsJsonObject();
-            ResourceLocation output = ResourceLocation.tryParse(obj.get("output").getAsString());
-            TransmutationDataStorage.addEntries(new TransmutationDataStorage(Ingredient.fromJson(inputObj), new ItemStack(ForgeRegistries.BLOCKS.getValue(output))));
+                JsonObject inputObj = obj.get("input").getAsJsonObject();
+                ResourceLocation output = ResourceLocation.tryParse(obj.get("output").getAsString());
+                TransmutationDataStorage.getMasterStorage().add(new TransmutationDataStorage(Ingredient.fromJson(inputObj), new ItemStack(ForgeRegistries.BLOCKS.getValue(output))));
+            }
         });
         Unstable.LOGGER.info("Finished setting up Reversing Hoe Transmutation Recipes.");
     }

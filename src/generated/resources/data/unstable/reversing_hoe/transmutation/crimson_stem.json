@@ -1,0 +1,7 @@
+{
+  "type": "unstable:transmutation",
+  "input": {
+    "item": "minecraft:stripped_crimson_stem"
+  },
+  "output": "minecraft:crimson_stem"
+}

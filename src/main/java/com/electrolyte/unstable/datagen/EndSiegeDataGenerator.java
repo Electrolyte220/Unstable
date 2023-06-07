@@ -59,8 +59,9 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
     }
 
     private void buildEntityData(HashCache cache, String fileName, List<EntityType<?>> entities, Optional<List<MobEffectInstance>> effects, Optional<List<Map<InteractionHand, ItemStack>>> equipment, Optional<List<Map<EquipmentSlot, ItemStack>>> armor) {
-        Path file = this.gen.getOutputFolder().resolve("data/unstable/end_siege_entity_data/" + fileName + ".json");
+        Path file = this.gen.getOutputFolder().resolve("data/unstable/end_siege/entity_data/" + fileName + ".json");
         JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("type", "unstable:entity_data");
         JsonArray entityArray = new JsonArray();
         for (EntityType<?> entity : entities) {
             entityArray.add(entity.getRegistryName().toString());
@@ -110,17 +111,18 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
         }
     }
 
-    private void buildChestData(HashCache cache, String chestLocation, List<Ingredient> chestContents, Optional<UnstableEnums.NBT_TYPE> nbtType) {
-        Path file = this.gen.getOutputFolder().resolve("data/unstable/end_siege_chest_data/" + chestLocation + ".json");
+    private void buildChestData(HashCache cache, String chestLocation, List<Ingredient> chestContents, Optional<UnstableEnums.NBT_TYPE> pNBTType) {
+        Path file = this.gen.getOutputFolder().resolve("data/unstable/end_siege/chest_data/" + chestLocation + ".json");
         JsonObject jsonObject = new JsonObject();
         JsonArray chestContentsArray = new JsonArray();
+        jsonObject.addProperty("type", "unstable:chest_data");
         jsonObject.addProperty("location", chestLocation.toUpperCase());
         chestContents.forEach(ingredient -> {
             JsonElement ingredientElement = ingredient.toJson();
             JsonObject newIngredient = new JsonObject();
-            nbtType.ifPresent(type -> {
-                if (type != UnstableEnums.NBT_TYPE.IGNORE_NBT) {
-                    newIngredient.addProperty("nbtType", type.toString());
+            pNBTType.ifPresent(nbtType -> {
+                if (nbtType != UnstableEnums.NBT_TYPE.IGNORE_NBT) {
+                    newIngredient.addProperty("nbtType", nbtType.toString());
                 }
             });
             if (ingredientElement.getAsJsonObject().get("item") != null) {
