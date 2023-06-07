@@ -1,7 +1,6 @@
 package com.electrolyte.unstable.jei.category;
 
 import com.electrolyte.unstable.Unstable;
-import com.electrolyte.unstable.UnstableEnums;
 import com.electrolyte.unstable.datastorage.endsiege.ChestDataStorage;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.constants.VanillaTypes;
@@ -13,19 +12,15 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.crafting.PartialNBTIngredient;
 
 import java.util.List;
-import java.util.Map;
 
 public class EndSiegeCategory implements IRecipeCategory<ChestDataStorage> {
 
@@ -70,7 +65,7 @@ public class EndSiegeCategory implements IRecipeCategory<ChestDataStorage> {
     public void setRecipe(IRecipeLayoutBuilder builder, ChestDataStorage recipe, IFocusGroup focuses) {
         int spaceBetweenItems = 18;
         int currInput = 0;
-        for(Map<UnstableEnums.NBT_TYPE, Ingredient> ingredientMap : recipe.chestContents()) {
+        for(Ingredient ingredient : recipe.chestContents()) {
             int x = 5 + spaceBetweenItems * currInput;
             int y = 14;
                 if(currInput > 8 && currInput < 18) {
@@ -81,30 +76,18 @@ public class EndSiegeCategory implements IRecipeCategory<ChestDataStorage> {
                     x = 5 + spaceBetweenItems * (currInput - 18);
                     y = 50;
                 }
-            Map.Entry<UnstableEnums.NBT_TYPE, Ingredient> ingredientEntry = ingredientMap.entrySet().stream().toList().get(0);
-            if(ingredientEntry.getKey() == UnstableEnums.NBT_TYPE.ALL_NBT) {
-                    builder.addSlot(RecipeIngredientRole.INPUT, x, y).addIngredients(Ingredient.of(ingredientEntry.getValue().getItems())).addTooltipCallback((recipeSlotView, tooltip) -> {
+                /*if(ingredient.getItems()[0].getTag() != null) {
+                    builder.addSlot(RecipeIngredientRole.INPUT, x, y).addIngredients(Ingredient.of(ingredient.getValue().getItems())).addTooltipCallback((recipeSlotView, tooltip) -> {
                         tooltip.add(new TranslatableComponent("unstable.jei.end_siege.tooltip.all_nbt").withStyle(ChatFormatting.RED));
                         if(!Screen.hasShiftDown()) {
                             tooltip.add(new TranslatableComponent("unstable.jei.end_siege.tooltip.shift_nbt"));
                         } else {
-                            tooltip.add(new TranslatableComponent(ingredientEntry.getValue().getItems()[0].getTag().getAsString()).withStyle(ChatFormatting.GRAY));
+                            tooltip.add(new TranslatableComponent(ingredient.getValue().getItems()[0].getTag().getAsString()).withStyle(ChatFormatting.GRAY));
                         }
                     });
-                } else if(ingredientEntry.getKey() == UnstableEnums.NBT_TYPE.PARTIAL_NBT) {
-                    builder.addSlot(RecipeIngredientRole.INPUT, x, y).addIngredients(Ingredient.of(ingredientEntry.getValue().getItems())).addTooltipCallback((recipeSlotView, tooltip) -> {
-                        tooltip.add(new TranslatableComponent("unstable.jei.end_siege.tooltip.partial_nbt").withStyle(ChatFormatting.RED));
-                        if(!Screen.hasShiftDown()) {
-                            tooltip.add(new TranslatableComponent("unstable.jei.end_siege.tooltip.shift_nbt"));
-                        } else {
-                            PartialNBTIngredient entry = (PartialNBTIngredient) ingredientEntry.getValue();
-                            String tag = entry.toJson().getAsJsonObject().get("nbt").getAsString();
-                            tooltip.add(new TranslatableComponent(tag).withStyle(ChatFormatting.GRAY));
-                        }
-                    });
-                } else {
-                    builder.addSlot(RecipeIngredientRole.INPUT, x, y).addIngredients(Ingredient.of(ingredientEntry.getValue().getItems()));
-                }
+                } else {*/
+                    builder.addSlot(RecipeIngredientRole.INPUT, x, y).addIngredients(Ingredient.of(ingredient.getItems()));
+                //}
                 currInput++;
         }
     }

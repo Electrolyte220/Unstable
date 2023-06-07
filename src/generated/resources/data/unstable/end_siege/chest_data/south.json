@@ -1,0 +1,45 @@
+{
+  "type": "unstable:chest_data",
+  "location": "SOUTH",
+  "contents": [
+    {
+      "item": "minecraft:turtle_egg"
+    },
+    {
+      "item": "minecraft:scute"
+    },
+    {
+      "tag": "forge:heads"
+    },
+    {
+      "item": "minecraft:end_crystal"
+    },
+    {
+      "item": "minecraft:rabbit_foot"
+    },
+    {
+      "item": "minecraft:name_tag"
+    },
+    {
+      "item": "minecraft:dragon_breath"
+    },
+    {
+      "item": "minecraft:totem_of_undying"
+    },
+    {
+      "item": "minecraft:shulker_shell"
+    },
+    {
+      "item": "minecraft:phantom_membrane"
+    },
+    {
+      "item": "minecraft:nautilus_shell"
+    },
+    {
+      "item": "minecraft:heart_of_the_sea"
+    },
+    {
+      "item": "minecraft:enchanted_golden_apple"
+    }
+  ]
+}

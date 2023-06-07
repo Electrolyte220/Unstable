@@ -9,10 +9,4 @@ public class UnstableEnums {
         WEST,
         NONE
     }
-
-    public enum NBT_TYPE {
-        ALL_NBT,
-        IGNORE_NBT,
-        PARTIAL_NBT
-    }
 }

@@ -30,7 +30,7 @@ public class ChestComponent implements ICustomComponent {
         count.getAndIncrement();
         ChestDataStorage.getMasterStorage().forEach(dataStorage -> {
             if(dataStorage.chestLocation().toString().equals(chestLocation.toUpperCase())) {
-                dataStorage.chestContents().forEach(ingredientMap -> ingredientMap.forEach((nbtType, ingredient) -> {
+                dataStorage.chestContents().forEach(ingredient -> {
                     RenderSystem.enableBlend();
                     RenderSystem.setShaderColor(1F, 1F,1F, 1F);
                     RenderSystem.setShaderTexture(0, new ResourceLocation(PatchouliAPI.MOD_ID, "textures/gui/crafting.png"));
@@ -42,7 +42,7 @@ public class ChestComponent implements ICustomComponent {
                         yPos.addAndGet(24);
                     }
                     count.getAndIncrement();
-                }));
+                });
             }
         });
     }

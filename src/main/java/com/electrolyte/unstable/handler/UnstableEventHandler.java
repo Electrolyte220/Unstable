@@ -275,7 +275,7 @@ public class UnstableEventHandler {
                             EntityDataStorage entityData = EntityDataStorage.getMasterStorage().get(spawnedMobInt);
                             Optional<EntityType<?>> exists = EntityType.byString(entityData.entity().getRegistryName().toString());
                             while (exists.isEmpty()) {
-                                Unstable.LOGGER.error("Mob " + '\'' + entityData.entity().getRegistryName().toString() + '\'' + " cannot be spawned as it does not exist in the registry.");
+                                Unstable.LOGGER.error("Mob {} cannot be spawned as it does not exist in the registry.", entityData.entity().getRegistryName());
                                 spawnedMobInt = new Random().nextInt(EntityDataStorage.getMasterStorage().size());
                                 entityData = EntityDataStorage.getMasterStorage().get(spawnedMobInt);
                                 exists = EntityType.byString(entityData.entity().getRegistryName().toString());

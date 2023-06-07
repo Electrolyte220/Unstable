@@ -16,7 +16,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -121,13 +120,11 @@ public class PseudoInversionRitualHelper {
             }
             ChestDataStorage.getMasterStorage().forEach(dataStorage -> {
                 if (dataStorage.chestLocation().equals(location)) {
-                    for (Map<UnstableEnums.NBT_TYPE, Ingredient> map : dataStorage.chestContents()) {
+                    for (Ingredient ingredient : dataStorage.chestContents()) {
                         if (prevItemFound.get()) {
-                            map.forEach((nbtType, ingredient) -> {
-                                if(prevItemFound.get()) {
-                                    prevItemFound.set(checkItem(ingredient, chestItems, nbtType));
-                                }
-                            });
+                            if(prevItemFound.get()) {
+                                prevItemFound.set(checkItem(ingredient, chestItems));
+                            }
                         }
                     }
                 }
@@ -143,19 +140,12 @@ public class PseudoInversionRitualHelper {
                 PseudoInversionRitualHelper.checkIndividualChestContents(level, pos.below().west(5), UnstableEnums.CHEST_LOCATION.WEST);
     }
 
-    private static boolean checkItem(Ingredient ingredient, ArrayList<ItemStack> chestItems, UnstableEnums.NBT_TYPE nbtType) {
+    private static boolean checkItem(Ingredient ingredient, ArrayList<ItemStack> chestItems) {
         if (ingredient.getItems().length == 1) {
             for (ItemStack chestItem : chestItems) {
                 if (ingredient.getItems()[0].is(chestItem.getItem())) {
-                    if(nbtType != UnstableEnums.NBT_TYPE.IGNORE_NBT && chestItem.getTag() != null) {
-                        if (nbtType == UnstableEnums.NBT_TYPE.ALL_NBT) {
-                            if(ingredient.getItems()[0].getTag().equals(chestItem.getTag())) return true;
-                        } else if (nbtType == UnstableEnums.NBT_TYPE.PARTIAL_NBT) {
-                            String chestItemNBT = chestItem.getTag().getAsString();
-                            String nbt = ingredient.toJson().getAsJsonObject().get("nbt").getAsString();
-                            String requiredNBT = nbt.substring(1, nbt.length() - 1);
-                            if(chestItemNBT.contains(requiredNBT)) return true;
-                        }
+                    if(chestItem.getTag() != null) {
+                        if(ingredient.getItems()[0].getTag().equals(chestItem.getTag())) return true;
                     } else {
                         return true;
                     }

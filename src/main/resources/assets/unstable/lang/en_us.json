@@ -77,9 +77,6 @@
 	"unstable.jei.end_siege.chest_east": "East Chest",
 	"unstable.jei.end_siege.chest_west": "West Chest",
 	"unstable.jei.end_siege.tooltip.chest_hover": "The order of items in chests does not matter, as long as all items are in their respective chests.",
-	"unstable.jei.end_siege.tooltip.all_nbt": "All NBT Must Match",
-	"unstable.jei.end_siege.tooltip.partial_nbt": "Parts of NBT Must Match",
-	"unstable.jei.end_siege.tooltip.shift_nbt": "Hold §eShift §rfor NBT Requirements",
 
 	"unstable.jei.transmutation.title": "Block Transmutation",
 	"unstable.jei.property_regression.title": "Property Regression"

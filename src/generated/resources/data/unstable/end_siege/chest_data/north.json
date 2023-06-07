@@ -1,0 +1,75 @@
+{
+  "type": "unstable:chest_data",
+  "location": "NORTH",
+  "contents": [
+    {
+      "tag": "forge:stone"
+    },
+    {
+      "tag": "minecraft:dirt"
+    },
+    {
+      "tag": "forge:gravel"
+    },
+    {
+      "tag": "forge:sand"
+    },
+    {
+      "tag": "forge:glass"
+    },
+    {
+      "item": "minecraft:clay"
+    },
+    {
+      "tag": "minecraft:terracotta"
+    },
+    {
+      "tag": "forge:dyes"
+    },
+    {
+      "tag": "unstable:cooked_meat"
+    },
+    {
+      "tag": "minecraft:fox_food"
+    },
+    {
+      "tag": "unstable:cooked_fish"
+    },
+    {
+      "item": "minecraft:honey_bottle"
+    },
+    {
+      "tag": "forge:ores/coal"
+    },
+    {
+      "tag": "forge:ores/iron"
+    },
+    {
+      "tag": "forge:ores/copper"
+    },
+    {
+      "tag": "forge:ores/lapis"
+    },
+    {
+      "tag": "forge:ores/gold"
+    },
+    {
+      "tag": "forge:ores/redstone"
+    },
+    {
+      "tag": "forge:ores/diamond"
+    },
+    {
+      "tag": "forge:ores/emerald"
+    },
+    {
+      "tag": "forge:ores/quartz"
+    },
+    {
+      "tag": "forge:obsidian"
+    },
+    {
+      "tag": "forge:storage_blocks/amethyst"
+    }
+  ]
+}
