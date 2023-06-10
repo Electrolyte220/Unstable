@@ -1,7 +1,7 @@
 {
   "type": "unstable:transmutation",
   "input": {
-    "item": "minecraft:orange_concrete"
+    "block": "minecraft:orange_concrete"
   },
   "output": "minecraft:orange_concrete_powder"
 }

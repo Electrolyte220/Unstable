@@ -1,7 +1,7 @@
 {
   "type": "unstable:transmutation",
   "input": {
-    "item": "minecraft:stripped_jungle_wood"
+    "block": "minecraft:stripped_jungle_wood"
   },
   "output": "minecraft:jungle_wood"
 }

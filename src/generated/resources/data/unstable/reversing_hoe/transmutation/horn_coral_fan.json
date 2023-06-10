@@ -1,7 +1,7 @@
 {
   "type": "unstable:transmutation",
   "input": {
-    "item": "minecraft:dead_horn_coral_fan"
+    "block": "minecraft:dead_horn_coral_fan"
   },
   "output": "minecraft:horn_coral_fan"
 }

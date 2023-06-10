@@ -1,7 +1,7 @@
 {
   "type": "unstable:transmutation",
   "input": {
-    "item": "minecraft:stripped_dark_oak_log"
+    "block": "minecraft:stripped_dark_oak_log"
   },
   "output": "minecraft:dark_oak_log"
 }

@@ -1,7 +1,7 @@
 {
   "type": "unstable:transmutation",
   "input": {
-    "item": "minecraft:dead_tube_coral_fan"
+    "block": "minecraft:dead_tube_coral_fan"
   },
   "output": "minecraft:tube_coral_fan"
 }

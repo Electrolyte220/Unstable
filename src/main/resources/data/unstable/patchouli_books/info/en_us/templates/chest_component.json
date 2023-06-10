@@ -13,7 +13,7 @@
     },
     {
       "type": "patchouli:custom",
-      "class": "com.electrolyte.unstable.patchouli.ChestComponent"
+      "class": "electrolyte.unstable.patchouli.ChestComponent"
     }
   ]
 }

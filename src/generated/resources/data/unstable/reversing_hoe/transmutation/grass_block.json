@@ -1,7 +1,7 @@
 {
   "type": "unstable:transmutation",
   "input": {
-    "item": "minecraft:dirt"
+    "block": "minecraft:dirt"
   },
   "output": "minecraft:grass_block"
 }

@@ -1,7 +1,7 @@
 {
   "type": "unstable:transmutation",
   "input": {
-    "item": "minecraft:light_gray_concrete"
+    "block": "minecraft:light_gray_concrete"
   },
   "output": "minecraft:light_gray_concrete_powder"
 }
