@@ -28,7 +28,7 @@ public class UnstableTagDataGenerator extends ItemTagsProvider {
         this.tag(Tags.Items.SHEARS).add(ModTools.PRECISION_SHEARS.get());
 
         this.tag(ModTags.COOKED_FISH).add(Items.COOKED_COD, Items.COOKED_SALMON);
-        this.tag(ModTags.COOKED_MEAT).add(Items.COOKED_BEEF, Items.COOKED_CHICKEN, Items.COOKED_MUTTON, Items.COOKED_PORKCHOP, Items.COOKED_PORKCHOP);
+        this.tag(ModTags.COOKED_MEAT).add(Items.COOKED_BEEF, Items.COOKED_CHICKEN, Items.COOKED_MUTTON, Items.COOKED_PORKCHOP, Items.COOKED_RABBIT);
 
         this.tag(ModTags.UNSTABLE_INGOTS).add(ModItems.UNSTABLE_INGOT.get(), ModItems.UNSTABLE_STABLE_INGOT.get());
     }
