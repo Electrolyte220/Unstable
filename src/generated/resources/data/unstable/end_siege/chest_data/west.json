@@ -29,9 +29,6 @@
       "item": "minecraft:music_disc_otherside"
     },
     {
-      "item": "minecraft:music_disc_pigstep"
-    },
-    {
       "item": "minecraft:music_disc_stal"
     },
     {
@@ -42,6 +39,15 @@
     },
     {
       "item": "minecraft:music_disc_ward"
+    },
+    {
+      "item": "minecraft:music_disc_pigstep"
+    },
+    {
+      "item": "minecraft:music_disc_otherside"
+    },
+    {
+      "item": "minecraft:music_disc_5"
     }
   ],
   "location": "WEST"

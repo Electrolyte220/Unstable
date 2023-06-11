@@ -39,6 +39,9 @@
     },
     {
       "item": "minecraft:enchanted_golden_apple"
+    },
+    {
+      "item": "minecraft:goat_horn"
     }
   ],
   "location": "SOUTH"

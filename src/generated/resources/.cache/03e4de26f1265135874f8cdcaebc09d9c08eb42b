@@ -1,4 +1,4 @@
-// 1.19.2	2023-06-11T15:02:13.0133085	Tags for minecraft:item
+// 1.19.2	2023-06-11T15:29:29.1105506	Tags for minecraft:item
 77ef111e73e6ba6c6a6ff1c4862c0b80acc43220 data/forge/tags/items/shears.json
 0bef65d68e282dc0057a2396eeea25cfe5557dab data/forge/tags/items/tools/axes.json
 4a95080b156cb6e57a46ac2a2e0ee092c6f5b78f data/forge/tags/items/tools/hoes.json
@@ -7,5 +7,5 @@ a87acbcd88d888972b3c3af3199e635e6a32132e data/forge/tags/items/tools/shovels.jso
 1f7bdbd0cf62a12bba109a7912c6acae261352c5 data/forge/tags/items/tools/swords.json
 80636a1b62c8fc513f3d5cf4fe58d5d4ef30d7d1 data/minecraft/tags/items/cluster_max_harvestables.json
 bc229f680fa773a41269c1569f5a700f669eb8e5 data/unstable/tags/items/cooked_fish.json
-5888dbfa0e0ce293b1bf21b503980d66f6519a87 data/unstable/tags/items/cooked_meat.json
+59f58ea6f8b85deda96c784c66ca9699db493df3 data/unstable/tags/items/cooked_meat.json
 455cd5308f2c75652250dad68d742d0d950298d8 data/unstable/tags/items/unstable_ingots.json
