@@ -144,7 +144,7 @@ public class PseudoInversionRitualHelper {
         if (ingredient.getItems().length == 1) {
             for (ItemStack chestItem : chestItems) {
                 if (ingredient.getItems()[0].is(chestItem.getItem())) {
-                    if(chestItem.getTag() != null) {
+                    if(ingredient.getItems()[0].getTag() != null) {
                         if(ingredient.getItems()[0].getTag().equals(chestItem.getTag())) return true;
                     } else {
                         return true;
