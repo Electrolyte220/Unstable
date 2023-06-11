@@ -41,6 +41,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.ElderGuardian;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.Vex;
+import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.item.ItemStack;
@@ -84,7 +85,7 @@ public class UnstableEventHandler {
     @SubscribeEvent
     public static void alterDrops(LivingDropsEvent event) {
         UnstableSavedData data = UnstableSavedData.get(event.getEntity().level);
-        if (event.getEntity() instanceof ElderGuardian || event.getEntity() instanceof EnderDragon || event.getEntity() instanceof WitherBoss) {
+        if (event.getEntity() instanceof ElderGuardian || event.getEntity() instanceof EnderDragon || event.getEntity() instanceof WitherBoss || event.getEntity() instanceof Warden) {
             event.getDrops().add(new ItemEntity(event.getEntity().level, event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(), new ItemStack(ModItems.DIVISION_SIGIL.get(), 1)));
         } else if (data.isEndSiegeOccurring() && event.getEntity().getTags().contains("spawnedBySiege")) {
             event.setCanceled(true);
