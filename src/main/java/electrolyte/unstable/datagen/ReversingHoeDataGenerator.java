@@ -4,12 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import electrolyte.unstable.Unstable;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
-import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -19,7 +20,7 @@ public record ReversingHoeDataGenerator(DataGenerator gen) implements DataProvid
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     @Override
-    public void run(HashCache pCache) {
+    public void run(CachedOutput pCache) {
         buildTransmutationBlock(pCache, Blocks.BLACK_CONCRETE, Blocks.BLACK_CONCRETE_POWDER);
         buildTransmutationBlock(pCache, Blocks.BLUE_CONCRETE, Blocks.BLUE_CONCRETE_POWDER);
         buildTransmutationBlock(pCache, Blocks.BROWN_CONCRETE, Blocks.BROWN_CONCRETE_POWDER);
@@ -86,47 +87,47 @@ public record ReversingHoeDataGenerator(DataGenerator gen) implements DataProvid
         buildPropertyRegression(pCache, Blocks.WHEAT, "age");
     }
 
-    private void buildTransmutationBlock(HashCache cache, Block input, Block output) {
+    private void buildTransmutationBlock(CachedOutput cache, Block input, Block output) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", "unstable:transmutation");
         JsonObject blockObject = new JsonObject();
-        blockObject.addProperty("block", input.getRegistryName().toString());
-        jsonObject.add("location", blockObject);
-        jsonObject.addProperty("output", output.getRegistryName().toString());
-        buildTransmutationFile(cache, output.getRegistryName().toString().substring(10), jsonObject);
+        blockObject.addProperty("block", ForgeRegistries.BLOCKS.getKey(input).toString());
+        jsonObject.add("input", blockObject);
+        jsonObject.addProperty("output", ForgeRegistries.BLOCKS.getKey(output).toString());
+        buildTransmutationFile(cache, ForgeRegistries.BLOCKS.getKey(output).toString().substring(10), jsonObject);
     }
 
-    private void buildTransmutationTag(HashCache cache, ResourceLocation input, Block output) {
+    private void buildTransmutationTag(CachedOutput cache, ResourceLocation input, Block output) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", "unstable:transmutation");
         JsonObject tagObject = new JsonObject();
         tagObject.addProperty("tag", input.toString());
-        jsonObject.add("location", tagObject);
-        jsonObject.addProperty("output", output.getRegistryName().toString());
-        buildTransmutationFile(cache, output.getRegistryName().toString().substring(10), jsonObject);
+        jsonObject.add("input", tagObject);
+        jsonObject.addProperty("output", ForgeRegistries.BLOCKS.getKey(output).toString());
+        buildTransmutationFile(cache, output.getDescriptionId().toString().substring(10), jsonObject);
     }
 
-    private void buildTransmutationFile(HashCache cache, String fileName, JsonObject obj) {
+    private void buildTransmutationFile(CachedOutput cache, String fileName, JsonObject obj) {
         Path file = this.gen.getOutputFolder().resolve("data/unstable/reversing_hoe/transmutation/" + fileName + ".json");
         try {
-            DataProvider.save(GSON, cache, GSON.toJsonTree(obj), file);
+            DataProvider.saveStable(cache, GSON.toJsonTree(obj), file);
         } catch(IOException e) {
             Unstable.LOGGER.error("Error adding reversing hoe recipe {}", file, e);
         }
     }
 
-    private void buildPropertyRegression(HashCache cache, Block block, String property) {
+    private void buildPropertyRegression(CachedOutput cache, Block block, String property) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", "unstable:property_regression");
-        jsonObject.addProperty("block", block.getRegistryName().toString());
+        jsonObject.addProperty("block", ForgeRegistries.BLOCKS.getKey(block).toString());
         jsonObject.addProperty("property", property);
-        buildPropertyRegressionFile(cache, block.getRegistryName().toString().substring(10), jsonObject);
+        buildPropertyRegressionFile(cache, ForgeRegistries.BLOCKS.getKey(block).toString().substring(10), jsonObject);
     }
 
-    private void buildPropertyRegressionFile(HashCache cache, String fileName, JsonObject obj) {
+    private void buildPropertyRegressionFile(CachedOutput cache, String fileName, JsonObject obj) {
         Path file = this.gen.getOutputFolder().resolve("data/unstable/reversing_hoe/property_regression/" + fileName + ".json");
         try {
-            DataProvider.save(GSON, cache, GSON.toJsonTree(obj), file);
+            DataProvider.saveStable(cache, GSON.toJsonTree(obj), file);
         } catch(IOException e) {
             Unstable.LOGGER.error("Error adding reversing hoe recipe {}", file, e);
         }

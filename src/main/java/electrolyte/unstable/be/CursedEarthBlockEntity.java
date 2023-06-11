@@ -5,6 +5,7 @@ import electrolyte.unstable.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -26,7 +27,7 @@ public class CursedEarthBlockEntity extends BlockEntity {
 
     private final int spawnTimerMin = UnstableConfig.MIN_SPAWN_DELAY.get();
     private final int spawnTimerMax = UnstableConfig.MAX_SPAWN_DELAY.get();
-    private int spawnTimer = Mth.nextInt(new Random(), spawnTimerMin, spawnTimerMax);
+    private int spawnTimer = Mth.nextInt(RandomSource.create(), spawnTimerMin, spawnTimerMax);
 
     public CursedEarthBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
         super(ModBlocks.CURSED_EARTH_BE.get(), pWorldPosition, pBlockState);
@@ -51,9 +52,9 @@ public class CursedEarthBlockEntity extends BlockEntity {
             blockEntity.spawnTimer--;
         } else if (blockEntity.spawnTimer == 0) {
             WeightedRandomList<MobSpawnSettings.SpawnerData> validEntities = level.getBiome(pos).value().getMobSettings().getMobs(MobCategory.MONSTER);
-            validEntities.getRandom(new Random()).ifPresent(spawnerData -> {
+            validEntities.getRandom(RandomSource.create()).ifPresent(spawnerData -> {
                 EntityType<?> type = spawnerData.type;
-                if (blockEntity.getTileData().getBoolean("createdByRitual") || SpawnPlacements.checkSpawnRules(type, (ServerLevelAccessor) level, MobSpawnType.SPAWNER, pos.above(), new Random())) {
+                if (blockEntity.getPersistentData().getBoolean("createdByRitual") || SpawnPlacements.checkSpawnRules(type, (ServerLevelAccessor) level, MobSpawnType.SPAWNER, pos.above(), RandomSource.create())) {
                     Mob mob = (Mob) type.create(level);
                     mob.setPos(pos.getX() + 0.5, pos.above().getY(), pos.getZ() + 0.5);
                     mob.setYHeadRot(new Random().nextFloat() * 360.0F);
@@ -64,7 +65,7 @@ public class CursedEarthBlockEntity extends BlockEntity {
                     }
                 }
             });
-            blockEntity.spawnTimer = Mth.nextInt(new Random(), blockEntity.spawnTimerMin, blockEntity.spawnTimerMax);
+            blockEntity.spawnTimer = Mth.nextInt(RandomSource.create(), blockEntity.spawnTimerMin, blockEntity.spawnTimerMax);
         }
     }
 

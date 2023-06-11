@@ -4,7 +4,7 @@ import electrolyte.unstable.Unstable;
 import electrolyte.unstable.init.ModBlocks;
 import electrolyte.unstable.init.ModItems;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -14,11 +14,11 @@ import java.awt.*;
 public class UnstableColorHandler {
 
     @SubscribeEvent
-    public static void onBlockColor(ColorHandlerEvent.Block event) {
+    public static void onBlockColor(RegisterColorHandlersEvent.Block event) {
         event.getBlockColors().register((pState, pLevel, pPos, pTintIndex) -> Color.HSBtoRGB(2.8f,1,0.5f), ModBlocks.CURSED_EARTH.get());
     }
     @SubscribeEvent
-    public static void onItemColor(ColorHandlerEvent.Item event) {
+    public static void onItemColor(RegisterColorHandlersEvent.Item event) {
         event.getItemColors().register((stack, tint) -> {
             if(stack.getTag() != null && !stack.getTag().getBoolean("creativeSpawned")) {
                 int ticksTillExplosion = stack.getTag().getInt("explodesIn") / 2;

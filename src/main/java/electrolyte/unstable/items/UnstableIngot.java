@@ -6,7 +6,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -34,14 +33,14 @@ public class UnstableIngot extends Item {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         if(pStack.getTag() == null) {
-            pTooltipComponents.add(new TranslatableComponent("unstable.unstable_ingot.tooltip.unstable").withStyle(ChatFormatting.RED));
-            pTooltipComponents.add(new TranslatableComponent("unstable.unstable_ingot.tooltip.crafting").withStyle(ChatFormatting.GRAY));
+            pTooltipComponents.add(Component.translatable("unstable.unstable_ingot.tooltip.unstable").withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.translatable("unstable.unstable_ingot.tooltip.crafting").withStyle(ChatFormatting.GRAY));
         } else {
             CompoundTag tag = pStack.getTag();
             if (pStack.getTag().getBoolean("creativeSpawned")) {
-                pTooltipComponents.add(new TranslatableComponent("unstable.unstable_ingot.tooltip.creative").withStyle(ChatFormatting.GRAY));
+                pTooltipComponents.add(Component.translatable("unstable.unstable_ingot.tooltip.creative").withStyle(ChatFormatting.GRAY));
             } else {
-                pTooltipComponents.add(new TranslatableComponent("unstable.unstable_ingot.tooltip.explode_timer", new TranslatableComponent(new DecimalFormat("#.#").format(tag.getInt("explodesIn") / 20.0))).withStyle(ChatFormatting.GRAY));
+                pTooltipComponents.add(Component.translatable("unstable.unstable_ingot.tooltip.explode_timer", Component.translatable(new DecimalFormat("#.#").format(tag.getInt("explodesIn") / 20.0))).withStyle(ChatFormatting.GRAY));
             }
         }
     }

@@ -14,7 +14,6 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -23,8 +22,6 @@ import net.minecraft.world.level.block.Blocks;
 import java.util.List;
 
 public class EndSiegeCategory implements IRecipeCategory<ChestDataStorage> {
-
-    public static final ResourceLocation PLUGIN_UID = new ResourceLocation(Unstable.MOD_ID, "end_siege");
 
     public static final RecipeType<ChestDataStorage> END_SIEGE_RECIPE_TYPE = RecipeType.create(Unstable.MOD_ID, "end_siege", ChestDataStorage.class);
 
@@ -38,7 +35,7 @@ public class EndSiegeCategory implements IRecipeCategory<ChestDataStorage> {
 
     @Override
     public Component getTitle() {
-        return new TranslatableComponent("unstable.jei.end_siege.title");
+        return Component.translatable("unstable.jei.end_siege.title");
     }
 
     @Override
@@ -52,13 +49,8 @@ public class EndSiegeCategory implements IRecipeCategory<ChestDataStorage> {
     }
 
     @Override
-    public ResourceLocation getUid() {
-        return PLUGIN_UID;
-    }
-
-    @Override
-    public Class<? extends ChestDataStorage> getRecipeClass() {
-        return END_SIEGE_RECIPE_TYPE.getRecipeClass();
+    public RecipeType<ChestDataStorage> getRecipeType() {
+        return END_SIEGE_RECIPE_TYPE;
     }
 
     @Override
@@ -83,14 +75,14 @@ public class EndSiegeCategory implements IRecipeCategory<ChestDataStorage> {
 
     @Override
     public void draw(ChestDataStorage recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-        Minecraft.getInstance().font.draw(stack, new TranslatableComponent("unstable.jei.end_siege.chest_" + recipe.chestLocation().toString().toLowerCase()), (background.getWidth() - Minecraft.getInstance().font.width("unstable.jei.end_siege.chest_" + recipe.chestLocation().toString().toLowerCase())) + 57, 1, 0xFF808080);
+        Minecraft.getInstance().font.draw(stack, Component.translatable("unstable.jei.end_siege.chest_" + recipe.chestLocation().toString().toLowerCase()), (background.getWidth() - Minecraft.getInstance().font.width("unstable.jei.end_siege.chest_" + recipe.chestLocation().toString().toLowerCase())) + 57, 1, 0xFF808080);
     }
 
     @Override
     public List<Component> getTooltipStrings(ChestDataStorage recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
         if(mouseX >= 0 && mouseX <= 175) {
             if(mouseY >= 0 && mouseY <= 15) {
-                return List.of(new TranslatableComponent("unstable.jei.end_siege.tooltip.chest_hover"));
+                return List.of(Component.translatable("unstable.jei.end_siege.tooltip.chest_hover"));
             }
         }
         return IRecipeCategory.super.getTooltipStrings(recipe, recipeSlotsView, mouseX, mouseY);

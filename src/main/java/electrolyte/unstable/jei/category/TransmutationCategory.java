@@ -12,13 +12,11 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public class TransmutationCategory implements IRecipeCategory<TransmutationDataStorage> {
 
-    public static final ResourceLocation PLUGIN_UID = new ResourceLocation(Unstable.MOD_ID, "transmutation");
     public static final RecipeType<TransmutationDataStorage> TRANSMUTATION_RECIPE_TYPE = RecipeType.create(Unstable.MOD_ID, "transmutation", TransmutationDataStorage.class);
 
     private final IDrawable background;
@@ -31,7 +29,7 @@ public class TransmutationCategory implements IRecipeCategory<TransmutationDataS
 
     @Override
     public Component getTitle() {
-        return new TranslatableComponent("unstable.jei.transmutation.title");
+        return Component.translatable("unstable.jei.transmutation.title");
     }
 
     @Override
@@ -45,13 +43,8 @@ public class TransmutationCategory implements IRecipeCategory<TransmutationDataS
     }
 
     @Override
-    public ResourceLocation getUid() {
-        return PLUGIN_UID;
-    }
-
-    @Override
-    public Class<? extends TransmutationDataStorage> getRecipeClass() {
-        return TRANSMUTATION_RECIPE_TYPE.getRecipeClass();
+    public RecipeType<TransmutationDataStorage> getRecipeType() {
+        return TRANSMUTATION_RECIPE_TYPE;
     }
 
     @Override

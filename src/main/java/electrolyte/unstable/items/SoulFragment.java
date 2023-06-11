@@ -2,7 +2,6 @@ package electrolyte.unstable.items;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -38,11 +37,11 @@ public class SoulFragment extends Item {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         if(pStack.getTag() == null) {
-            pTooltipComponents.add(new TranslatableComponent("unstable.soul_fragment.tooltip_empty").withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.translatable("unstable.soul_fragment.tooltip_empty").withStyle(ChatFormatting.RED));
         }  else {
-            pTooltipComponents.add(new TranslatableComponent("unstable.soul_fragment.tooltip_owner", new TranslatableComponent(pLevel.getPlayerByUUID(pStack.getTag().getUUID("playerUUID")).getName().getContents())).withStyle(ChatFormatting.GRAY));
+            pTooltipComponents.add(Component.translatable("unstable.soul_fragment.tooltip_owner", Component.literal(pLevel.getPlayerByUUID(pStack.getTag().getUUID("playerUUID")).getDisplayName().getString())).withStyle(ChatFormatting.GRAY));
             if(pStack.getTag().getBoolean("weakSoul")) {
-                pTooltipComponents.add(new TranslatableComponent("unstable.soul_fragment.tooltip_weak_soul"));
+                pTooltipComponents.add(Component.translatable("unstable.soul_fragment.tooltip_weak_soul"));
             }
         }
     }

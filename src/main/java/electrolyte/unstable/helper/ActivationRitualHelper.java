@@ -36,14 +36,14 @@ public class ActivationRitualHelper {
                     if (ForgeRegistries.BLOCKS.getValue(new ResourceLocation(UnstableConfig.ACTIVATION_BLOCK.get())) == ModBlocks.CURSED_EARTH.get()) {
                         level.setBlock(pos1, ModBlocks.CURSED_EARTH.get().defaultBlockState(), 2);
                         CursedEarthBlockEntity be = ModBlocks.CURSED_EARTH_BE.get().getBlockEntity(level, pos1);
-                        be.getTileData().putBoolean("createdByRitual", true);
+                        be.getPersistentData().putBoolean("createdByRitual", true);
                     } else {
                         level.setBlock(pos1, ForgeRegistries.BLOCKS.getValue(new ResourceLocation(UnstableConfig.ACTIVATION_BLOCK.get())).defaultBlockState(), 2);
                     }
                 }
             }
         } else {
-            Unstable.LOGGER.error("Unable to update natural earth to block: {}, as it does not exist in the block registry.", UnstableConfig.ACTIVATION_BLOCK.get());
+            Unstable.LOGGER.warn("Unable to update natural earth to block {}, as it does not exist in the block registry.", UnstableConfig.ACTIVATION_BLOCK.get());
         }
     }
 

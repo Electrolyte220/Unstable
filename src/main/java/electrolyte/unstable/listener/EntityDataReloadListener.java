@@ -52,10 +52,10 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
     private List<EntityType<?>> validateAndConvertEntities(JsonArray input) {
         List<EntityType<?>> entities = new ArrayList<>();
         for(int i = 0; i < input.size(); i++) {
-            if (!ForgeRegistries.ENTITIES.containsKey(new ResourceLocation(input.get(i).getAsString()))) {
-                Unstable.LOGGER.error("Error adding end siege data for entity {}", input.get(i).getAsString());
+            if (!ForgeRegistries.ENTITY_TYPES.containsKey(new ResourceLocation(input.get(i).getAsString()))) {
+                Unstable.LOGGER.warn("Unable to find entity {} as it does not exist in the registry. This entity will not be added to the spawn list.", input.get(i).getAsString());
             } else {
-                entities.add(ForgeRegistries.ENTITIES.getValue(new ResourceLocation(input.get(i).getAsString())));
+                entities.add(ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(input.get(i).getAsString())));
             }
         }
         return entities;
@@ -66,7 +66,7 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
         for(int i = 0; i < input.size(); i++) {
             JsonObject jsonObject = input.get(i).getAsJsonObject();
             if (!ForgeRegistries.MOB_EFFECTS.containsKey(new ResourceLocation(jsonObject.get("mobEffect").getAsString()))) {
-                Unstable.LOGGER.error("Error adding end siege data for mob effect {}", jsonObject.get("mobEffect").getAsString());
+                Unstable.LOGGER.warn("Unable to find mob effect {} as it does not exist in the registry. This effect will not be applied to entities.", jsonObject.get("mobEffect").getAsString());
             } else {
                 MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(jsonObject.get("mobEffect").getAsString()));
                 int amplifier = jsonObject.has("amplifier") ? jsonObject.get("amplifier").getAsInt() : 0;
@@ -84,7 +84,7 @@ public class EntityDataReloadListener extends SimpleJsonResourceReloadListener {
         for(int i = 0; i < input.size(); i++) {
             JsonObject jsonObject = input.get(i).getAsJsonObject();
             if (!ForgeRegistries.ITEMS.containsKey(new ResourceLocation(jsonObject.get("item").getAsString()))) {
-                Unstable.LOGGER.error("Error adding end siege data for equipment item {}", input.get(i).getAsString());
+                Unstable.LOGGER.warn("Unable to find item {} as it does not exist in the registry. This item will not be applied to entities.", input.get(i).getAsString());
             } else {
                 EquipmentSlot slot = EquipmentSlot.valueOf(jsonObject.get("slot").getAsString());
                 ItemStack stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(jsonObject.get("item").getAsString())));

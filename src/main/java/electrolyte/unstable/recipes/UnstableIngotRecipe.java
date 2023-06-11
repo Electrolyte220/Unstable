@@ -17,7 +17,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.Map;
 import java.util.Set;
@@ -156,7 +155,7 @@ public class UnstableIngotRecipe extends ShapedRecipe {
         return i;
     }
 
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<UnstableIngotRecipe> {
+    public static class Serializer implements RecipeSerializer<UnstableIngotRecipe> {
         public UnstableIngotRecipe fromJson(ResourceLocation pRecipeId, JsonObject pJson) {
             Map<String, Ingredient> map = UnstableIngotRecipe.keyFromJson(GsonHelper.getAsJsonObject(pJson, "key"));
             String[] astring = UnstableIngotRecipe.shrink(UnstableIngotRecipe.patternFromJson(GsonHelper.getAsJsonArray(pJson, "pattern")));

@@ -1,0 +1,6 @@
+// 1.19.2	2023-06-11T13:10:20.4994818	unstable:end_siege_gen
+b65893c5eaa86cbcf466ae7cbed3782f9503613d data/unstable/end_siege/chest_data/east.json
+e376118af806ede8c7b3fe9e7524faa6b1f03c6c data/unstable/end_siege/chest_data/north.json
+c6030f5c63cd42fc15dd1f925c1b75dce9ffc484 data/unstable/end_siege/chest_data/south.json
+2ff5f9dba931a9f9af26f1bcd7115becf7e2bd06 data/unstable/end_siege/chest_data/west.json
+3bd5c68a09acf889c94f67bac9cd2bd10562a834 data/unstable/end_siege/entity_data/default.json

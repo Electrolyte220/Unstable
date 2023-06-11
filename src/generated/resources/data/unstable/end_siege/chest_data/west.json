@@ -1,6 +1,5 @@
 {
   "type": "unstable:chest_data",
-  "location": "WEST",
   "contents": [
     {
       "item": "minecraft:music_disc_11"
@@ -44,5 +43,6 @@
     {
       "item": "minecraft:music_disc_ward"
     }
-  ]
+  ],
+  "location": "WEST"
 }

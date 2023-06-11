@@ -1,5 +1,35 @@
 {
   "type": "unstable:entity_data",
+  "effects": [
+    {
+      "ambient": true,
+      "amplifier": 0,
+      "duration": 6000,
+      "mobEffect": "minecraft:speed",
+      "visible": true
+    },
+    {
+      "ambient": true,
+      "amplifier": 1,
+      "duration": 6000,
+      "mobEffect": "minecraft:strength",
+      "visible": true
+    },
+    {
+      "ambient": true,
+      "amplifier": 0,
+      "duration": 6000,
+      "mobEffect": "minecraft:regeneration",
+      "visible": true
+    },
+    {
+      "ambient": true,
+      "amplifier": 0,
+      "duration": 6000,
+      "mobEffect": "minecraft:resistance",
+      "visible": true
+    }
+  ],
   "entities": [
     "minecraft:zombie",
     "minecraft:witch",
@@ -16,36 +46,6 @@
     "minecraft:pillager",
     "minecraft:vindicator",
     "minecraft:illusioner"
-  ],
-  "effects": [
-    {
-      "mobEffect": "minecraft:speed",
-      "amplifier": 0,
-      "duration": 6000,
-      "ambient": true,
-      "visible": true
-    },
-    {
-      "mobEffect": "minecraft:strength",
-      "amplifier": 1,
-      "duration": 6000,
-      "ambient": true,
-      "visible": true
-    },
-    {
-      "mobEffect": "minecraft:regeneration",
-      "amplifier": 0,
-      "duration": 6000,
-      "ambient": true,
-      "visible": true
-    },
-    {
-      "mobEffect": "minecraft:resistance",
-      "amplifier": 0,
-      "duration": 6000,
-      "ambient": true,
-      "visible": true
-    }
   ],
   "equipment": []
 }

@@ -20,21 +20,21 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PropertyRegressionCategory implements IRecipeCategory<PropertyRegressionDataStorage> {
 
-    public static final ResourceLocation PLUGIN_UID = new ResourceLocation(Unstable.MOD_ID, "property_regression");
     public static final RecipeType<PropertyRegressionDataStorage> PROPERTY_REGRESSION_RECIPE_TYPE = RecipeType.create(Unstable.MOD_ID, "property_regression", PropertyRegressionDataStorage.class);
     private final IDrawable background;
     private final IDrawable icon;
@@ -45,7 +45,7 @@ public class PropertyRegressionCategory implements IRecipeCategory<PropertyRegre
     }
     @Override
     public Component getTitle() {
-        return new TranslatableComponent("unstable.jei.property_regression.title");
+        return Component.translatable("unstable.jei.property_regression.title");
     }
 
     @Override
@@ -59,13 +59,8 @@ public class PropertyRegressionCategory implements IRecipeCategory<PropertyRegre
     }
 
     @Override
-    public ResourceLocation getUid() {
-        return PLUGIN_UID;
-    }
-
-    @Override
-    public Class<? extends PropertyRegressionDataStorage> getRecipeClass() {
-        return PROPERTY_REGRESSION_RECIPE_TYPE.getRecipeClass();
+    public RecipeType<PropertyRegressionDataStorage> getRecipeType() {
+        return PROPERTY_REGRESSION_RECIPE_TYPE;
     }
 
     @Override
@@ -105,7 +100,7 @@ public class PropertyRegressionCategory implements IRecipeCategory<PropertyRegre
         stack.scale(50F, -50F, 50F);
         stack.mulPose(Vector3f.XP.rotationDegrees(45));
         stack.mulPose(Vector3f.YP.rotationDegrees(45));
-        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(state.setValue((Property<Integer>) recipe.block().getStateDefinition().getProperty(recipe.property()), val), stack, buffer, LightTexture.FULL_BLOCK, OverlayTexture.NO_OVERLAY, EmptyModelData.INSTANCE);
+        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(state.setValue((Property<Integer>) recipe.block().getStateDefinition().getProperty(recipe.property()), val), stack, buffer, LightTexture.FULL_BLOCK, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
         stack.popPose();
 
         stack.pushPose();
@@ -113,7 +108,7 @@ public class PropertyRegressionCategory implements IRecipeCategory<PropertyRegre
         stack.scale(50F, -50F, 50F);
         stack.mulPose(Vector3f.XP.rotationDegrees(45));
         stack.mulPose(Vector3f.YP.rotationDegrees(45));
-        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(state.setValue((Property<Integer>) recipe.block().getStateDefinition().getProperty(recipe.property()), val - 1), stack, buffer, LightTexture.FULL_BLOCK, OverlayTexture.NO_OVERLAY, EmptyModelData.INSTANCE);
+        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(state.setValue((Property<Integer>) recipe.block().getStateDefinition().getProperty(recipe.property()), val - 1), stack, buffer, LightTexture.FULL_BLOCK, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.cutoutMipped());
         stack.popPose();
         buffer.endBatch();
        IRecipeCategory.super.draw(recipe, recipeSlotsView, stack, mouseX, mouseY);
@@ -129,11 +124,11 @@ public class PropertyRegressionCategory implements IRecipeCategory<PropertyRegre
             } else if(!(mouseX >= 3 && mouseX <= 68)){
                 return List.of();
             }
-            tooltips.add(new TranslatableComponent(new ItemStack(recipe.block().asItem()).getHoverName().getString() + "[" + recipe.property() + "=" + (val) + "]"));
+            tooltips.add(Component.translatable(new ItemStack(recipe.block().asItem()).getHoverName().getString() + "[" + recipe.property() + "=" + (val) + "]"));
             if (Minecraft.getInstance().options.advancedItemTooltips) {
-                tooltips.add(new TranslatableComponent(recipe.block().asItem().getRegistryName().toString()).withStyle(ChatFormatting.DARK_GRAY));
+                tooltips.add(Component.translatable(ForgeRegistries.BLOCKS.getKey(recipe.block()).toString()).withStyle(ChatFormatting.DARK_GRAY));
             }
-            tooltips.add(new TranslatableComponent(recipe.block().getRegistryName().getNamespace().substring(0, 1).toUpperCase() + recipe.block().getRegistryName().getNamespace().substring(1)).withStyle(ChatFormatting.ITALIC, ChatFormatting.BLUE));
+            tooltips.add(Component.translatable(ForgeRegistries.BLOCKS.getKey(recipe.block()).toString().substring(0, 1).toUpperCase() + ForgeRegistries.BLOCKS.getKey(recipe.block()).getNamespace().substring(1)).withStyle(ChatFormatting.ITALIC, ChatFormatting.BLUE));
             return tooltips;
         }
         return IRecipeCategory.super.getTooltipStrings(recipe, recipeSlotsView, mouseX, mouseY);

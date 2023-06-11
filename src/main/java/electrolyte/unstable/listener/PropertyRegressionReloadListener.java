@@ -28,11 +28,11 @@ public class PropertyRegressionReloadListener extends SimpleJsonResourceReloadLi
             if(type.equals("unstable:property_regression")) {
                 JsonObject obj = jsonElement.getAsJsonObject();
                 if (!ForgeRegistries.BLOCKS.containsKey(new ResourceLocation(obj.get("block").getAsString()))) {
-                    Unstable.LOGGER.error("Unable to find block {} in the block registry. This property regression recipe will be ignored.", obj.get("block"));
+                    Unstable.LOGGER.warn("Unable to find block {} in the block registry. This property regression recipe will be ignored.", obj.get("block"));
                 } else {
                     Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(obj.get("block").getAsString()));
                     if (!block.defaultBlockState().getProperties().contains(block.getStateDefinition().getProperty(obj.get("property").getAsString()))) {
-                        Unstable.LOGGER.error("Unable to find property {} for block {}. This property regression recipe will be ignored.", obj.get("property"), obj.get("block"));
+                        Unstable.LOGGER.warn("Unable to find property {} for block {}. This property regression recipe will be ignored.", obj.get("property"), obj.get("block"));
                     } else {
                         PropertyRegressionDataStorage.getMasterStorage().add(new PropertyRegressionDataStorage(block, obj.get("property").getAsString()));
                     }

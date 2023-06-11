@@ -1,6 +1,5 @@
 {
   "type": "unstable:chest_data",
-  "location": "NORTH",
   "contents": [
     {
       "tag": "forge:stone"
@@ -71,5 +70,6 @@
     {
       "tag": "forge:storage_blocks/amethyst"
     }
-  ]
+  ],
+  "location": "NORTH"
 }

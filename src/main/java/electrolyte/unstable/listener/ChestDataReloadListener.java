@@ -11,7 +11,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.crafting.NBTIngredient;
+import net.minecraftforge.common.crafting.StrictNBTIngredient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,13 +61,15 @@ public class ChestDataReloadListener extends SimpleJsonResourceReloadListener {
             }
             if (element.getAsJsonObject().get("item") != null) {
                 if(element.getAsJsonObject().get("nbt") != null) {
-                    contents.add(NBTIngredient.Serializer.INSTANCE.parse(element.getAsJsonObject()));
+                    contents.add(StrictNBTIngredient.Serializer.INSTANCE.parse(element.getAsJsonObject()));
                 } else {
                     contents.add(Ingredient.fromJson(element.getAsJsonObject()));
                 }
             } else if (element.getAsJsonObject().get("tag") != null) {
                 if(element.getAsJsonObject().get("nbt") != null) {
                     Unstable.LOGGER.warn("Due to a vanilla minecraft limitation, NBT on tags is ignored. This applies to the following: {} on tag {}", element.getAsJsonObject().get("nbt"), element.getAsJsonObject().get("tag"));
+                } else {
+                    contents.add(Ingredient.fromJson(element.getAsJsonObject()));
                 }
             }
         });

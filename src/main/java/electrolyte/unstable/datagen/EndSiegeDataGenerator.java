@@ -3,9 +3,9 @@ package electrolyte.unstable.datagen;
 import com.google.gson.*;
 import electrolyte.unstable.Unstable;
 import electrolyte.unstable.init.ModTags;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
-import net.minecraft.data.HashCache;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -17,7 +17,8 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.crafting.NBTIngredient;
+import net.minecraftforge.common.crafting.StrictNBTIngredient;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -30,7 +31,7 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     @Override
-    public void run(HashCache cache) {
+    public void run(CachedOutput cache) {
         buildEntityData(cache, "default", List.of(EntityType.ZOMBIE, EntityType.WITCH, EntityType.SILVERFISH, EntityType.SPIDER, EntityType.CAVE_SPIDER, EntityType.SKELETON, EntityType.WITHER_SKELETON, EntityType.CREEPER, EntityType.BLAZE, EntityType.ZOMBIFIED_PIGLIN,
                         EntityType.PHANTOM, EntityType.EVOKER, EntityType.PILLAGER, EntityType.VINDICATOR, EntityType.ILLUSIONER),
                 Optional.of(List.of(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 6000, 0, true, true),
@@ -46,30 +47,30 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
         buildChestData(cache, "south", List.of(Ingredient.of(Items.TURTLE_EGG), Ingredient.of(Items.SCUTE), Ingredient.of(Tags.Items.HEADS), Ingredient.of(Items.END_CRYSTAL), Ingredient.of(Items.RABBIT_FOOT), Ingredient.of(Items.NAME_TAG),
                 Ingredient.of(Items.DRAGON_BREATH), Ingredient.of(Items.TOTEM_OF_UNDYING), Ingredient.of(Items.SHULKER_SHELL), Ingredient.of(Items.PHANTOM_MEMBRANE), Ingredient.of(Items.NAUTILUS_SHELL), Ingredient.of(Items.HEART_OF_THE_SEA),
                 Ingredient.of(Items.ENCHANTED_GOLDEN_APPLE)));
-        buildChestData(cache, "east", List.of(NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_INVISIBILITY)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_LEAPING)),
-                NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_FIRE_RESISTANCE)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_SWIFTNESS)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_SLOWNESS)),
-                NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_TURTLE_MASTER)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_WATER_BREATHING)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.STRONG_HEALING)),
-                NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.STRONG_HARMING)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_POISON)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_REGENERATION)),
-                NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_STRENGTH)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_WEAKNESS)), NBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_SLOW_FALLING))));
+        buildChestData(cache, "east", List.of(StrictNBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_INVISIBILITY)), StrictNBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_LEAPING)),
+                StrictNBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_FIRE_RESISTANCE)), StrictNBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_SWIFTNESS)), StrictNBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_SLOWNESS)),
+                StrictNBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_TURTLE_MASTER)), StrictNBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_WATER_BREATHING)), StrictNBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.STRONG_HEALING)),
+                StrictNBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.STRONG_HARMING)), StrictNBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_POISON)), StrictNBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_REGENERATION)),
+                StrictNBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_STRENGTH)), StrictNBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_WEAKNESS)), StrictNBTIngredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.LONG_SLOW_FALLING))));
         buildChestData(cache, "west", List.of(Ingredient.of(Items.MUSIC_DISC_11), Ingredient.of(Items.MUSIC_DISC_13), Ingredient.of(Items.MUSIC_DISC_BLOCKS), Ingredient.of(Items.MUSIC_DISC_CAT), Ingredient.of(Items.MUSIC_DISC_CHIRP),
                 Ingredient.of(Items.MUSIC_DISC_FAR), Ingredient.of(Items.MUSIC_DISC_MALL), Ingredient.of(Items.MUSIC_DISC_MELLOHI), Ingredient.of(Items.MUSIC_DISC_OTHERSIDE), Ingredient.of(Items.MUSIC_DISC_PIGSTEP), Ingredient.of(Items.MUSIC_DISC_STAL),
                 Ingredient.of(Items.MUSIC_DISC_STRAD), Ingredient.of(Items.MUSIC_DISC_WAIT), Ingredient.of(Items.MUSIC_DISC_WARD)));
     }
 
-    private void buildEntityData(HashCache cache, String fileName, List<EntityType<?>> entities, Optional<List<MobEffectInstance>> effects, Optional<List<Map<EquipmentSlot, ItemStack>>> equipment) {
+    private void buildEntityData(CachedOutput cache, String fileName, List<EntityType<?>> entities, Optional<List<MobEffectInstance>> effects, Optional<List<Map<EquipmentSlot, ItemStack>>> equipment) {
         Path file = this.gen.getOutputFolder().resolve("data/unstable/end_siege/entity_data/" + fileName + ".json");
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", "unstable:entity_data");
         JsonArray entityArray = new JsonArray();
         for (EntityType<?> entity : entities) {
-            entityArray.add(entity.getRegistryName().toString());
+            entityArray.add(ForgeRegistries.ENTITY_TYPES.getKey(entity).toString());
         }
         jsonObject.add("entities", entityArray);
 
         JsonArray mobEffectDetails = new JsonArray();
         effects.ifPresent(mobEffectInstances -> mobEffectInstances.forEach(effect -> {
             JsonObject effectObject = new JsonObject();
-            effectObject.addProperty("mobEffect", effect.getEffect().getRegistryName().toString());
+            effectObject.addProperty("mobEffect", ForgeRegistries.MOB_EFFECTS.getKey(effect.getEffect()).toString());
             effectObject.addProperty("amplifier", effect.getAmplifier());
             effectObject.addProperty("duration", effect.getDuration());
             effectObject.addProperty("ambient", effect.isAmbient());
@@ -82,7 +83,7 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
         equipment.ifPresent(equipmentList -> equipmentList.forEach(equipmentItem -> equipmentItem.forEach((equipmentSlot, stack) -> {
             JsonObject equipmentObject = new JsonObject();
             equipmentObject.addProperty("slot", equipmentSlot.toString());
-            equipmentObject.addProperty("item", stack.getItem().getRegistryName().toString());
+            equipmentObject.addProperty("item", ForgeRegistries.ITEMS.getKey(stack.getItem()).toString());
             if (stack.getTag() != null) {
                 equipmentObject.addProperty("nbt", stack.getTag().toString());
             }
@@ -90,14 +91,13 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
         })));
         jsonObject.add("equipment", equipmentArray);
         try {
-            DataProvider.save(GSON, cache, GSON.toJsonTree(jsonObject), file);
-        } catch (
-                IOException e) {
+            DataProvider.saveStable(cache, GSON.toJsonTree(jsonObject), file);
+        } catch (IOException e) {
             Unstable.LOGGER.error("Error adding entity data for {}", file, e);
         }
     }
 
-    private void buildChestData(HashCache cache, String chestLocation, List<Ingredient> chestContents) {
+    private void buildChestData(CachedOutput cache, String chestLocation, List<Ingredient> chestContents) {
         Path file = this.gen.getOutputFolder().resolve("data/unstable/end_siege/chest_data/" + chestLocation + ".json");
         JsonObject jsonObject = new JsonObject();
         JsonArray chestContentsArray = new JsonArray();
@@ -118,9 +118,8 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
         });
         jsonObject.add("contents", chestContentsArray);
         try {
-            DataProvider.save(GSON, cache, GSON.toJsonTree(jsonObject), file);
-        } catch (
-                IOException e) {
+            DataProvider.saveStable(cache, GSON.toJsonTree(jsonObject), file);
+        } catch (IOException e) {
             Unstable.LOGGER.error("Error adding chest data for {}", file, e);
         }
     }

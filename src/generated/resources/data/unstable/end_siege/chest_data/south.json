@@ -1,6 +1,5 @@
 {
   "type": "unstable:chest_data",
-  "location": "SOUTH",
   "contents": [
     {
       "item": "minecraft:turtle_egg"
@@ -41,5 +40,6 @@
     {
       "item": "minecraft:enchanted_golden_apple"
     }
-  ]
+  ],
+  "location": "SOUTH"
 }

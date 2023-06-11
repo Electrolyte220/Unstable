@@ -9,6 +9,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.*;
@@ -33,7 +34,7 @@ public class CursedEarth extends BaseEntityBlock {
     }
 
     @Override
-    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, Random pRandom) {
+    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
         if(!canBeCursedEarth(pState, pLevel, pPos)) {
             if(!pLevel.isAreaLoaded(pPos, 1)) return;
             pLevel.setBlockAndUpdate(pPos, Blocks.DIRT.defaultBlockState());

@@ -1,6 +1,5 @@
 {
   "type": "unstable:chest_data",
-  "location": "EAST",
   "contents": [
     {
       "item": "minecraft:potion",
@@ -58,5 +57,6 @@
       "item": "minecraft:potion",
       "nbt": "{Potion:\"minecraft:long_slow_falling\"}"
     }
-  ]
+  ],
+  "location": "EAST"
 }

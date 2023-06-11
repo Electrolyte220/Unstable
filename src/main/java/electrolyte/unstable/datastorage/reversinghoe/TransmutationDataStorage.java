@@ -18,7 +18,7 @@ public class TransmutationDataStorage {
 
     public TransmutationDataStorage(Block input, Block output) {
         this.inputType = UnstableEnums.TRANSMUTATION_INPUT.BLOCK;
-        this.location = input.getRegistryName();
+        this.location = input.builtInRegistryHolder().key().location();
         this.input = Ingredient.of(input);
         this.output = output;
     }
