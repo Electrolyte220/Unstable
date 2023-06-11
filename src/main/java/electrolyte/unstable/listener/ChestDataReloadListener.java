@@ -69,6 +69,7 @@ public class ChestDataReloadListener extends SimpleJsonResourceReloadListener {
                 if(element.getAsJsonObject().get("nbt") != null) {
                     Unstable.LOGGER.warn("Due to a vanilla minecraft limitation, NBT on tags is ignored. This applies to the following: {} on tag {}", element.getAsJsonObject().get("nbt"), element.getAsJsonObject().get("tag"));
                 }
+                contents.add(Ingredient.fromJson(element.getAsJsonObject()));
             }
         });
         return contents;
