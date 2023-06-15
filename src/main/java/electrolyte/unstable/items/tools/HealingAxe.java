@@ -1,6 +1,7 @@
 package electrolyte.unstable.items.tools;
 
 import electrolyte.unstable.UnstableConfig;
+import electrolyte.unstable.init.ModDamageTypes;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -45,7 +46,7 @@ public class HealingAxe extends AxeItem {
                 if(mob.getHealth() < mob.getMaxHealth()) {
                     mob.setHealth(mob.getHealth() + 0.75F);
                     serverLevel.sendParticles(ParticleTypes.HEART, (mob.getX() - 0.5) + new Random().nextDouble(1), (mob.getY() + 0.5) + new Random().nextDouble(1), (mob.getZ() - 0.5) + new Random().nextDouble(1),1, 0, 0.25, 0, 0.25);
-                    //player.hurt(HealingAxeDamageSource.INSTANCE, 1.5F);
+                    player.hurt(ModDamageTypes.getDamageSource(entity.level(), ModDamageTypes.HEALING_AXE), 1.5F);
                     stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(player.getUsedItemHand()));
                 }
                 return true;

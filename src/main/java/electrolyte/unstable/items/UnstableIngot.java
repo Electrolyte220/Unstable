@@ -22,8 +22,8 @@ public class UnstableIngot extends Item {
     @Override
     public void onCraftedBy(ItemStack stack, Level level, Player player) {
         CompoundTag tag = new CompoundTag();
-        tag.putInt("explodesIn", 200);
-        stack.setTag(tag);
+        stack.getOrCreateTag().putInt("explodesIn", 200);
+        stack.getOrCreateTag().putBoolean("exploded", false);
     }
 
     @Override

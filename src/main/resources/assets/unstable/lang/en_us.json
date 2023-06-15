@@ -7,7 +7,6 @@
 	"item.unstable.destruction_pickaxe": "Destruction Pickaxe",
 	"item.unstable.unstable_ingot": "Unstable Ingot",
 	"item.unstable.unstable_stable_ingot": "Unstable/Stable Ingot",
-	"item.unstable.unstable_stable_nugget": "Unstable/Stable Nugget",
 	"item.unstable.stable_ingot": "Stable Ingot",
 	"item.unstable.soul_fragment": "Soul Fragment",
 	"item.unstable.etheric_sword": "Etheric Sword",
@@ -15,6 +14,9 @@
 	"item.unstable.reversing_hoe": "Reversing Hoe",
 	"item.unstable.erosion_shovel": "Erosion Shovel",
 	"item.unstable.precision_shears": "Precision Shears",
+
+	"death.attack.divide_by_diamond": "%1$s suffered a fatal 'java.lang.ArithmeticException: \\ by diamond",
+	"death.attack.healing_axe": "%1$s forgot to heal themselves before healing others",
 
 	"unstable.division_sigil.tooltip_inactive_1": "INACTIVE: You must perform the Activation Ritual.",
 	"unstable.division_sigil.tooltip_inactive_2": "Sneak right-click on an",

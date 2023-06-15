@@ -1,6 +1,6 @@
 {    
     "parent": "item/generated",
     "textures": {
-        "layer0": "unstable:items/unstable_ingot"
+        "layer0": "unstable:item/unstable_ingot"
      }
 }

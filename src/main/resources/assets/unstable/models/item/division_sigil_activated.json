@@ -1,6 +1,6 @@
 {    
     "parent": "item/generated",
     "textures": {
-        "layer0": "unstable:items/division_sigil"
+        "layer0": "unstable:item/division_sigil"
      }
 }

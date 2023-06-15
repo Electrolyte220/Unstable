@@ -8,6 +8,7 @@ import electrolyte.unstable.datastorage.endsiege.EntityDataStorage;
 import electrolyte.unstable.datastorage.reversinghoe.TransmutationDataStorage;
 import electrolyte.unstable.helper.ActivationRitualHelper;
 import electrolyte.unstable.helper.PseudoInversionRitualHelper;
+import electrolyte.unstable.init.ModDamageTypes;
 import electrolyte.unstable.init.ModItems;
 import electrolyte.unstable.init.ModSounds;
 import electrolyte.unstable.init.ModTools;
@@ -96,7 +97,7 @@ public class UnstableEventHandler {
         if(!(player.getMainHandItem().is(ModTools.HEALING_AXE.get()))) return;
         event.setAmount(event.getAmount() + 6);
         ((ServerLevel) event.getEntity().level()).sendParticles(ParticleTypes.WITCH, (event.getEntity().getX() - 0.5) + new Random().nextDouble(1), (event.getEntity().getY() + 0.75) + new Random().nextDouble(1), (event.getEntity().getZ() - 0.5) + new Random().nextDouble(1), 5, 0, 0.5, 0, 0.25);
-        //player.hurt(HealingAxeDamageSource.INSTANCE, 1.5F);
+        player.hurt(ModDamageTypes.getDamageSource(player.level(), ModDamageTypes.HEALING_AXE), 1.5F);
         player.getMainHandItem().hurtAndBreak(1, player, p -> p.broadcastBreakEvent(player.getUsedItemHand()));
     }
 
@@ -241,10 +242,10 @@ public class UnstableEventHandler {
         for(ItemStack stack : event.getEntity().inventoryMenu.getItems()) {
             if(stack.is(ModItems.UNSTABLE_INGOT.get()) && stack.getTag() != null) {
                 if (stack.getTag().contains("explodesIn")) {
-                    event.getEntity().level().explode(event.getEntity(), event.getEntity().getBlockX(), event.getEntity().getBlockY(), event.getEntity().getBlockZ(), 1, false, Level.ExplosionInteraction.NONE);
-                    //event.getEntity().hurt(DivideByDiamondDamageSource.INSTANCE, Float.MAX_VALUE);
-                    event.getEntity().getInventory().removeItem(stack);
-                    break;
+                    event.getEntity().level().explode(event.getEntity(), event.getEntity().getBlockX(), event.getEntity().getBlockY(), event.getEntity().getBlockZ(), 0.25f, false, Level.ExplosionInteraction.NONE);
+                    event.getEntity().hurt(ModDamageTypes.getDamageSource(event.getEntity().level(), ModDamageTypes.DIVIDE_BY_DIAMOND), Float.MAX_VALUE);
+                    stack.shrink(1);
+                    //break;
                 }
             }
         }
@@ -320,10 +321,6 @@ public class UnstableEventHandler {
                     if (stack.getTag() != null && !stack.getTag().getBoolean("creativeSpawned")) {
                         if (stack.getTag().getInt("explodesIn") > 0) {
                             stack.getTag().putInt("explodesIn", stack.getTag().getInt("explodesIn") - 1);
-                        } else {
-                            stack.shrink(1);
-                            event.player.level().explode(null, event.player.getX(), event.player.getY(), event.player.getZ(), 1, false, Level.ExplosionInteraction.NONE);
-                            //event.player.hurt(DivideByDiamondDamageSource.INSTANCE, Float.MAX_VALUE);
                         }
                     }
                 }
@@ -332,13 +329,22 @@ public class UnstableEventHandler {
                         if(stack.getTag() != null && !stack.getTag().getBoolean("creativeSpawned")) {
                             if(stack.getTag().getInt("explodesIn") > 0) {
                                 stack.getTag().putInt("explodesIn", stack.getTag().getInt("explodesIn") - 1);
-                            } else {
-                                event.player.level().explode(null, event.player.getX(), event.player.getY(), event.player.getZ(), 1, false, Level.ExplosionInteraction.NONE);
-                                //event.player.hurt(DivideByDiamondDamageSource.INSTANCE, Float.MAX_VALUE);
-                                stack.shrink(1);
-                                break;
                             }
                         }
+                    }
+                }
+            }
+            for(ItemStack stack : event.player.getInventory().items) {
+                if(stack.is(ModItems.UNSTABLE_INGOT.get()) && stack.getTag() != null) {
+                    if (stack.getTag().getInt("explodesIn") <= 0 && !stack.getTag().getBoolean("exploded")) {
+                        stack.getTag().putBoolean("exploded", true);
+                        event.player.getInventory().clearOrCountMatchingItems(s ->
+                                s.is(ModItems.UNSTABLE_INGOT.get()) &&
+                                        s.getTag() != null &&
+                                        !s.getTag().getBoolean("creativeSpawned"), -1, event.player.getInventory());
+                        event.player.level().explode(null, event.player.getX(), event.player.getY(), event.player.getZ(), 0.25f, false, Level.ExplosionInteraction.NONE);
+                        event.player.hurt(ModDamageTypes.getDamageSource(event.player.level(), ModDamageTypes.DIVIDE_BY_DIAMOND), Float.MAX_VALUE);
+                        break;
                     }
                 }
             }
@@ -390,10 +396,13 @@ public class UnstableEventHandler {
         ItemStack stack = event.getEntity().getItem();
         if(stack.is(ModItems.UNSTABLE_INGOT.get())) {
             if(stack.getTag() != null && !stack.getTag().getBoolean("creativeSpawned")) {
-                event.getEntity().level().explode(event.getEntity(), event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(), 0, false, Level.ExplosionInteraction.NONE);
-                //event.getPlayer().hurt(DivideByDiamondDamageSource.INSTANCE, Float.MAX_VALUE);
                 event.getEntity().discard();
-                event.setCanceled(true);
+                event.getPlayer().getInventory().clearOrCountMatchingItems(s ->
+                        s.is(ModItems.UNSTABLE_INGOT.get()) &&
+                                s.getTag() != null &&
+                                !s.getTag().getBoolean("creativeSpawned"), -1, event.getPlayer().getInventory());
+                event.getEntity().level().explode(event.getEntity(), event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(), 0.25f, false, Level.ExplosionInteraction.NONE);
+                event.getPlayer().hurt(ModDamageTypes.getDamageSource(event.getEntity().level(), ModDamageTypes.DIVIDE_BY_DIAMOND), Float.MAX_VALUE);
             }
         }
     }
