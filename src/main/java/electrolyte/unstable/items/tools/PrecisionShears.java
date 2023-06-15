@@ -1,11 +1,8 @@
 package electrolyte.unstable.items.tools;
 
-import electrolyte.unstable.Unstable;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -17,12 +14,10 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -51,10 +46,10 @@ public class PrecisionShears extends Item {
     @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player playerIn, LivingEntity entity, InteractionHand hand) {
         if (entity instanceof IForgeShearable target) {
-            if (entity.level.isClientSide) return InteractionResult.SUCCESS;
-            BlockPos pos = new BlockPos(entity.getX(), entity.getY(), entity.getZ());
-            if (target.isShearable(stack, entity.level, pos)) {
-                List<ItemStack> drops = target.onSheared(playerIn, stack, entity.level, pos, EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_FORTUNE, stack));
+            if (entity.level().isClientSide) return InteractionResult.SUCCESS;
+            BlockPos pos = new BlockPos(entity.getBlockX(), entity.getBlockY(), entity.getBlockZ());
+            if (target.isShearable(stack, entity.level(), pos)) {
+                List<ItemStack> drops = target.onSheared(playerIn, stack, entity.level(), pos, stack.getEnchantmentLevel(Enchantments.BLOCK_FORTUNE));
                 int slot = playerIn.getInventory().getFreeSlot();
                 drops.forEach(d -> {
                     if(slot != -1) {
@@ -141,17 +136,5 @@ public class PrecisionShears extends Item {
             return TierSortingRegistry.isCorrectTierForDrops(Tiers.STONE, state) && state.getDestroySpeed(level, pos) != -1;
         }
         return false;
-    }
-
-    @Override
-    public void fillItemCategory(CreativeModeTab category, NonNullList<ItemStack> list) {
-        if(category == Unstable.UNSTABLE_TAB) {
-            ItemStack stack = new ItemStack(this);
-            CompoundTag tag = new CompoundTag();
-            tag.putBoolean("Unbreakable", true);
-            stack.setTag(tag);
-            stack.enchant(Enchantments.BLOCK_EFFICIENCY, 5);
-            list.add(stack);
-        }
     }
 }

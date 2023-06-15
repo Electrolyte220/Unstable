@@ -1,13 +1,9 @@
 package electrolyte.unstable.items;
 
-import electrolyte.unstable.Unstable;
-import electrolyte.unstable.init.ModItems;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -42,15 +38,6 @@ public class UnstableIngot extends Item {
             } else {
                 pTooltipComponents.add(Component.translatable("unstable.unstable_ingot.tooltip.explode_timer", Component.translatable(new DecimalFormat("#.#").format(tag.getInt("explodesIn") / 20.0))).withStyle(ChatFormatting.GRAY));
             }
-        }
-    }
-
-    @Override
-    public void fillItemCategory(CreativeModeTab pCategory, NonNullList<ItemStack> pItems) {
-        if(pCategory == Unstable.UNSTABLE_TAB) {
-            ItemStack unstableIngot = new ItemStack(ModItems.UNSTABLE_INGOT.get());
-            unstableIngot.getOrCreateTag().putBoolean("creativeSpawned", true);
-            pItems.add(unstableIngot);
         }
     }
 }

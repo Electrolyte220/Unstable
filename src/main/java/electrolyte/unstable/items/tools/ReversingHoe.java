@@ -1,20 +1,16 @@
 package electrolyte.unstable.items.tools;
 
 import com.mojang.datafixers.util.Pair;
-import electrolyte.unstable.Unstable;
 import electrolyte.unstable.datastorage.reversinghoe.PropertyRegressionDataStorage;
 import electrolyte.unstable.datastorage.reversinghoe.TransmutationDataStorage;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
@@ -105,18 +101,6 @@ public class ReversingHoe extends DiggerItem {
 
     private static Consumer<UseOnContext> changeIntoState(BlockState pState) {
         return context -> context.getLevel().setBlock(context.getClickedPos(), pState, 11);
-    }
-
-
-    @Override
-    public void fillItemCategory(CreativeModeTab category, NonNullList<ItemStack> list) {
-        if (category == Unstable.UNSTABLE_TAB) {
-            ItemStack stack = new ItemStack(this);
-            CompoundTag tag = new CompoundTag();
-            tag.putBoolean("Unbreakable", true);
-            stack.setTag(tag);
-            list.add(stack);
-        }
     }
 
     @Override

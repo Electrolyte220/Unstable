@@ -9,7 +9,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -180,19 +179,19 @@ public class PseudoInversionRitualHelper {
         westChestTE.clearContent();
 
         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
-        level.explode(null, pos.getX(), pos.getY(), pos.getZ(), 2.5F, Explosion.BlockInteraction.DESTROY);
+        level.explode(null, pos.getX(), pos.getY(), pos.getZ(), 2.5F, Level.ExplosionInteraction.BLOCK);
 
         level.setBlock(northChest, Blocks.AIR.defaultBlockState(), 2);
-        level.explode(null, northChest.getX(), northChest.getY(), northChest.getZ(), 2.5F, Explosion.BlockInteraction.DESTROY);
+        level.explode(null, northChest.getX(), northChest.getY(), northChest.getZ(), 2.5F, Level.ExplosionInteraction.BLOCK);
 
         level.setBlock(southChest, Blocks.AIR.defaultBlockState(), 2);
-        level.explode(null, southChest.getX(), southChest.getY(), southChest.getZ(), 2.5F, Explosion.BlockInteraction.DESTROY);
+        level.explode(null, southChest.getX(), southChest.getY(), southChest.getZ(), 2.5F, Level.ExplosionInteraction.BLOCK);
 
         level.setBlock(eastChest, Blocks.AIR.defaultBlockState(), 2);
-        level.explode(null, eastChest.getX(), eastChest.getY(), eastChest.getZ(), 2.5F, Explosion.BlockInteraction.DESTROY);
+        level.explode(null, eastChest.getX(), eastChest.getY(), eastChest.getZ(), 2.5F, Level.ExplosionInteraction.BLOCK);
 
         level.setBlock(westChest, Blocks.AIR.defaultBlockState(), 2);
-        level.explode(null, westChest.getX(), westChest.getY(), westChest.getZ(), 2.5F, Explosion.BlockInteraction.DESTROY);
+        level.explode(null, westChest.getX(), westChest.getY(), westChest.getZ(), 2.5F, Level.ExplosionInteraction.BLOCK);
     }
 
     public static void sendSiegeMessage(MutableComponent translateKey, PlayerList list, UnstableSavedData data) {

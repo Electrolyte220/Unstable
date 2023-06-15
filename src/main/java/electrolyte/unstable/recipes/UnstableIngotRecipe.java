@@ -11,7 +11,9 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
@@ -23,13 +25,17 @@ import java.util.Set;
 
 public class UnstableIngotRecipe extends ShapedRecipe {
 
-    public UnstableIngotRecipe(ResourceLocation pId, String pGroup, int pWidth, int pHeight, NonNullList<Ingredient> pRecipeItems, ItemStack pResult) {
-        super(pId, pGroup, pWidth, pHeight, pRecipeItems, pResult);
+    final ItemStack result;
+
+    public UnstableIngotRecipe(ResourceLocation pId, String pGroup, CraftingBookCategory pCategory, int pWidth, int pHeight, NonNullList<Ingredient> pRecipeItems, ItemStack pResult) {
+        super(pId, pGroup, pCategory, pWidth, pHeight, pRecipeItems, pResult);
+        this.result = pResult;
     }
 
+    //TODO: check
     @Override
     public boolean matches(CraftingContainer pCraftingInventory, Level level) {
-        if(pCraftingInventory.getClass() != CraftingContainer.class) return false;
+        if(pCraftingInventory.getClass() != TransientCraftingContainer.class) return false;
         return super.matches(pCraftingInventory, level);
     }
 
@@ -163,7 +169,7 @@ public class UnstableIngotRecipe extends ShapedRecipe {
             int j = astring.length;
             NonNullList<Ingredient> nonnulllist = UnstableIngotRecipe.dissolvePattern(astring, map, i, j);
             ItemStack itemstack = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(pJson, "result"));
-            return new UnstableIngotRecipe(pRecipeId, "", i, j, nonnulllist, itemstack);
+            return new UnstableIngotRecipe(pRecipeId, "", CraftingBookCategory.MISC, i, j, nonnulllist, itemstack);
         }
 
         public UnstableIngotRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
@@ -174,7 +180,7 @@ public class UnstableIngotRecipe extends ShapedRecipe {
             nonnulllist.replaceAll(ignored -> Ingredient.fromNetwork(pBuffer));
 
             ItemStack itemstack = pBuffer.readItem();
-            return new UnstableIngotRecipe(pRecipeId, "", i, j, nonnulllist, itemstack);
+            return new UnstableIngotRecipe(pRecipeId, "", CraftingBookCategory.MISC, i, j, nonnulllist, itemstack);
         }
 
         public void toNetwork(FriendlyByteBuf pBuffer, UnstableIngotRecipe pRecipe) {
@@ -185,7 +191,7 @@ public class UnstableIngotRecipe extends ShapedRecipe {
                 ingredient.toNetwork(pBuffer);
             }
 
-            pBuffer.writeItem(pRecipe.getResultItem());
+            pBuffer.writeItem(pRecipe.result);
         }
     }
 }

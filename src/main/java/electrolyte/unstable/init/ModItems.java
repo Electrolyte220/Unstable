@@ -17,17 +17,17 @@ public class ModItems {
     }
 
     public static final RegistryObject<Item> DIVISION_SIGIL = ITEMS.register("division_sigil",
-            () -> new DivisionSigil(new Item.Properties().stacksTo(1).tab(Unstable.UNSTABLE_TAB)));
+            () -> new DivisionSigil(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> DIVISION_SIGIL_ACTIVATED = ITEMS.register("division_sigil_activated",
-            () -> new DivisionSigilActivated(new Item.Properties().stacksTo(1).tab(Unstable.UNSTABLE_TAB)));
+            () -> new DivisionSigilActivated(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> DIVISION_SIGIL_STABLE = ITEMS.register("division_sigil_stable",
-            () -> new DivisionSigilStable(new Item.Properties().stacksTo(1).tab(Unstable.UNSTABLE_TAB)));
+            () -> new DivisionSigilStable(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> UNSTABLE_INGOT = ITEMS.register("unstable_ingot",
             () -> new UnstableIngot(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> UNSTABLE_STABLE_INGOT = ITEMS.register("unstable_stable_ingot",
-            () -> new Item(new Item.Properties().tab(Unstable.UNSTABLE_TAB)));
+            () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> STABLE_INGOT = ITEMS.register("stable_ingot",
-            () -> new Item(new Item.Properties().tab(Unstable.UNSTABLE_TAB)));
+            () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SOUL_FRAGMENT = ITEMS.register("soul_fragment",
-            () -> new SoulFragment(new Item.Properties().tab(Unstable.UNSTABLE_TAB)));
+            () -> new SoulFragment(new Item.Properties()));
 }

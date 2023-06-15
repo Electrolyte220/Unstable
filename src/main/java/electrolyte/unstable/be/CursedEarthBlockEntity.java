@@ -20,6 +20,7 @@ import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.event.ForgeEventFactory;
 
 import java.util.Random;
 
@@ -58,9 +59,11 @@ public class CursedEarthBlockEntity extends BlockEntity {
                     Mob mob = (Mob) type.create(level);
                     mob.setPos(pos.getX() + 0.5, pos.above().getY(), pos.getZ() + 0.5);
                     mob.setYHeadRot(new Random().nextFloat() * 360.0F);
-                    BlockCollisions collisions = new BlockCollisions(level, mob, mob.getBoundingBox(), false);
+                    //todo: check collisions here & end siege spawning
+                    BlockCollisions<BlockPos> collisions = new BlockCollisions<>(level, mob, mob.getBoundingBox(), false, (blockpos, shape) -> blockpos);
                     if (!collisions.hasNext() && level.getNearbyEntities(Mob.class, TargetingConditions.DEFAULT, mob, (new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 0.5, pos.above().getY(), pos.getZ() + 0.5).inflate(5))).size() < 25) {
-                        mob.finalizeSpawn((ServerLevelAccessor) level, level.getCurrentDifficultyAt(pos), MobSpawnType.SPAWNER, null, null);
+                        //TODO: check
+                        ForgeEventFactory.onFinalizeSpawn(mob, (ServerLevelAccessor) level, level.getCurrentDifficultyAt(pos), MobSpawnType.SPAWNER, null, null);
                         level.addFreshEntity(mob);
                     }
                 }

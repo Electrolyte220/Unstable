@@ -21,18 +21,18 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.StrictNBTIngredient;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     @Override
-    public void run(CachedOutput cache) {
+    public CompletableFuture<?> run(CachedOutput cache) {
         buildEntityData(cache, "default", List.of(EntityType.ZOMBIE, EntityType.WITCH, EntityType.SILVERFISH, EntityType.SPIDER, EntityType.CAVE_SPIDER, EntityType.SKELETON, EntityType.WITHER_SKELETON, EntityType.CREEPER, EntityType.BLAZE, EntityType.ZOMBIFIED_PIGLIN,
                         EntityType.PHANTOM, EntityType.EVOKER, EntityType.PILLAGER, EntityType.VINDICATOR, EntityType.ILLUSIONER),
                 Optional.of(List.of(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 6000, 0, true, true),
@@ -55,10 +55,11 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
         buildChestData(cache, "west", List.of(Ingredient.of(Items.MUSIC_DISC_11), Ingredient.of(Items.MUSIC_DISC_13), Ingredient.of(Items.MUSIC_DISC_BLOCKS), Ingredient.of(Items.MUSIC_DISC_CAT), Ingredient.of(Items.MUSIC_DISC_CHIRP), Ingredient.of(Items.MUSIC_DISC_FAR),
                 Ingredient.of(Items.MUSIC_DISC_MALL), Ingredient.of(Items.MUSIC_DISC_MELLOHI), Ingredient.of(Items.MUSIC_DISC_STAL), Ingredient.of(Items.MUSIC_DISC_STRAD), Ingredient.of(Items.MUSIC_DISC_WAIT), Ingredient.of(Items.MUSIC_DISC_WARD), Ingredient.of(Items.MUSIC_DISC_PIGSTEP),
                 Ingredient.of(Items.MUSIC_DISC_OTHERSIDE), Ingredient.of(Items.MUSIC_DISC_5)));
+        return null;
     }
 
     private void buildEntityData(CachedOutput cache, String fileName, List<EntityType<?>> entities, Optional<List<MobEffectInstance>> effects, Optional<List<Map<EquipmentSlot, ItemStack>>> equipment) {
-        Path file = this.gen.getOutputFolder().resolve("data/unstable/end_siege/entity_data/" + fileName + ".json");
+        Path file = this.gen.getPackOutput().getOutputFolder().resolve("data/unstable/end_siege/entity_data/" + fileName + ".json");
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", "unstable:entity_data");
         JsonArray entityArray = new JsonArray();
@@ -90,15 +91,11 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
             equipmentArray.add(equipmentObject);
         })));
         jsonObject.add("equipment", equipmentArray);
-        try {
-            DataProvider.saveStable(cache, GSON.toJsonTree(jsonObject), file);
-        } catch (IOException e) {
-            Unstable.LOGGER.error("Error adding entity data for {}", file, e);
-        }
+        DataProvider.saveStable(cache, GSON.toJsonTree(jsonObject), file);
     }
 
     private void buildChestData(CachedOutput cache, String chestLocation, List<Ingredient> chestContents) {
-        Path file = this.gen.getOutputFolder().resolve("data/unstable/end_siege/chest_data/" + chestLocation + ".json");
+        Path file = this.gen.getPackOutput().getOutputFolder().resolve("data/unstable/end_siege/chest_data/" + chestLocation + ".json");
         JsonObject jsonObject = new JsonObject();
         JsonArray chestContentsArray = new JsonArray();
         jsonObject.addProperty("type", "unstable:chest_data");
@@ -117,11 +114,7 @@ public record EndSiegeDataGenerator(DataGenerator gen) implements DataProvider {
             }
         });
         jsonObject.add("contents", chestContentsArray);
-        try {
-            DataProvider.saveStable(cache, GSON.toJsonTree(jsonObject), file);
-        } catch (IOException e) {
-            Unstable.LOGGER.error("Error adding chest data for {}", file, e);
-        }
+        DataProvider.saveStable(cache, GSON.toJsonTree(jsonObject), file);
     }
 
     @Override

@@ -28,5 +28,5 @@ public class ModTools {
     public static final RegistryObject<TieredItem> REVERSING_HOE = TOOLS.register("reversing_hoe",
             () -> new ReversingHoe(UnstableToolMaterial.UNSTABLE, -4, 0.0F, new Item.Properties()));
     public static final RegistryObject<Item> PRECISION_SHEARS = TOOLS.register("precision_shears",
-            () -> new PrecisionShears(new Item.Properties().tab(Unstable.UNSTABLE_TAB).durability(2501)));
+            () -> new PrecisionShears(new Item.Properties().durability(2501)));
 }

@@ -1,6 +1,5 @@
 package electrolyte.unstable.jei.category;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import electrolyte.unstable.Unstable;
 import electrolyte.unstable.datastorage.endsiege.ChestDataStorage;
 import mezz.jei.api.constants.VanillaTypes;
@@ -13,6 +12,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -73,9 +73,10 @@ public class EndSiegeCategory implements IRecipeCategory<ChestDataStorage> {
         }
     }
 
+    //TODO: check
     @Override
-    public void draw(ChestDataStorage recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-        Minecraft.getInstance().font.draw(stack, Component.translatable("unstable.jei.end_siege.chest_" + recipe.chestLocation().toString().toLowerCase()), (background.getWidth() - Minecraft.getInstance().font.width("unstable.jei.end_siege.chest_" + recipe.chestLocation().toString().toLowerCase())) + 57, 1, 0xFF808080);
+    public void draw(ChestDataStorage recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+        graphics.drawString(Minecraft.getInstance().font, Component.translatable("unstable.jei.end_siege.chest_" + recipe.chestLocation().toString().toLowerCase()), (background.getWidth() - Minecraft.getInstance().font.width("unstable.jei.end_siege.chest_" + recipe.chestLocation().toString().toLowerCase())) + 57, 1, 0xFF808080);
     }
 
     @Override

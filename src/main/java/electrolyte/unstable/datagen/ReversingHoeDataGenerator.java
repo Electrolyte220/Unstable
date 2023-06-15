@@ -12,15 +12,15 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.io.IOException;
 import java.nio.file.Path;
+import java.util.concurrent.CompletableFuture;
 
 public record ReversingHoeDataGenerator(DataGenerator gen) implements DataProvider {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     @Override
-    public void run(CachedOutput pCache) {
+    public CompletableFuture<?> run(CachedOutput pCache) {
         buildTransmutationBlock(pCache, Blocks.BLACK_CONCRETE, Blocks.BLACK_CONCRETE_POWDER);
         buildTransmutationBlock(pCache, Blocks.BLUE_CONCRETE, Blocks.BLUE_CONCRETE_POWDER);
         buildTransmutationBlock(pCache, Blocks.BROWN_CONCRETE, Blocks.BROWN_CONCRETE_POWDER);
@@ -85,6 +85,7 @@ public record ReversingHoeDataGenerator(DataGenerator gen) implements DataProvid
         buildPropertyRegression(pCache, Blocks.TURTLE_EGG, "eggs");
         buildPropertyRegression(pCache, Blocks.WATER_CAULDRON, "level");
         buildPropertyRegression(pCache, Blocks.WHEAT, "age");
+        return null;
     }
 
     private void buildTransmutationBlock(CachedOutput cache, Block input, Block output) {
@@ -108,12 +109,8 @@ public record ReversingHoeDataGenerator(DataGenerator gen) implements DataProvid
     }
 
     private void buildTransmutationFile(CachedOutput cache, String fileName, JsonObject obj) {
-        Path file = this.gen.getOutputFolder().resolve("data/unstable/reversing_hoe/transmutation/" + fileName + ".json");
-        try {
-            DataProvider.saveStable(cache, GSON.toJsonTree(obj), file);
-        } catch(IOException e) {
-            Unstable.LOGGER.error("Error adding reversing hoe recipe {}", file, e);
-        }
+        Path file = this.gen.getPackOutput().getOutputFolder().resolve("data/unstable/reversing_hoe/transmutation/" + fileName + ".json");
+        DataProvider.saveStable(cache, GSON.toJsonTree(obj), file);
     }
 
     private void buildPropertyRegression(CachedOutput cache, Block block, String property) {
@@ -125,12 +122,8 @@ public record ReversingHoeDataGenerator(DataGenerator gen) implements DataProvid
     }
 
     private void buildPropertyRegressionFile(CachedOutput cache, String fileName, JsonObject obj) {
-        Path file = this.gen.getOutputFolder().resolve("data/unstable/reversing_hoe/property_regression/" + fileName + ".json");
-        try {
-            DataProvider.saveStable(cache, GSON.toJsonTree(obj), file);
-        } catch(IOException e) {
-            Unstable.LOGGER.error("Error adding reversing hoe recipe {}", file, e);
-        }
+        Path file = this.gen.getPackOutput().getOutputFolder().resolve("data/unstable/reversing_hoe/property_regression/" + fileName + ".json");
+        DataProvider.saveStable(cache, GSON.toJsonTree(obj), file);
     }
 
     @Override

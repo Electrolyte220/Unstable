@@ -10,7 +10,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -20,12 +19,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.lighting.LayerLightEngine;
+import net.minecraft.world.level.lighting.LightEngine;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Random;
 
 public class CursedEarth extends BaseEntityBlock {
 
@@ -55,7 +52,7 @@ public class CursedEarth extends BaseEntityBlock {
         if(state.isAir() && pLevel.getGameRules().getBoolean(GameRules.RULE_DOFIRETICK)) {
             if(pLevel.getBrightness(LightLayer.BLOCK, pos) > 1) {
                 pLevel.getEntities(null, new AABB(pos, pos).inflate(1)).forEach(entity -> {
-                    if(!(entity instanceof Player)) entity.hurt(DamageSource.CACTUS, 0.5f);
+                    if(!(entity instanceof Player)) entity.hurt(entity.damageSources().cactus(), 0.5f);
                 });
             }
             if (pLevel.getBrightness(LightLayer.BLOCK, pos) > 9) {
@@ -83,10 +80,11 @@ public class CursedEarth extends BaseEntityBlock {
     private static boolean canBeCursedEarth(BlockState pState, LevelReader pLevelReader, BlockPos pPos) {
         BlockPos blockpos = pPos.above();
         BlockState blockstate = pLevelReader.getBlockState(blockpos);
-        return LayerLightEngine.getLightBlockInto(pLevelReader, pState, pPos, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(pLevelReader, blockpos)) < 7;
+        return LightEngine.getLightBlockInto(pLevelReader, pState, pPos, blockstate, blockpos, Direction.UP, blockstate.getLightBlock(pLevelReader, blockpos)) < 7;
     }
 
-    public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, Random pRand) {
+    @Override
+    public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRand) {
         if(UnstableConfig.CURSED_EARTH_PARTICLES.get()) {
             for (int i = 0; i < pRand.nextInt(1) + 1; ++i) {
                 this.spawnParticle(pLevel, pPos, pState);

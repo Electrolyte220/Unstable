@@ -1,3 +1,4 @@
+/*
 package electrolyte.unstable.patchouli;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -52,3 +53,4 @@ public class ChestComponent implements ICustomComponent {
         chestLocation = lookup.apply(IVariable.wrap("#chest_location#")).asString();
     }
 }
+*/
