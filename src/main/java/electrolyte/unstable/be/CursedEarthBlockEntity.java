@@ -62,7 +62,6 @@ public class CursedEarthBlockEntity extends BlockEntity {
                     //todo: check collisions here & end siege spawning
                     BlockCollisions<BlockPos> collisions = new BlockCollisions<>(level, mob, mob.getBoundingBox(), false, (blockpos, shape) -> blockpos);
                     if (!collisions.hasNext() && level.getNearbyEntities(Mob.class, TargetingConditions.DEFAULT, mob, (new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 0.5, pos.above().getY(), pos.getZ() + 0.5).inflate(5))).size() < 25) {
-                        //TODO: check
                         ForgeEventFactory.onFinalizeSpawn(mob, (ServerLevelAccessor) level, level.getCurrentDifficultyAt(pos), MobSpawnType.SPAWNER, null, null);
                         level.addFreshEntity(mob);
                     }

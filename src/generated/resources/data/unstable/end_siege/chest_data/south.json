@@ -42,6 +42,12 @@
     },
     {
       "item": "minecraft:goat_horn"
+    },
+    {
+      "tag": "minecraft:trim_templates"
+    },
+    {
+      "tag": "minecraft:decorated_pot_sherds"
     }
   ],
   "location": "SOUTH"

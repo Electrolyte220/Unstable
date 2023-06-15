@@ -16,10 +16,12 @@ import java.util.concurrent.CompletableFuture;
 
 public class UnstableItemTagsProvider extends ItemTagsProvider {
     
-    protected UnstableItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, CompletableFuture<TagLookup<Block>> blockTagProvider, ExistingFileHelper existingFileHelper) {
-        super(output, lookupProvider, blockTagProvider, "unstable", existingFileHelper);
+    protected UnstableItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, CompletableFuture<TagLookup<Block>> blockTagProvider, String modId, ExistingFileHelper existingFileHelper) {
+        super(output, lookupProvider, blockTagProvider, modId, existingFileHelper);
     }
 
+
+    //TODO: figure out why item tag datagen gets stuck
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
         this.tag(ItemTags.CLUSTER_MAX_HARVESTABLES).add(ModTools.DESTRUCTION_PICKAXE.get());

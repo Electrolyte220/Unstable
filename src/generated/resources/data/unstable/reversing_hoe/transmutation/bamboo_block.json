@@ -1,0 +1,7 @@
+{
+  "type": "unstable:transmutation",
+  "input": {
+    "block": "minecraft:stripped_bamboo_block"
+  },
+  "output": "minecraft:bamboo_block"
+}
