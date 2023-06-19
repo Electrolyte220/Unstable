@@ -252,10 +252,11 @@ public class UnstableEventHandler {
     }
 
     @SubscribeEvent
-    public static void worldTick(TickEvent.LevelTickEvent event) {
-        if (event.phase == TickEvent.Phase.START && event.level.dimension() == Level.END) {
-            ServerLevel level = event.level.getServer().getLevel(Level.END);
-            UnstableSavedData data = UnstableSavedData.get(event.level);
+    public static void worldTick(TickEvent.ServerTickEvent event) {
+        //TODO: make sure this doesn't crash
+        if (event.phase == TickEvent.Phase.START) {
+            ServerLevel level = event.getServer().getLevel(Level.END);
+            UnstableSavedData data = UnstableSavedData.get(event.getServer().getLevel(Level.END).getLevel());
             if (!data.isEndSiegeOccurring()) return;
             AABB spawnableLocations = new AABB(new BlockPos(data.getStartingLocation()[0], data.getStartingLocation()[1], data.getStartingLocation()[2])).inflate(UnstableConfig.MOB_SPAWN_RAGE_PIR.get());
             List<ServerPlayer> playersParticipating = level.getPlayers(p -> p.getBoundingBox().intersects(spawnableLocations.inflate(1)));
@@ -276,6 +277,7 @@ public class UnstableEventHandler {
                     int mobCount = level.getEntities(null, spawnableLocations).size();
                     if (mobCount < UnstableConfig.MAX_MOBS.get()) {
                         for (int i = 0; i < data.getPlayersParticipating().size(); i++) {
+                            //todo:double check mobs spawning in obsidian pillars
                             int spawnedMobInt = new Random().nextInt(EntityDataStorage.getMasterStorage().size());
                             EntityDataStorage entityData = EntityDataStorage.getMasterStorage().get(spawnedMobInt);
                             Mob mob = (Mob) entityData.entity().create(level);
@@ -293,7 +295,6 @@ public class UnstableEventHandler {
                             if (!entityData.equipment().isEmpty()) {
                                 entityData.equipment().forEach(equipmentList -> equipmentList.forEach((equipmentSlot, stack) -> mob.setItemSlot(equipmentSlot, stack.copy())));
                             }
-                            //TODO:check this
                             ForgeEventFactory.onFinalizeSpawn(mob, level, level.getCurrentDifficultyAt(new BlockPos(mob.getBlockX(), mob.getBlockY(), mob.getBlockZ())), MobSpawnType.NATURAL, null, null);
                             //mob.finalizeSpawn(level, level.getCurrentDifficultyAt(new BlockPos(mob.getBlockX(), mob.getBlockY(), mob.getBlockZ())), MobSpawnType.NATURAL, null, null);
                             level.addFreshEntity(mob);

@@ -73,54 +73,55 @@ public class DivisionSigilActivated extends Item {
         if(context.getLevel().isClientSide) return InteractionResult.FAIL;
         ResourceLocation dim = context.getLevel().dimension().location();
         boolean everythingCorrect = true;
-        if(dim.equals(BuiltinDimensionTypes.OVERWORLD.location())) {
-            context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.dimension.overworld").withStyle(ChatFormatting.RED));
-            return InteractionResult.SUCCESS;
-        } else if(dim.equals(BuiltinDimensionTypes.NETHER.location())) {
-            context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.dimension.nether").withStyle(ChatFormatting.RED));
-            return InteractionResult.SUCCESS;
-        }
         if(PseudoInversionRitualHelper.checkBeacon(context.getLevel(), context.getClickedPos())) {
-            if (PseudoInversionRitualHelper.checkChestsPos(context.getLevel(), context.getClickedPos())) {
-                context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.chest").withStyle(ChatFormatting.WHITE));
+            if(dim.equals(BuiltinDimensionTypes.OVERWORLD.location())) {
+                context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.dimension.overworld").withStyle(ChatFormatting.RED));
+                return InteractionResult.SUCCESS;
+            } else if(dim.equals(BuiltinDimensionTypes.NETHER.location())) {
+                context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.dimension.nether").withStyle(ChatFormatting.RED));
+                return InteractionResult.SUCCESS;
             } else {
-                context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.chest_fail").withStyle(ChatFormatting.RED));
-                everythingCorrect = false;
+                if (PseudoInversionRitualHelper.checkChestsPos(context.getLevel(), context.getClickedPos())) {
+                    context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.chest").withStyle(ChatFormatting.WHITE));
+                } else {
+                    context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.chest_fail").withStyle(ChatFormatting.RED));
+                    everythingCorrect = false;
+                }
+                if (PseudoInversionRitualHelper.checkIndividualChestContents(context.getLevel(), context.getClickedPos().north(5), UnstableEnums.CHEST_LOCATION.NORTH)) {
+                    context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.north_chest").withStyle(ChatFormatting.WHITE));
+                } else {
+                    context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.north_chest_fail").withStyle(ChatFormatting.RED));
+                    everythingCorrect = false;
+                }
+                if (PseudoInversionRitualHelper.checkIndividualChestContents(context.getLevel(), context.getClickedPos().south(5), UnstableEnums.CHEST_LOCATION.SOUTH)) {
+                    context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.south_chest").withStyle(ChatFormatting.WHITE));
+                } else {
+                    context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.south_chest_fail").withStyle(ChatFormatting.RED));
+                    everythingCorrect = false;
+                }
+                if (PseudoInversionRitualHelper.checkIndividualChestContents(context.getLevel(), context.getClickedPos().east(5), UnstableEnums.CHEST_LOCATION.EAST)) {
+                    context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.east_chest").withStyle(ChatFormatting.WHITE));
+                } else {
+                    context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.east_chest_fail").withStyle(ChatFormatting.RED));
+                    everythingCorrect = false;
+                }
+                if (PseudoInversionRitualHelper.checkIndividualChestContents(context.getLevel(), context.getClickedPos().west(5), UnstableEnums.CHEST_LOCATION.WEST)) {
+                    context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.west_chest").withStyle(ChatFormatting.WHITE));
+                } else {
+                    context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.west_chest_fail").withStyle(ChatFormatting.RED));
+                    everythingCorrect = false;
+                }
+                if (PseudoInversionRitualHelper.checkRedstoneAndString(context.getLevel(), context.getClickedPos())) {
+                    context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.redstone_string").withStyle(ChatFormatting.WHITE));
+                } else {
+                    context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.redstone_string_fail").withStyle(ChatFormatting.RED));
+                    everythingCorrect = false;
+                }
+                if (everythingCorrect) {
+                    context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.correct_setup").withStyle(ChatFormatting.WHITE));
+                }
+                return InteractionResult.SUCCESS;
             }
-            if (PseudoInversionRitualHelper.checkIndividualChestContents(context.getLevel(), context.getClickedPos().north(5), UnstableEnums.CHEST_LOCATION.NORTH)) {
-                context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.north_chest").withStyle(ChatFormatting.WHITE));
-            } else {
-                context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.north_chest_fail").withStyle(ChatFormatting.RED));
-                everythingCorrect = false;
-            }
-            if (PseudoInversionRitualHelper.checkIndividualChestContents(context.getLevel(), context.getClickedPos().south(5), UnstableEnums.CHEST_LOCATION.SOUTH)) {
-                context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.south_chest").withStyle(ChatFormatting.WHITE));
-            } else {
-                context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.south_chest_fail").withStyle(ChatFormatting.RED));
-                everythingCorrect = false;
-            }
-            if (PseudoInversionRitualHelper.checkIndividualChestContents(context.getLevel(), context.getClickedPos().east(5), UnstableEnums.CHEST_LOCATION.EAST)) {
-                context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.east_chest").withStyle(ChatFormatting.WHITE));
-            } else {
-                context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.east_chest_fail").withStyle(ChatFormatting.RED));
-                everythingCorrect = false;
-            }
-            if (PseudoInversionRitualHelper.checkIndividualChestContents(context.getLevel(), context.getClickedPos().west(5), UnstableEnums.CHEST_LOCATION.WEST)) {
-                context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.west_chest").withStyle(ChatFormatting.WHITE));
-            } else {
-                context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.west_chest_fail").withStyle(ChatFormatting.RED));
-                everythingCorrect = false;
-            }
-            if (PseudoInversionRitualHelper.checkRedstoneAndString(context.getLevel(), context.getClickedPos())) {
-                context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.redstone_string").withStyle(ChatFormatting.WHITE));
-            } else {
-                context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.redstone_string_fail").withStyle(ChatFormatting.RED));
-                everythingCorrect = false;
-            }
-            if (everythingCorrect) {
-                context.getPlayer().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.correct_setup").withStyle(ChatFormatting.WHITE));
-            }
-             return InteractionResult.SUCCESS;
         }
         return InteractionResult.FAIL;
     }
