@@ -15,7 +15,8 @@
     "minecraft:evoker",
     "minecraft:pillager",
     "minecraft:vindicator",
-    "minecraft:illusioner"
+    "minecraft:illusioner",
+    "minecraft:vex"
   ],
   "effects": [
     {
