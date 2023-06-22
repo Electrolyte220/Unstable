@@ -17,14 +17,14 @@ body:
         - 1.19.2
     validations:
       required: true
-  - type: textarea
+  - type: input
     id: forge_version
     attributes:
       label: Forge Version
       description: What version of forge are you using?
     validations:
       required: true
-  - type: textarea
+  - type: input
     id: unstable_version
     attributes:
       label: Unstable Version
