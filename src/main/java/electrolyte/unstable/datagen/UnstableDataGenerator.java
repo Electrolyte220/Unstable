@@ -15,6 +15,7 @@ public class UnstableDataGenerator {
         gen.addProvider(event.includeServer(), new EndSiegeDataGenerator(gen));
         gen.addProvider(event.includeServer(), new ReversingHoeDataGenerator(gen));
         UnstableBlockTagsProvider blockTags = new UnstableBlockTagsProvider(gen.getPackOutput(), event.getLookupProvider(), Unstable.MOD_ID, event.getExistingFileHelper());
+        gen.addProvider(event.includeServer(), blockTags);
         gen.addProvider(event.includeServer(), new UnstableItemTagsProvider(gen.getPackOutput(), event.getLookupProvider(), blockTags.contentsGetter(), Unstable.MOD_ID, event.getExistingFileHelper()));
     }
 }

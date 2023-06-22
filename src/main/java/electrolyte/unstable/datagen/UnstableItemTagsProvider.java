@@ -20,10 +20,13 @@ public class UnstableItemTagsProvider extends ItemTagsProvider {
         super(output, lookupProvider, blockTagProvider, modId, existingFileHelper);
     }
 
-
-    //TODO: figure out why item tag datagen gets stuck
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
+        this.tag(ItemTags.BREAKS_DECORATED_POTS).add(ModTools.DESTRUCTION_PICKAXE.get());
+        this.tag(ItemTags.BREAKS_DECORATED_POTS).add(ModTools.EROSION_SHOVEL.get());
+        this.tag(ItemTags.BREAKS_DECORATED_POTS).add(ModTools.ETHERIC_SWORD.get());
+        this.tag(ItemTags.BREAKS_DECORATED_POTS).add(ModTools.HEALING_AXE.get());
+        this.tag(ItemTags.BREAKS_DECORATED_POTS).add(ModTools.REVERSING_HOE.get());
         this.tag(ItemTags.CLUSTER_MAX_HARVESTABLES).add(ModTools.DESTRUCTION_PICKAXE.get());
         this.tag(ItemTags.AXES).add(ModTools.HEALING_AXE.get());
         this.tag(ItemTags.HOES).add(ModTools.REVERSING_HOE.get());
