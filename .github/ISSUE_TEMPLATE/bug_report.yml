@@ -1,0 +1,49 @@
+name: Unstable Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: dropdown
+    id: mc_version
+    attributes:
+      label: Minecraft Version
+      description: What version of minecraft are you using?
+      options:
+        - 1.18.2
+        - 1.19.2
+    validations:
+      required: true
+  - type: input
+    id: forge_version
+    attributes:
+      label: Forge Version
+      description: What version of forge are you using?
+    validations:
+      required: true
+  - type: input
+    id: unstable_version
+    attributes:
+      label: Unstable Version
+      description: What version of unstable are you using?
+    validations:
+      required: true
+  - type: textarea
+    id: what_happened
+    attributes:
+      label: What happened?
+      description: How did this bug ouccur? (Include steps to reproduce, if relevant)
+      placeholder: Tell us what you see!
+      value: "A bug happened!"
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Log/Crash Report
+      description: Please include a log file/crash report (if relevant)
+    validations:
+      required: false
