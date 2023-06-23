@@ -2,6 +2,7 @@ package electrolyte.unstable.savedata;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
@@ -19,7 +20,7 @@ public class UnstableSavedData extends SavedData {
     @Nonnull
     public static UnstableSavedData get(Level level) {
         if(level.isClientSide) throw new RuntimeException("Don't access this from the client-side!");
-        DimensionDataStorage storage = level.getServer().getLevel(Level.END).getDataStorage();
+        DimensionDataStorage storage = ((ServerLevel)level).getLevel().getDataStorage();
         return storage.computeIfAbsent(UnstableSavedData::new, UnstableSavedData::new, "unstable_end_siege_data");
     }
 

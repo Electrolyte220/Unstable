@@ -122,7 +122,7 @@ public class UnstableEventHandler {
     public static void disableEndermanSpawn(MobSpawnEvent event) {
         UnstableSavedData data = UnstableSavedData.get(event.getEntity().level());
         if(data.isEndSiegeOccurring()) {
-            if (event.getEntity() instanceof EnderMan) {
+            if(event.getEntity() instanceof EnderMan && event.getEntity().level().dimension() == Level.END) {
                 event.setResult(Event.Result.DENY);
             }
         }
@@ -221,8 +221,6 @@ public class UnstableEventHandler {
         if(!(event.getSource().getEntity() instanceof ServerPlayer player)) return;
         UnstableSavedData data = UnstableSavedData.get(player.level());
         if(!data.isEndSiegeOccurring()) return;
-        AABB spawnableLocations = new AABB(new BlockPos(data.getStartingLocation()[0], data.getStartingLocation()[1], data.getStartingLocation()[2])).inflate(UnstableConfig.MOB_SPAWN_RAGE_PIR.get());
-        if(!player.getBoundingBox().intersects(spawnableLocations)) return;
         ResourceLocation playerDim = player.level().dimension().location();
         if(!(playerDim.equals(BuiltinDimensionTypes.END.location()))) return;
         if (data.getTotalKills() < UnstableConfig.NEEDED_MOBS.get() && event.getEntity().getTags().contains("spawnedBySiege")) {
@@ -231,7 +229,11 @@ public class UnstableEventHandler {
         }
         if (data.getTotalKills() >= UnstableConfig.NEEDED_MOBS.get()) {
             PseudoInversionRitualHelper.sendSiegeMessage(Component.translatable("unstable.pseudo_inversion_ritual.siege_ended").withStyle(ChatFormatting.WHITE), event.getEntity().level().getServer().getPlayerList(), data);
-            player.getInventory().add(player.getInventory().getFreeSlot(), new ItemStack(ModItems.DIVISION_SIGIL_STABLE.get()));
+            if(player.getInventory().getFreeSlot() == -1) {
+                player.level().addFreshEntity(new ItemEntity(player.level(), player.getBlockX(), player.getBlockY() + 1, player.getBlockZ(), new ItemStack(ModItems.DIVISION_SIGIL_STABLE.get())));
+            } else {
+                player.getInventory().add(player.getInventory().getFreeSlot(), new ItemStack(ModItems.DIVISION_SIGIL_STABLE.get()));
+            }
             data.resetData();
         }
     }
@@ -252,15 +254,17 @@ public class UnstableEventHandler {
     }
 
     @SubscribeEvent
-    public static void worldTick(TickEvent.ServerTickEvent event) {
-        //TODO: make sure this doesn't crash
-        if (event.phase == TickEvent.Phase.START) {
-            ServerLevel level = event.getServer().getLevel(Level.END);
-            UnstableSavedData data = UnstableSavedData.get(event.getServer().getLevel(Level.END).getLevel());
+    public static void worldTick(TickEvent.LevelTickEvent event) {
+        if (event.phase == TickEvent.Phase.START && event.level.dimension() == Level.END && !event.level.isClientSide) {
+            ServerLevel level = ((ServerLevel) event.level);
+            UnstableSavedData data = UnstableSavedData.get(event.level);
             if (!data.isEndSiegeOccurring()) return;
             AABB spawnableLocations = new AABB(new BlockPos(data.getStartingLocation()[0], data.getStartingLocation()[1], data.getStartingLocation()[2])).inflate(UnstableConfig.MOB_SPAWN_RAGE_PIR.get());
             List<ServerPlayer> playersParticipating = level.getPlayers(p -> p.getBoundingBox().intersects(spawnableLocations.inflate(1)));
             ListTag playersParticipatingTag = data.getPlayersParticipating();
+            if(playersParticipatingTag == null) {
+                playersParticipatingTag = new ListTag();
+            }
             for(ServerPlayer player : playersParticipating) {
                 if(!playersParticipatingTag.contains(StringTag.valueOf(player.getStringUUID()))) {
                     playersParticipatingTag.add(StringTag.valueOf(player.getStringUUID()));
@@ -356,7 +360,7 @@ public class UnstableEventHandler {
     public static void playerClone(PlayerEvent.Clone event) {
         if(event.getEntity().level().isClientSide) return;
         Player player = event.getEntity();
-        UnstableSavedData data = UnstableSavedData.get(event.getEntity().level());
+        UnstableSavedData data = UnstableSavedData.get(event.getOriginal().level());
         if (data.isEndSiegeOccurring() && !event.isWasDeath()) {
             player.sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.changed_dimension").withStyle(ChatFormatting.RED));
             PseudoInversionRitualHelper.sendSiegeMessage(Component.translatable("unstable.pseudo_inversion_ritual.siege_ended").withStyle(ChatFormatting.WHITE), event.getEntity().level().getServer().getPlayerList(), data);
@@ -379,11 +383,11 @@ public class UnstableEventHandler {
             data.resetData();
         }
     }
-    
+
     @SubscribeEvent
     public static void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         if(event.getEntity().level().isClientSide) return;
-        UnstableSavedData data = UnstableSavedData.get(event.getEntity().level());
+        UnstableSavedData data = UnstableSavedData.get(event.getEntity().level().getServer().getLevel(Level.END));
         if(data.isEndSiegeOccurring() && data.getPlayersParticipating().contains(StringTag.valueOf(event.getEntity().getStringUUID())) && !event.getTo().location().equals(Level.END.location())) {
             event.getEntity().sendSystemMessage(Component.translatable("unstable.pseudo_inversion_ritual.changed_dimension").withStyle(ChatFormatting.RED));
             System.out.println(event.getEntity().level().getServer().getPlayerList());

@@ -12,7 +12,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)Firstly, if exposed to either the sky or other forms of bright light, the block will catch fire to itself and other cursed earth nearby.$(br2)$(li)Secondly, this block is able to spawn mobs depending on the biome it is placed in.$(br2)$(li)Thirdly, if stood on for too long, entities (excluding the player) will take small amounts of damage.$(br2)$(li)Finally, if placed under a spawner, the spawner will be able to work without the player needing to stand near it."
+      "text": "$(li)Firstly, if exposed to either the sky or other forms of bright light, the block will catch fire to itself and other cursed earth nearby.$(br2)$(li)Secondly, this block is able to spawn mobs depending on the biome it is placed in."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Thirdly, if stood on for too long, entities (excluding the player) will take small amounts of damage.$(br2)$(li)Finally, if placed under a spawner, the spawner will be able to work without the player needing to stand near it."
     }
   ]
 }
