@@ -206,11 +206,15 @@ public class UnstableEventHandler {
                 AABB spawnableLocations = new AABB(new BlockPos(data.getStartingLocation()[0], data.getStartingLocation()[1], data.getStartingLocation()[2])).inflate(UnstableConfig.MOB_SPAWN_RAGE_PIR.get());
                 List<ServerPlayer> playersParticipating = serverLevel.getPlayers(p -> p.getBoundingBox().intersects(spawnableLocations.inflate(1)));
                 ListTag playersParticipatingTag = data.getPlayersParticipating();
+                if(playersParticipatingTag == null) {
+                    playersParticipatingTag = new ListTag();
+                }
                 for(ServerPlayer playerIn : playersParticipating) {
                     if (!playersParticipatingTag.contains(StringTag.valueOf(playerIn.getStringUUID()))) {
                         playersParticipatingTag.add(StringTag.valueOf(playerIn.getStringUUID()));
                     }
                 }
+                data.setPlayersParticipating(playersParticipatingTag);
                 PseudoInversionRitualHelper.sendSiegeMessage(Component.translatable("unstable.pseudo_inversion_ritual.siege_started").withStyle(ChatFormatting.WHITE), event.getEntity().level().getServer().getPlayerList(), data);
             }
         }
