@@ -29,6 +29,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.IronGolem;
@@ -91,6 +92,14 @@ public class UnstableEventHandler {
     }
 
     @SubscribeEvent
+    public static void onEndSiegeMobKilled(LivingExperienceDropEvent event) {
+        UnstableSavedData data = UnstableSavedData.get(event.getEntity().level());
+        if(data.isEndSiegeOccurring() && event.getEntity().getTags().contains("spawnedBySiege")) {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
     public static void onMonsterHurt(LivingHurtEvent event) {
         if(event.getEntity().getType().getCategory() != MobCategory.MONSTER) return;
         if(!(event.getSource().getEntity() instanceof Player player)) return;
@@ -99,13 +108,6 @@ public class UnstableEventHandler {
         ((ServerLevel) event.getEntity().level()).sendParticles(ParticleTypes.WITCH, (event.getEntity().getX() - 0.5) + new Random().nextDouble(1), (event.getEntity().getY() + 0.75) + new Random().nextDouble(1), (event.getEntity().getZ() - 0.5) + new Random().nextDouble(1), 5, 0, 0.5, 0, 0.25);
         player.hurt(ModDamageTypes.getDamageSource(player.level(), ModDamageTypes.HEALING_AXE), 1.5F);
         player.getMainHandItem().hurtAndBreak(1, player, p -> p.broadcastBreakEvent(player.getUsedItemHand()));
-    }
-
-    @SubscribeEvent
-    public static void onEndSiegeMobKilled(LivingExperienceDropEvent event) {
-        UnstableSavedData data = UnstableSavedData.get(event.getEntity().level());
-        if(!data.isEndSiegeOccurring()) return;
-        event.setCanceled(true);
     }
 
     @SubscribeEvent
@@ -119,10 +121,10 @@ public class UnstableEventHandler {
     }
 
     @SubscribeEvent
-    public static void disableEndermanSpawn(MobSpawnEvent event) {
+    public static void disableEntitySpawn(MobSpawnEvent event) {
         UnstableSavedData data = UnstableSavedData.get(event.getEntity().level());
         if(data.isEndSiegeOccurring()) {
-            if(event.getEntity() instanceof EnderMan && event.getEntity().level().dimension() == Level.END) {
+            if((event.getEntity() instanceof EnderMan && event.getEntity().level().dimension() == Level.END) || /*(spawnableLocations.intersects(new AABB(event.getEntity().getOnPos())) &&*/ !event.getEntity().getTags().contains("spawnedBySiege")) {
                 event.setResult(Event.Result.DENY);
             }
         }
@@ -251,7 +253,6 @@ public class UnstableEventHandler {
                     event.getEntity().level().explode(event.getEntity(), event.getEntity().getBlockX(), event.getEntity().getBlockY(), event.getEntity().getBlockZ(), 0.25f, false, Level.ExplosionInteraction.NONE);
                     event.getEntity().hurt(ModDamageTypes.getDamageSource(event.getEntity().level(), ModDamageTypes.DIVIDE_BY_DIAMOND), Float.MAX_VALUE);
                     stack.shrink(1);
-                    //break;
                 }
             }
         }
@@ -263,7 +264,7 @@ public class UnstableEventHandler {
             ServerLevel level = ((ServerLevel) event.level);
             UnstableSavedData data = UnstableSavedData.get(event.level);
             if (!data.isEndSiegeOccurring()) return;
-            AABB spawnableLocations = new AABB(new BlockPos(data.getStartingLocation()[0], data.getStartingLocation()[1], data.getStartingLocation()[2])).inflate(UnstableConfig.MOB_SPAWN_RAGE_PIR.get());
+            AABB spawnableLocations = new AABB(new BlockPos(data.getStartingLocation()[0], data.getStartingLocation()[1], data.getStartingLocation()[2])).inflate(UnstableConfig.MOB_SPAWN_RAGE_PIR.get(), 10, UnstableConfig.MOB_SPAWN_RAGE_PIR.get());
             List<ServerPlayer> playersParticipating = level.getPlayers(p -> p.getBoundingBox().intersects(spawnableLocations.inflate(1)));
             ListTag playersParticipatingTag = data.getPlayersParticipating();
             if(playersParticipatingTag == null) {
@@ -273,52 +274,51 @@ public class UnstableEventHandler {
                 if(!playersParticipatingTag.contains(StringTag.valueOf(player.getStringUUID()))) {
                     playersParticipatingTag.add(StringTag.valueOf(player.getStringUUID()));
                 }
-                if(player.getAbilities().flying) {
+                if(player.getAbilities().flying && player.gameMode.isSurvival()) {
                     player.getAbilities().flying = false;
                     player.onUpdateAbilities();
                     player.hurt(player.damageSources().fellOutOfWorld(), 0.5f);
                 }
             }
             data.setPlayersParticipating(playersParticipatingTag);
-            if(level.getServer().getTickCount() % 10 == 0) {
-                if (data.getTotalKills() < UnstableConfig.NEEDED_MOBS.get()) {
-                    int mobCount = level.getEntities(null, spawnableLocations).size();
-                    if (mobCount < UnstableConfig.MAX_MOBS.get()) {
-                        for (int i = 0; i < data.getPlayersParticipating().size(); i++) {
-                            //todo:double check mobs spawning in obsidian pillars
-                            int spawnedMobInt = new Random().nextInt(EntityDataStorage.getMasterStorage().size());
-                            EntityDataStorage entityData = EntityDataStorage.getMasterStorage().get(spawnedMobInt);
-                            Mob mob = (Mob) entityData.entity().create(level);
-                            mob.addTag("spawnedBySiege");
-                            if(mob instanceof Creeper creeper) {
-                                creeper.addTag("noLingeringEffects");
-                            }
-                            mob.setPos(genXOrZ(data.getStartingLocation()[0]), genY(data.getStartingLocation()[1]), genXOrZ(data.getStartingLocation()[2]));
-                            while (!NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, level, mob.getOnPos(), entityData.entity())) {
-                                mob.setPos(genXOrZ(data.getStartingLocation()[0]), genY(data.getStartingLocation()[1]), genXOrZ(data.getStartingLocation()[2]));
-                            }
-                            if (!entityData.effects().isEmpty()) {
-                                entityData.effects().forEach(effect -> mob.addEffect(new MobEffectInstance(effect.getEffect(), effect.getDuration(), effect.getAmplifier(), effect.isAmbient(), effect.isVisible())));
-                            }
-                            if (!entityData.equipment().isEmpty()) {
-                                entityData.equipment().forEach(equipmentList -> equipmentList.forEach((equipmentSlot, stack) -> mob.setItemSlot(equipmentSlot, stack.copy())));
-                            }
-                            ForgeEventFactory.onFinalizeSpawn(mob, level, level.getCurrentDifficultyAt(new BlockPos(mob.getBlockX(), mob.getBlockY(), mob.getBlockZ())), MobSpawnType.NATURAL, null, null);
-                            //mob.finalizeSpawn(level, level.getCurrentDifficultyAt(new BlockPos(mob.getBlockX(), mob.getBlockY(), mob.getBlockZ())), MobSpawnType.NATURAL, null, null);
-                            level.addFreshEntity(mob);
-                        }
+            if(level.getServer().getTickCount() % 10 == 0 &&
+                    data.getTotalKills() < UnstableConfig.NEEDED_MOBS.get() &&
+                    level.getEntities(null, spawnableLocations).size() < UnstableConfig.MAX_MOBS.get()) {
+                for (int i = 0; i < data.getPlayersParticipating().size(); i++) {
+                    int spawnedMobInt = new Random().nextInt(EntityDataStorage.getMasterStorage().size());
+                    EntityDataStorage entityData = EntityDataStorage.getMasterStorage().get(spawnedMobInt);
+                    Mob mob = (Mob) entityData.entity().create(level);
+                    mob.setNoAi(true);
+                    mob.addEffect(new MobEffectInstance(MobEffects.GLOWING, 10000, 1, true, true));
+                    mob.addTag("spawnedBySiege");
+                    if(mob instanceof Creeper creeper) {
+                        creeper.addTag("noLingeringEffects");
                     }
+                    mob.setPos(genXOrZ(data.getStartingLocation()[0]), genY(data.getStartingLocation()[1]), genXOrZ(data.getStartingLocation()[2]));
+                    BlockPos mobPos = new BlockPos(mob.getBlockX(), mob.getBlockY(), mob.getBlockZ());
+                    while (!(level.noCollision(new AABB(mobPos).inflate(1, 0, 1)) && NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, level, mobPos, entityData.entity()))) {
+                        mob.setPos(genXOrZ(data.getStartingLocation()[0]), genY(data.getStartingLocation()[1]), genXOrZ(data.getStartingLocation()[2]));
+                        mobPos = new BlockPos(mob.getBlockX(), mob.getBlockY(), mob.getBlockZ());
+                    }
+                    if (!entityData.effects().isEmpty()) {
+                        entityData.effects().forEach(effect -> mob.addEffect(new MobEffectInstance(effect.getEffect(), effect.getDuration(), effect.getAmplifier(), effect.isAmbient(), effect.isVisible())));
+                    }
+                    if (!entityData.equipment().isEmpty()) {
+                        entityData.equipment().forEach(equipmentList -> equipmentList.forEach((equipmentSlot, stack) -> mob.setItemSlot(equipmentSlot, stack.copy())));
+                    }
+                    ForgeEventFactory.onFinalizeSpawn(mob, level, level.getCurrentDifficultyAt(new BlockPos(mob.getBlockX(), mob.getBlockY(), mob.getBlockZ())), MobSpawnType.NATURAL, null, null);
+                    level.addFreshEntity(mob);
                 }
             }
         }
     }
 
     private static int genXOrZ(int relPos) {
-        return relPos + (int) (Math.random()  * UnstableConfig.MOB_SPAWN_RAGE_PIR.get() * (Math.random() > 0.5 ? 1 : -1));
+        return relPos + (int) (Math.random() * UnstableConfig.MOB_SPAWN_RAGE_PIR.get() * (Math.random() > 0.5 ? 1 : -1));
     }
 
     private static int genY(int relY) {
-        return relY + (int) (Math.random() * 10);
+        return relY + (int) (Math.random() * 10 * (Math.random() > 0.5 ? 1 : -1));
     }
 
     @SubscribeEvent
