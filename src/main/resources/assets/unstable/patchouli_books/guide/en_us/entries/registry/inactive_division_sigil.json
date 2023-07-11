@@ -8,7 +8,7 @@
       "x": 100,
       "y": 50,
       "item": "unstable:division_sigil",
-      "text": "Can be obtained from killing the Elder Guardian, Ender Dragon, or Wither. To activate, perform the $(n)$(l:rituals/activation_ritual)Activation Ritual$()."
+      "text": "Can be obtained from killing the Elder Guardian, Ender Dragon, Wither, or Warden. To activate, perform the $(n)$(l:rituals/activation_ritual)Activation Ritual$()."
     }
   ]
 }

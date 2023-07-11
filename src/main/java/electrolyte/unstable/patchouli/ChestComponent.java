@@ -1,10 +1,8 @@
-/*
 package electrolyte.unstable.patchouli;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import electrolyte.unstable.datastorage.endsiege.ChestDataStorage;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import vazkii.patchouli.api.IComponentRenderContext;
 import vazkii.patchouli.api.ICustomComponent;
@@ -22,7 +20,7 @@ public class ChestComponent implements ICustomComponent {
     public void build(int componentX, int componentY, int pageNum) {}
 
     @Override
-    public void render(PoseStack ms, IComponentRenderContext context, float pticks, int mouseX, int mouseY) {
+    public void render(GuiGraphics graphics, IComponentRenderContext context, float pticks, int mouseX, int mouseY) {
         AtomicInteger xPos = new AtomicInteger();
         AtomicInteger yPos = new AtomicInteger();
         AtomicInteger count = new AtomicInteger();
@@ -35,8 +33,8 @@ public class ChestComponent implements ICustomComponent {
                     RenderSystem.enableBlend();
                     RenderSystem.setShaderColor(1F, 1F,1F, 1F);
                     RenderSystem.setShaderTexture(0, new ResourceLocation(PatchouliAPI.MOD_ID, "textures/gui/crafting.png"));
-                    GuiComponent.blit(ms, xPos.get() - 5, yPos.get() - 5, 20, 102, 26, 26, 128, 256);
-                    context.renderIngredient(ms, xPos.get(), yPos.get(), mouseX, mouseY, ingredient);
+                    graphics.blit(new ResourceLocation(PatchouliAPI.MOD_ID, "textures/gui/crafting.png"), xPos.get() - 5, yPos.get() - 5, 20, 102, 26, 26, 128, 256);
+                    context.renderIngredient(graphics, xPos.get(), yPos.get(), mouseX, mouseY, ingredient);
                     xPos.addAndGet(24);
                     if (count.get() % 5 == 0) {
                         xPos.set(2);
@@ -53,4 +51,3 @@ public class ChestComponent implements ICustomComponent {
         chestLocation = lookup.apply(IVariable.wrap("#chest_location#")).asString();
     }
 }
-*/
