@@ -32,7 +32,6 @@ public class UnstableIngotRecipe extends ShapedRecipe {
         this.result = pResult;
     }
 
-    //TODO: check
     @Override
     public boolean matches(CraftingContainer pCraftingInventory, Level level) {
         if(pCraftingInventory.getClass() != TransientCraftingContainer.class) return false;

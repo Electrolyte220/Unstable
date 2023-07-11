@@ -29,7 +29,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.IronGolem;
@@ -124,7 +123,7 @@ public class UnstableEventHandler {
     public static void disableEntitySpawn(MobSpawnEvent event) {
         UnstableSavedData data = UnstableSavedData.get(event.getEntity().level());
         if(data.isEndSiegeOccurring()) {
-            if((event.getEntity() instanceof EnderMan && event.getEntity().level().dimension() == Level.END) || /*(spawnableLocations.intersects(new AABB(event.getEntity().getOnPos())) &&*/ !event.getEntity().getTags().contains("spawnedBySiege")) {
+            if((event.getEntity() instanceof EnderMan && event.getEntity().level().dimension() == Level.END) || !event.getEntity().getTags().contains("spawnedBySiege")) {
                 event.setResult(Event.Result.DENY);
             }
         }
@@ -288,8 +287,6 @@ public class UnstableEventHandler {
                     int spawnedMobInt = new Random().nextInt(EntityDataStorage.getMasterStorage().size());
                     EntityDataStorage entityData = EntityDataStorage.getMasterStorage().get(spawnedMobInt);
                     Mob mob = (Mob) entityData.entity().create(level);
-                    mob.setNoAi(true);
-                    mob.addEffect(new MobEffectInstance(MobEffects.GLOWING, 10000, 1, true, true));
                     mob.addTag("spawnedBySiege");
                     if(mob instanceof Creeper creeper) {
                         creeper.addTag("noLingeringEffects");

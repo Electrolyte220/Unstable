@@ -16,7 +16,6 @@ public class ModSounds {
         SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
-    //TODO: check
     public static final RegistryObject<SoundEvent> ACTIVATION_RITUAL_SUCCESS = SOUNDS.register("activation_ritual_success",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Unstable.MOD_ID, "activation_ritual_success")));
 }
