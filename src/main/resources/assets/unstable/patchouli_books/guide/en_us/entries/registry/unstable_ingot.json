@@ -11,9 +11,7 @@
 			"text": "It seems dividing an iron ingot by a diamond will yield some sort of Unstable Ingot. $(br2)This ingot seems to be quite unstable, (hence the name), as it cannot be held for very long."
 		},
 		{
-			"type": "patchouli:crafting",
-			"recipe": "unstable:unstable_ingot",
-			"title": "Unstable Ingot",
+			"type": "patchouli:text",
 			"text": "$(c)Warning: Be sure you are ready to craft this item, otherwise you may be in for an explosive surprise. $()$(br2)Maybe there is a safer way to craft this?"
 		},
 		{
@@ -21,7 +19,7 @@
 			"x": 100,
 			"y": 50,
 			"item": "unstable:unstable_stable_ingot",
-			"text": "It seems using netherite scrap in place of iron ingots yields a more stable version of the Unstable Ingot."
+			"text": "It seems using netherite scrap in place of diamonds yields a more stable version of the Unstable Ingot."
 		},
 		{
 			"type": "patchouli:crafting",

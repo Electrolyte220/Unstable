@@ -1,0 +1,68 @@
+{
+  "type": "unstable:end_siege_chest",
+  "chest_location": "south",
+  "ingredients": [
+    {
+      "item": "minecraft:turtle_egg"
+    },
+    [
+      {
+        "item": "minecraft:turtle_scute"
+      },
+      {
+        "item": "minecraft:armadillo_scute"
+      }
+    ],
+    {
+      "tag": "minecraft:skulls"
+    },
+    {
+      "item": "minecraft:end_crystal"
+    },
+    {
+      "item": "minecraft:rabbit_foot"
+    },
+    {
+      "item": "minecraft:name_tag"
+    },
+    {
+      "item": "minecraft:dragon_breath"
+    },
+    {
+      "item": "minecraft:totem_of_undying"
+    },
+    {
+      "item": "minecraft:shulker_shell"
+    },
+    {
+      "item": "minecraft:phantom_membrane"
+    },
+    {
+      "item": "minecraft:nautilus_shell"
+    },
+    {
+      "item": "minecraft:heart_of_the_sea"
+    },
+    {
+      "item": "minecraft:enchanted_golden_apple"
+    },
+    {
+      "item": "minecraft:goat_horn"
+    },
+    {
+      "tag": "minecraft:trim_templates"
+    },
+    {
+      "tag": "minecraft:decorated_pot_sherds"
+    },
+    {
+      "item": "minecraft:ominous_trial_key"
+    },
+    {
+      "item": "minecraft:ominous_bottle"
+    },
+    {
+      "item": "minecraft:heavy_core"
+    }
+  ]
+}

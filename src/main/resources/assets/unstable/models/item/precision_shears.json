@@ -1,7 +1,0 @@
-{    
-    "parent": "item/handheld",
-    "textures": {
-        "layer0": "unstable:item/precision_shears_0",
-        "layer1": "unstable:item/precision_shears_1"
-     }
-}

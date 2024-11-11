@@ -1,0 +1,20 @@
+{
+  "type": "unstable:mystical_table",
+  "key": {
+    "I": {
+      "tag": "unstable:unstable_ingots"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "pattern": [
+    "OI",
+    "IO"
+  ],
+  "result": {
+    "count": 1,
+    "id": "unstable:precision_shears"
+  },
+  "show_notification": false
+}

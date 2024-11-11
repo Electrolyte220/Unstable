@@ -1,7 +1,0 @@
-{
-  "type": "unstable:transmutation",
-  "input": {
-    "block": "minecraft:dead_brain_coral_block"
-  },
-  "output": "minecraft:brain_coral_block"
-}

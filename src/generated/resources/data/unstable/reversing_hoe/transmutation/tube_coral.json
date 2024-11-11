@@ -1,7 +1,0 @@
-{
-  "type": "unstable:transmutation",
-  "input": {
-    "block": "minecraft:dead_tube_coral"
-  },
-  "output": "minecraft:tube_coral"
-}

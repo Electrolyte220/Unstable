@@ -1,7 +1,0 @@
-{
-  "type": "unstable:transmutation",
-  "input": {
-    "block": "minecraft:cyan_concrete"
-  },
-  "output": "minecraft:cyan_concrete_powder"
-}

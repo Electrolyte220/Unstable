@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/enchanting_table",
+  "textures": {
+    "bottom": "minecraft:block/crying_obsidian",
+    "side": "unstable:block/mystical_table_side"
+  }
+}

@@ -1,33 +1,45 @@
 {
-  "type": "unstable:entity_data",
   "effects": [
     {
       "ambient": true,
-      "amplifier": 0,
       "duration": 6000,
-      "mobEffect": "minecraft:speed",
-      "visible": true
+      "id": "minecraft:speed",
+      "neoforge:cures": [
+        "milk",
+        "protected_by_totem"
+      ],
+      "show_icon": true
     },
     {
       "ambient": true,
       "amplifier": 1,
       "duration": 6000,
-      "mobEffect": "minecraft:strength",
-      "visible": true
+      "id": "minecraft:strength",
+      "neoforge:cures": [
+        "milk",
+        "protected_by_totem"
+      ],
+      "show_icon": true
     },
     {
       "ambient": true,
-      "amplifier": 0,
       "duration": 6000,
-      "mobEffect": "minecraft:regeneration",
-      "visible": true
+      "id": "minecraft:regeneration",
+      "neoforge:cures": [
+        "milk",
+        "protected_by_totem"
+      ],
+      "show_icon": true
     },
     {
       "ambient": true,
-      "amplifier": 0,
       "duration": 6000,
-      "mobEffect": "minecraft:resistance",
-      "visible": true
+      "id": "minecraft:resistance",
+      "neoforge:cures": [
+        "milk",
+        "protected_by_totem"
+      ],
+      "show_icon": true
     }
   ],
   "entities": [
@@ -48,5 +60,5 @@
     "minecraft:illusioner",
     "minecraft:vex"
   ],
-  "equipment": []
+  "equipment": {}
 }

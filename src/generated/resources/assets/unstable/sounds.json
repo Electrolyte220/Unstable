@@ -1,0 +1,8 @@
+{
+  "activation_ritual_success": {
+    "sounds": [
+      "unstable:activation_ritual_success"
+    ],
+    "subtitle": "unstable.activation_ritual.subtitle"
+  }
+}

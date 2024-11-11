@@ -1,0 +1,21 @@
+{
+  "type": "unstable:mystical_table",
+  "key": {
+    "I": {
+      "tag": "unstable:unstable_ingots"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "pattern": [
+    "II",
+    " O",
+    " O"
+  ],
+  "result": {
+    "count": 1,
+    "id": "unstable:reversing_hoe"
+  },
+  "show_notification": false
+}

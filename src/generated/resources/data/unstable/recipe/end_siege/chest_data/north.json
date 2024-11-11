@@ -1,0 +1,78 @@
+{
+  "type": "unstable:end_siege_chest",
+  "chest_location": "north",
+  "ingredients": [
+    {
+      "tag": "c:stones"
+    },
+    {
+      "tag": "minecraft:dirt"
+    },
+    {
+      "tag": "c:gravels"
+    },
+    {
+      "tag": "c:sands"
+    },
+    {
+      "tag": "c:glass_blocks"
+    },
+    {
+      "item": "minecraft:clay"
+    },
+    {
+      "tag": "minecraft:terracotta"
+    },
+    {
+      "tag": "c:dyes"
+    },
+    {
+      "tag": "c:foods/cooked_meat"
+    },
+    {
+      "tag": "minecraft:fox_food"
+    },
+    {
+      "tag": "c:foods/cooked_fish"
+    },
+    {
+      "item": "minecraft:honey_bottle"
+    },
+    {
+      "tag": "c:ores/coal"
+    },
+    {
+      "tag": "c:ores/iron"
+    },
+    {
+      "tag": "c:ores/copper"
+    },
+    {
+      "tag": "c:ores/lapis"
+    },
+    {
+      "tag": "c:ores/gold"
+    },
+    {
+      "tag": "c:ores/redstone"
+    },
+    {
+      "tag": "c:ores/diamond"
+    },
+    {
+      "tag": "c:ores/emerald"
+    },
+    {
+      "tag": "c:ores/quartz"
+    },
+    {
+      "item": "minecraft:obsidian"
+    },
+    {
+      "item": "minecraft:amethyst_block"
+    },
+    {
+      "item": "minecraft:sculk_shrieker"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "type": "unstable:transmutation",
+  "input": "minecraft:blue_concrete",
+  "output": "minecraft:blue_concrete_powder"
+}

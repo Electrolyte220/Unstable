@@ -1,7 +1,0 @@
-{
-  "type": "unstable:transmutation",
-  "input": {
-    "block": "minecraft:cobblestone"
-  },
-  "output": "minecraft:stone"
-}

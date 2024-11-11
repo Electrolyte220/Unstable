@@ -1,0 +1,5 @@
+{
+  "type": "unstable:transmutation",
+  "input": "minecraft:stripped_warped_stem",
+  "output": "minecraft:warped_stem"
+}

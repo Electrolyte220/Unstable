@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "N": {
+      "item": "minecraft:netherite_scrap"
+    },
+    "S": {
+      "item": "unstable:division_sigil_activated"
+    }
+  },
+  "pattern": [
+    "I",
+    "S",
+    "N"
+  ],
+  "result": {
+    "count": 1,
+    "id": "unstable:unstable_stable_ingot"
+  }
+}

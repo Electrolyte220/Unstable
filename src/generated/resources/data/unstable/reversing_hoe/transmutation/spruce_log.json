@@ -1,7 +1,0 @@
-{
-  "type": "unstable:transmutation",
-  "input": {
-    "block": "minecraft:stripped_spruce_log"
-  },
-  "output": "minecraft:spruce_log"
-}

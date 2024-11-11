@@ -1,7 +1,0 @@
-{
-  "type": "unstable:transmutation",
-  "input": {
-    "block": "minecraft:green_concrete"
-  },
-  "output": "minecraft:green_concrete_powder"
-}

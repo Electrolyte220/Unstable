@@ -1,7 +1,0 @@
-{
-  "type": "unstable:transmutation",
-  "input": {
-    "block": "minecraft:cobbled_deepslate"
-  },
-  "output": "minecraft:deepslate"
-}

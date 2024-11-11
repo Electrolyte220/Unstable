@@ -1,0 +1,21 @@
+{
+  "type": "unstable:mystical_table",
+  "key": {
+    "I": {
+      "tag": "unstable:unstable_ingots"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "pattern": [
+    "I",
+    "I",
+    "O"
+  ],
+  "result": {
+    "count": 1,
+    "id": "unstable:etheric_sword"
+  },
+  "show_notification": false
+}

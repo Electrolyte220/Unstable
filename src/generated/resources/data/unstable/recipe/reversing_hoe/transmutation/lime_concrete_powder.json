@@ -1,0 +1,5 @@
+{
+  "type": "unstable:transmutation",
+  "input": "minecraft:lime_concrete",
+  "output": "minecraft:lime_concrete_powder"
+}

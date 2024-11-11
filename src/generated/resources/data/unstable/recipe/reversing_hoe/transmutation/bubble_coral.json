@@ -1,0 +1,5 @@
+{
+  "type": "unstable:transmutation",
+  "input": "minecraft:dead_bubble_coral",
+  "output": "minecraft:bubble_coral"
+}

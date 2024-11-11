@@ -1,7 +1,0 @@
-{
-  "type": "unstable:transmutation",
-  "input": {
-    "block": "minecraft:stripped_acacia_wood"
-  },
-  "output": "minecraft:acacia_wood"
-}

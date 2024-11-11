@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "unstable:stable_ingot"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "pattern": [
+    "I",
+    "O",
+    "O"
+  ],
+  "result": {
+    "components": {
+      "minecraft:enchantments": {
+        "levels": {
+          "minecraft:efficiency": 5
+        }
+      },
+      "minecraft:unbreakable": {}
+    },
+    "count": 1,
+    "id": "unstable:erosion_shovel"
+  }
+}

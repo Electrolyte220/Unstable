@@ -16,7 +16,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)Thirdly, if stood on for too long, entities (excluding the player) will take small amounts of damage.$(br2)$(li)Finally, if placed under a spawner, the spawner will be able to work without the player needing to stand near it."
+      "text": "$(li)Thirdly, if stood on for too long, entities (excluding the player & entities spawned by cursed earth) will take small amounts of damage.$(br2)$(li)Finally, if placed under a spawner, the spawner will be able to work without the player needing to stand near it."
     }
   ]
 }

@@ -1,0 +1,28 @@
+{
+  "type": "unstable:mystical_table",
+  "key": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "item": "unstable:division_sigil_activated"
+    }
+  },
+  "pattern": [
+    "I",
+    "S",
+    "D"
+  ],
+  "result": {
+    "components": {
+      "unstable:explode_timer": 200,
+      "unstable:exploded": false
+    },
+    "count": 1,
+    "id": "unstable:unstable_ingot"
+  },
+  "show_notification": false
+}

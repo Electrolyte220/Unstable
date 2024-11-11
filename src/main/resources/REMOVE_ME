@@ -1,0 +1,76 @@
+{
+  "effects": [
+    {
+      "ambient": true,
+      "duration": 6000,
+      "id": "minecraft:speed",
+      "neoforge:cures": [
+        "protected_by_totem",
+        "milk"
+      ],
+      "show_icon": true
+    },
+    {
+      "ambient": true,
+      "amplifier": 1,
+      "duration": 6000,
+      "id": "minecraft:strength",
+      "neoforge:cures": [
+        "protected_by_totem",
+        "milk"
+      ],
+      "show_icon": true
+    },
+    {
+      "ambient": true,
+      "duration": 6000,
+      "id": "minecraft:regeneration",
+      "neoforge:cures": [
+        "protected_by_totem",
+        "milk"
+      ],
+      "show_icon": true
+    },
+    {
+      "ambient": true,
+      "duration": 6000,
+      "id": "minecraft:resistance",
+      "neoforge:cures": [
+        "protected_by_totem",
+        "milk"
+      ],
+      "show_icon": true
+    }
+  ],
+  "entities": [
+    "minecraft:zombie",
+    "minecraft:witch",
+    "minecraft:silverfish",
+    "minecraft:spider",
+    "minecraft:cave_spider",
+    "minecraft:skeleton",
+    "minecraft:wither_skeleton",
+    "minecraft:creeper",
+    "minecraft:blaze",
+    "minecraft:zombified_piglin",
+    "minecraft:phantom",
+    "minecraft:evoker",
+    "minecraft:pillager",
+    "minecraft:vindicator",
+    "minecraft:illusioner",
+    "minecraft:vex"
+  ],
+  "equipment": {
+    "chest": {
+      "components": {
+        "minecraft:enchantments": {
+          "levels": {
+            "minecraft:protection": 1
+          }
+        }
+      },
+      "count": 1,
+      "id": "minecraft:golden_chestplate"
+    }
+  }
+}

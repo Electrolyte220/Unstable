@@ -1,1 +1,4 @@
-// 1.20.1	2023-06-22T00:44:09.2454959	Tags for minecraft:block mod id unstable
+// 1.21.1	2024-11-11T00:02:50.9588471	Tags for minecraft:block mod id unstable
+8d863fd50a2bc12252febc45b5ae04bf9291d56a data/minecraft/tags/block/mineable/pickaxe.json
+6210fb3574fd54b7af9914a0985ca4b4e05980b1 data/minecraft/tags/block/mineable/shovel.json
+35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/unstable/tags/block/incorrect_for_unstable_tool.json

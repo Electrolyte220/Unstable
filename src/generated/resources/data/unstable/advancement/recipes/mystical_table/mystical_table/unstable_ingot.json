@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_division_sigil_activated": {
+      "conditions": {
+        "items": [
+          {
+            "items": "unstable:division_sigil_activated"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "unstable:mystical_table/unstable_ingot"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_division_sigil_activated"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "unstable:mystical_table/unstable_ingot"
+    ]
+  }
+}

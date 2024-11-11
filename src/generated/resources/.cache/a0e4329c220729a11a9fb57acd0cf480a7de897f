@@ -1,6 +1,6 @@
-// 1.20.1	2023-06-22T00:44:53.485275	unstable:end_siege_gen
-b65893c5eaa86cbcf466ae7cbed3782f9503613d data/unstable/end_siege/chest_data/east.json
-227862772389f34223789b056a5c3cefb2c17ef6 data/unstable/end_siege/chest_data/north.json
-fe643d54deefa480de57f99107b827831ac3c7ab data/unstable/end_siege/chest_data/south.json
-51a8bdb4a909b1e1a03983e2d3cb6ea0d1bc8a13 data/unstable/end_siege/chest_data/west.json
-497cde8e83281c91dc94ef25849df604ea4f2cc0 data/unstable/end_siege/entity_data/default.json
+// 1.21.1	2024-11-11T12:26:10.5260914	unstable:end_siege_gen
+886580e8e8c1398417ad3691bdcafd8279627994 data/unstable/end_siege/entity_data/default.json
+5366a17c9b2595fba8228d2ff9a7864b47b92162 data/unstable/recipe/end_siege/chest_data/east.json
+ad1e80d3fe1f146c0e3745089660356ebdcddfeb data/unstable/recipe/end_siege/chest_data/north.json
+42bfc03e55c29f6a4c4f942070609523130ab0b3 data/unstable/recipe/end_siege/chest_data/south.json
+3b6fa13683e72284cbd66ddfcff9f728310f7986 data/unstable/recipe/end_siege/chest_data/west.json

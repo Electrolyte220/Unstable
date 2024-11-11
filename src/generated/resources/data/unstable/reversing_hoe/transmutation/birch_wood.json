@@ -1,7 +1,0 @@
-{
-  "type": "unstable:transmutation",
-  "input": {
-    "block": "minecraft:stripped_birch_wood"
-  },
-  "output": "minecraft:birch_wood"
-}

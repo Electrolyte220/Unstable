@@ -1,7 +1,0 @@
-{
-  "type": "unstable:transmutation",
-  "input": {
-    "block": "minecraft:stripped_crimson_hyphae"
-  },
-  "output": "minecraft:crimson_hyphae"
-}

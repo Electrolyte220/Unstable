@@ -1,0 +1,5 @@
+{
+  "type": "unstable:transmutation",
+  "input": "minecraft:stripped_birch_log",
+  "output": "minecraft:birch_log"
+}

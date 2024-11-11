@@ -1,0 +1,5 @@
+{
+  "type": "unstable:transmutation",
+  "input": "minecraft:stripped_crimson_stem",
+  "output": "minecraft:crimson_stem"
+}
